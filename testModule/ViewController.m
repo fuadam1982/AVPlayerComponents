@@ -7,23 +7,29 @@
 //
 
 #import "ViewController.h"
+#import "ViewModel.h"
 
-@interface ViewController ()
+//////////////////////////////////////////////////////////////////
+
+@interface YCMoviePlayerComponentVC ()
+
+@property (nonatomic, strong) YCMoviePlayerComponentVM *viewModel;
 
 @end
 
-@implementation ViewController
+@implementation YCMoviePlayerComponentVC
+
+- (instancetype)initWithProps:(id<YCMoviePlayerComponentVCProps>)props callbacks:(id<YCCallbacks>)callbacks {
+    if (self = [super initWithProps:props callbacks:callbacks]) {
+        self.viewModel = [YCMoviePlayerComponentVM new];
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    self.view.backgroundColor = [UIColor grayColor];
+    
 }
-
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 
 @end

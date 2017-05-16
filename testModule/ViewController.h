@@ -7,9 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Componentable.h"
 
-@interface ViewController : UIViewController
+@protocol YCMoviePlayerComponentVCProps <NSObject, YCProps>
 
+@property (nonatomic, strong, readonly) NSString *startVideoURL;
+@property (nonatomic, strong, readonly) NSString *stopVideoURL;
+@property (nonatomic, strong, readonly) NSString *videoURL;
+@property (nonatomic, assign) BOOL notFlag;
+
+@end
+
+@interface YCMoviePlayerComponentVC : YCComponentViewController
+
+- (instancetype)initWithProps:(id<YCMoviePlayerComponentVCProps>)props callbacks:(id<YCCallbacks>)callbacks;
 
 @end
 
