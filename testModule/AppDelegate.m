@@ -11,9 +11,46 @@
 #import "ViewController.h"
 #import "ComponentPropsBuilder.h"
 
+
+@class CooObj, DooObj;
+@interface BooObj : NSObject
+
+@property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) CooObj *coo;
+
+@end
+
+@implementation BooObj
+
+@end
+
+
+@interface CooObj : NSObject
+
+@property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) DooObj *doo;
+
+@end
+
+@implementation CooObj
+
+@end
+
+
+@interface DooObj : NSObject
+
+@property (nonatomic, strong) NSString *name;
+
+@end
+
+@implementation DooObj
+
+@end
+
 @interface FooObj : NSObject<YCStates>
 
 @property (nonatomic, assign) BOOL notFlag;
+@property (nonatomic, strong) BooObj *boo;
 
 @end
 
@@ -40,25 +77,35 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     FooObj *foo = [FooObj new];
     foo.XXXstartVideoURL = @"start video url xxx";
+    DooObj *doo = [DooObj new];
+    CooObj *coo = [CooObj new];
+    coo.doo = doo;
+    BooObj *boo = [BooObj new];
+    boo.coo = coo;
+    foo.boo = boo;
 
     id<YCMoviePlayerComponentVCProps> wrapper = (id<YCMoviePlayerComponentVCProps>)toProps(@protocol(YCMoviePlayerComponentVCProps))
     .states(foo)
     .constVars(@{@"stopVideoURL": @"stopURL.html"})
-    .transform(^RACTuple *(NSString *propKey) {
-        if ([propKey isEqualToString:@"startVideoURL"]) {
-            return RACTuplePack(foo, @"XXXstartVideoURL");
-        }
-        return nil;
+    .nameMapping(@{
+                   @"name": @"boo.coo.doo.name",
+                   @"startVideoURL": @"XXXstartVideoURL",
     })
     .build();
+    
     NSLog(@">>> %@", wrapper.stopVideoURL);
+    NSLog(@">>> %@", wrapper.name);
     NSLog(@">>> %@", wrapper.startVideoURL);
     NSLog(@">>> %@", wrapper.videoURL);
     
     [[RACObserve(wrapper, videoURL) ignore:nil] subscribeNext:^(id x) {
-        NSLog(@"### %@", wrapper.videoURL);
+        NSLog(@"### videoURL: %@", x);
+    }];
+    [[RACObserve(wrapper, name) ignore:nil] subscribeNext:^(id x) {
+        NSLog(@"### name: %@", x);
     }];
     foo.videoURL = @"low video url xxx";
+    doo.name = @"doo name";
     
     UIViewController* container = [UIViewController new];
     YCMoviePlayerComponentVC *vc = [[YCMoviePlayerComponentVC alloc] initWithProps:nil callbacks:nil];

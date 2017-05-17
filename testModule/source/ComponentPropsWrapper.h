@@ -11,13 +11,13 @@
 
 @class RACTuple;
 
-/**
- 用于Complex Object转换为Plain Object
-
- @param propKey props协议的property name
- @return tuple.first为owner; second为property name, 如果为nil与参数相同
- */
-typedef RACTuple * (^ComplexObjectTransform) (NSString *propKey);
+///**
+// 用于Complex Object转换为Plain Object
+//
+// @param propKey props协议的property name
+// @return tuple.first为owner; second为property name, 如果为nil与参数相同
+// */
+//typedef RACTuple * (^ComplexObjectTransform) (NSString *propKey);
 
 /**
  组件Props包装类
@@ -31,7 +31,8 @@ typedef RACTuple * (^ComplexObjectTransform) (NSString *propKey);
 
 - (instancetype)initWithPropsProtocol:(Protocol *)propsProtocol
                                states:(id<YCStates>)states
-                            transform:(ComplexObjectTransform)transform
+                          nameMapping:(NSDictionary *)nameMapping
+//                            transform:(ComplexObjectTransform)transform
                             constVars:(NSDictionary *)constVars;
 
 @end

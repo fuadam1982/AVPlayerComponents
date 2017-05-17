@@ -20,8 +20,10 @@ ComponentPropsBuilder * toProps(Protocol *propsProtocol) {
 @property (nonatomic, strong) Protocol *propsProtocol;
 /** states对象，一般为viewmodel */
 @property (nonatomic, strong) id<YCStates> pStates;
-/** 用于将Complex Object转为Plain Object */
-@property (nonatomic, strong) ComplexObjectTransform pTransform;
+/** keyPath映射，可以用来转为plain object */
+@property (nonatomic, strong) NSDictionary *pNameMapping;
+///** 用于将Complex Object转为Plain Object */
+//@property (nonatomic, strong) ComplexObjectTransform pTransform;
 /** 不会改变的状态 */
 @property (nonatomic, strong) NSDictionary *pConstVars;
 
@@ -39,7 +41,8 @@ ComponentPropsBuilder * toProps(Protocol *propsProtocol) {
 - (ComponentPropsWrapper *)buildWrapper {
     return [[ComponentPropsWrapper alloc] initWithPropsProtocol:self.propsProtocol
                                                          states:self.pStates
-                                                      transform:self.pTransform
+                                                    nameMapping:self.pNameMapping
+//                                                      transform:self.pTransform
                                                       constVars:self.pConstVars];
 }
 
@@ -50,12 +53,19 @@ ComponentPropsBuilder * toProps(Protocol *propsProtocol) {
     };
 }
 
-- (ComponentPropsBuilder * (^) (ComplexObjectTransform))transform {
-    return ^ComponentPropsBuilder *(ComplexObjectTransform transform) {
-        self.pTransform = transform;
+- (ComponentPropsBuilder * (^) (NSDictionary *))nameMapping {
+    return ^ComponentPropsBuilder *(NSDictionary *nameMapping) {
+        self.pNameMapping = nameMapping;
         return self;
     };
 }
+
+//- (ComponentPropsBuilder * (^) (ComplexObjectTransform))transform {
+//    return ^ComponentPropsBuilder *(ComplexObjectTransform transform) {
+//        self.pTransform = transform;
+//        return self;
+//    };
+//}
 
 - (ComponentPropsBuilder * (^) (NSDictionary *))constVars {
     return ^ComponentPropsBuilder *(NSDictionary *constVars) {
