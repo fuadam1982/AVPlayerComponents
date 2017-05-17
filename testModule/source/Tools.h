@@ -10,11 +10,24 @@
 
 
 /**
- 解析obj所拥有的协议的只读属性信息
+ 解析obj所拥有的协议的属性信息（暂时不用）
+ 根据协议的父协议来确定
 
  @param obj obj
  @param parentProtocl 拥有的协议的父协议
  @param forReadonly 只处理只读属性
- @return 属性信息数组
+ @return 属性信息字典
  */
-NSDictionary * parseProtocolPropertiesInfo(id obj, Protocol *parentProtocl, BOOL forReadonly);
+NSDictionary * parseObjProtocolPropertiesInfo(id obj, Protocol *parentProtocl, BOOL forReadonly);
+
+
+
+/**
+ 解析协议的属性信息
+ TODO: 从父协议继承的属性
+
+ @param protocol 协议
+ @param forReadonly 只处理只读属性
+ @return 属性信息字典
+ */
+NSDictionary * parseProtocolPropertiesInfo(Protocol *protocol, BOOL forReadonly);

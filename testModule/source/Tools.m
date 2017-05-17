@@ -79,7 +79,9 @@ NSDictionary* getProtocolPropertiesInfo(Protocol* protocol, BOOL forReadonly) {
     return propTypes;
 }
 
-NSDictionary * parseProtocolPropertiesInfo(id obj, Protocol *parentProtocol, BOOL forReadonly) {
+////////////////////////////////////////////////////////////
+
+NSDictionary * parseObjProtocolPropertiesInfo(id obj, Protocol *parentProtocol, BOOL forReadonly) {
     NSDictionary *propertiesInfo = nil;
     Class cls = [obj class];
     unsigned count;
@@ -95,4 +97,8 @@ NSDictionary * parseProtocolPropertiesInfo(id obj, Protocol *parentProtocol, BOO
     
     free(protocolList);
     return propertiesInfo;
+}
+
+NSDictionary * parseProtocolPropertiesInfo(Protocol *protocol, BOOL forReadonly) {
+    return getProtocolPropertiesInfo(protocol, forReadonly);
 }

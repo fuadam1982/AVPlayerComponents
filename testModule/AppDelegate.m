@@ -9,9 +9,9 @@
 #import "AppDelegate.h"
 #import "ReactiveCocoa.h"
 #import "ViewController.h"
-#import "Tools.h"
+#import "ComponentPropsWrapper.h"
 
-@interface FooObj : NSObject<YCMoviePlayerComponentVCProps>
+@interface FooObj : NSObject<YCStates>
 
 @property (nonatomic, assign) BOOL notFlag;
 
@@ -19,8 +19,7 @@
 
 @interface FooObj ()
 
-@property (nonatomic, strong) NSString *startVideoURL;
-@property (nonatomic, strong) NSString *stopVideoURL;
+@property (nonatomic, strong) NSString *XXXstartVideoURL;
 @property (nonatomic, strong) NSString *videoURL;
 
 @end
@@ -40,7 +39,25 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     FooObj *foo = [FooObj new];
-    parseProtocolPropertiesInfo(foo, @protocol(YCProps));
+    foo.XXXstartVideoURL = @"start video url xxx";
+    id<YCMoviePlayerComponentVCProps> wrapper = (id<YCMoviePlayerComponentVCProps>)[[ComponentPropsWrapper alloc] initWithPropsProtocol:@protocol(YCMoviePlayerComponentVCProps) states:foo
+                                                                                transform:^RACTuple *(NSString *propKey) {
+                                                                                    if ([propKey isEqualToString:@"startVideoURL"]) {
+                                                                                        return RACTuplePack(foo, @"XXXstartVideoURL");
+                                                                                    }
+                                                                                    return nil;
+    }
+                                                                                constVars:@{
+                                                                                            @"stopVideoURL": @"stopURL.html"
+                                                                                            }];
+    NSLog(@">>> %@", wrapper.stopVideoURL);
+    NSLog(@">>> %@", wrapper.startVideoURL);
+    NSLog(@">>> %@", wrapper.videoURL);
+    
+    [[RACObserve(wrapper, videoURL) ignore:nil] subscribeNext:^(id x) {
+        NSLog(@"### %@", wrapper.videoURL);
+    }];
+    foo.videoURL = @"low video url xxx";
     
     UIViewController* container = [UIViewController new];
     YCMoviePlayerComponentVC *vc = [[YCMoviePlayerComponentVC alloc] initWithProps:nil callbacks:nil];
