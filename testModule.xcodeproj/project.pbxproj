@@ -10,6 +10,7 @@
 		4B5FFD351ECAED1100940B9F /* ReadonlyObjWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B5FFD341ECAED1100940B9F /* ReadonlyObjWrapper.m */; };
 		4B5FFD391ECAF5E400940B9F /* Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B5FFD381ECAF5E400940B9F /* Tools.m */; };
 		4B5FFD3F1ECB0F1E00940B9F /* ComponentPropsWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B5FFD3E1ECB0F1E00940B9F /* ComponentPropsWrapper.m */; };
+		4B5FFD481ECC230F00940B9F /* ComponentPropsBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B5FFD471ECC230F00940B9F /* ComponentPropsBuilder.m */; };
 		4BF7D2ED1EC9AA9800A9E5F4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BF7D2EC1EC9AA9800A9E5F4 /* main.m */; };
 		4BF7D2F01EC9AA9800A9E5F4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BF7D2EF1EC9AA9800A9E5F4 /* AppDelegate.m */; };
 		4BF7D2F31EC9AA9800A9E5F4 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BF7D2F21EC9AA9800A9E5F4 /* ViewController.m */; };
@@ -29,6 +30,8 @@
 		4B5FFD381ECAF5E400940B9F /* Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Tools.m; path = source/Tools.m; sourceTree = "<group>"; };
 		4B5FFD3D1ECB0F1E00940B9F /* ComponentPropsWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ComponentPropsWrapper.h; path = source/ComponentPropsWrapper.h; sourceTree = "<group>"; };
 		4B5FFD3E1ECB0F1E00940B9F /* ComponentPropsWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ComponentPropsWrapper.m; path = source/ComponentPropsWrapper.m; sourceTree = "<group>"; };
+		4B5FFD461ECC230F00940B9F /* ComponentPropsBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ComponentPropsBuilder.h; path = source/ComponentPropsBuilder.h; sourceTree = "<group>"; };
+		4B5FFD471ECC230F00940B9F /* ComponentPropsBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ComponentPropsBuilder.m; path = source/ComponentPropsBuilder.m; sourceTree = "<group>"; };
 		4BF7D2E81EC9AA9800A9E5F4 /* testModule.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = testModule.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BF7D2EC1EC9AA9800A9E5F4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		4BF7D2EE1EC9AA9800A9E5F4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -139,6 +142,8 @@
 				4BF7D3081ECAA0E000A9E5F4 /* Componentable.m */,
 				4B5FFD3D1ECB0F1E00940B9F /* ComponentPropsWrapper.h */,
 				4B5FFD3E1ECB0F1E00940B9F /* ComponentPropsWrapper.m */,
+				4B5FFD461ECC230F00940B9F /* ComponentPropsBuilder.h */,
+				4B5FFD471ECC230F00940B9F /* ComponentPropsBuilder.m */,
 			);
 			name = Componentable;
 			sourceTree = "<group>";
@@ -282,6 +287,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4B5FFD481ECC230F00940B9F /* ComponentPropsBuilder.m in Sources */,
 				4B5FFD391ECAF5E400940B9F /* Tools.m in Sources */,
 				4BF7D2F31EC9AA9800A9E5F4 /* ViewController.m in Sources */,
 				4BF7D3091ECAA0E000A9E5F4 /* Componentable.m in Sources */,

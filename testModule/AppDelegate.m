@@ -9,7 +9,7 @@
 #import "AppDelegate.h"
 #import "ReactiveCocoa.h"
 #import "ViewController.h"
-#import "ComponentPropsWrapper.h"
+#import "ComponentPropsBuilder.h"
 
 @interface FooObj : NSObject<YCStates>
 
@@ -40,16 +40,17 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     FooObj *foo = [FooObj new];
     foo.XXXstartVideoURL = @"start video url xxx";
-    id<YCMoviePlayerComponentVCProps> wrapper = (id<YCMoviePlayerComponentVCProps>)[[ComponentPropsWrapper alloc] initWithPropsProtocol:@protocol(YCMoviePlayerComponentVCProps) states:foo
-                                                                                transform:^RACTuple *(NSString *propKey) {
-                                                                                    if ([propKey isEqualToString:@"startVideoURL"]) {
-                                                                                        return RACTuplePack(foo, @"XXXstartVideoURL");
-                                                                                    }
-                                                                                    return nil;
-    }
-                                                                                constVars:@{
-                                                                                            @"stopVideoURL": @"stopURL.html"
-                                                                                            }];
+
+    id<YCMoviePlayerComponentVCProps> wrapper = (id<YCMoviePlayerComponentVCProps>)toProps(@protocol(YCMoviePlayerComponentVCProps))
+    .states(foo)
+    .constVars(@{@"stopVideoURL": @"stopURL.html"})
+    .transform(^RACTuple *(NSString *propKey) {
+        if ([propKey isEqualToString:@"startVideoURL"]) {
+            return RACTuplePack(foo, @"XXXstartVideoURL");
+        }
+        return nil;
+    })
+    .build();
     NSLog(@">>> %@", wrapper.stopVideoURL);
     NSLog(@">>> %@", wrapper.startVideoURL);
     NSLog(@">>> %@", wrapper.videoURL);
