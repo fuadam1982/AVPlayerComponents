@@ -65,6 +65,25 @@
 
 @end
 
+
+@interface Callbacks1 : NSObject<YCCallbacks>
+
+@property (nonatomic, strong, readonly) RACSignal *onFinished;
+@property (nonatomic, strong, readonly) RACSignal *onError;
+
+@end
+
+@implementation Callbacks1
+
+@end
+
+@protocol Callbacks <YCCallbacks>
+
+- (void)onFinished;
+- (void)onError:(NSError *)error;
+
+@end
+
 //////////////////////////////////////////////////////////////////
 
 @interface AppDelegate ()
@@ -75,6 +94,7 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    // test props
     FooObj *foo = [FooObj new];
     foo.XXXstartVideoURL = @"start video url xxx";
     DooObj *doo = [DooObj new];
@@ -86,12 +106,14 @@
 
     id<YCMoviePlayerComponentVCProps> wrapper = (id<YCMoviePlayerComponentVCProps>)toProps(@protocol(YCMoviePlayerComponentVCProps))
     .states(foo)
-    .constVars(@{@"stopVideoURL": @"stopURL.html"})
     .nameMapping(@{
                    @"name": @"boo.coo.doo.name",
                    @"startVideoURL": @"XXXstartVideoURL",
     })
+    .constVars(@{@"stopVideoURL": @"stopURL.html"})
     .build();
+    
+    
     
     NSLog(@">>> %@", wrapper.stopVideoURL);
     NSLog(@">>> %@", wrapper.name);
@@ -107,6 +129,7 @@
     foo.videoURL = @"low video url xxx";
     doo.name = @"doo name";
     
+    // build root component
     UIViewController* container = [UIViewController new];
     YCMoviePlayerComponentVC *vc = [[YCMoviePlayerComponentVC alloc] initWithProps:nil callbacks:nil];
     [vc addToContainer:container];

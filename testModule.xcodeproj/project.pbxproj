@@ -11,6 +11,11 @@
 		4B5FFD391ECAF5E400940B9F /* Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B5FFD381ECAF5E400940B9F /* Tools.m */; };
 		4B5FFD3F1ECB0F1E00940B9F /* ComponentPropsWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B5FFD3E1ECB0F1E00940B9F /* ComponentPropsWrapper.m */; };
 		4B5FFD481ECC230F00940B9F /* ComponentPropsBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B5FFD471ECC230F00940B9F /* ComponentPropsBuilder.m */; };
+		4BBD8DC71ECC668100AD6234 /* StateStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BBD8DC61ECC668100AD6234 /* StateStore.m */; };
+		4BBD8DCA1ECC66D200AD6234 /* StoreStatesWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BBD8DC91ECC66D200AD6234 /* StoreStatesWrapper.m */; };
+		4BBD8DCD1ECC671D00AD6234 /* StoreAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BBD8DCC1ECC671D00AD6234 /* StoreAction.m */; };
+		4BBD8DD01ECC673200AD6234 /* StoreDispatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BBD8DCF1ECC673200AD6234 /* StoreDispatcher.m */; };
+		4BBD8DD31ECC674B00AD6234 /* StoreReducer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BBD8DD21ECC674B00AD6234 /* StoreReducer.m */; };
 		4BF7D2ED1EC9AA9800A9E5F4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BF7D2EC1EC9AA9800A9E5F4 /* main.m */; };
 		4BF7D2F01EC9AA9800A9E5F4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BF7D2EF1EC9AA9800A9E5F4 /* AppDelegate.m */; };
 		4BF7D2F31EC9AA9800A9E5F4 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BF7D2F21EC9AA9800A9E5F4 /* ViewController.m */; };
@@ -32,6 +37,16 @@
 		4B5FFD3E1ECB0F1E00940B9F /* ComponentPropsWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ComponentPropsWrapper.m; path = source/ComponentPropsWrapper.m; sourceTree = "<group>"; };
 		4B5FFD461ECC230F00940B9F /* ComponentPropsBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ComponentPropsBuilder.h; path = source/ComponentPropsBuilder.h; sourceTree = "<group>"; };
 		4B5FFD471ECC230F00940B9F /* ComponentPropsBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ComponentPropsBuilder.m; path = source/ComponentPropsBuilder.m; sourceTree = "<group>"; };
+		4BBD8DC51ECC668100AD6234 /* StateStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StateStore.h; path = source/StateStore.h; sourceTree = "<group>"; };
+		4BBD8DC61ECC668100AD6234 /* StateStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StateStore.m; path = source/StateStore.m; sourceTree = "<group>"; };
+		4BBD8DC81ECC66D200AD6234 /* StoreStatesWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StoreStatesWrapper.h; path = source/StoreStatesWrapper.h; sourceTree = "<group>"; };
+		4BBD8DC91ECC66D200AD6234 /* StoreStatesWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StoreStatesWrapper.m; path = source/StoreStatesWrapper.m; sourceTree = "<group>"; };
+		4BBD8DCB1ECC671D00AD6234 /* StoreAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StoreAction.h; path = source/StoreAction.h; sourceTree = "<group>"; };
+		4BBD8DCC1ECC671D00AD6234 /* StoreAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StoreAction.m; path = source/StoreAction.m; sourceTree = "<group>"; };
+		4BBD8DCE1ECC673200AD6234 /* StoreDispatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StoreDispatcher.h; path = source/StoreDispatcher.h; sourceTree = "<group>"; };
+		4BBD8DCF1ECC673200AD6234 /* StoreDispatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StoreDispatcher.m; path = source/StoreDispatcher.m; sourceTree = "<group>"; };
+		4BBD8DD11ECC674B00AD6234 /* StoreReducer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StoreReducer.h; path = source/StoreReducer.h; sourceTree = "<group>"; };
+		4BBD8DD21ECC674B00AD6234 /* StoreReducer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StoreReducer.m; path = source/StoreReducer.m; sourceTree = "<group>"; };
 		4BF7D2E81EC9AA9800A9E5F4 /* testModule.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = testModule.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BF7D2EC1EC9AA9800A9E5F4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		4BF7D2EE1EC9AA9800A9E5F4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -124,6 +139,16 @@
 		4BF7D3031EC9AB9200A9E5F4 /* StateStore */ = {
 			isa = PBXGroup;
 			children = (
+				4BBD8DC51ECC668100AD6234 /* StateStore.h */,
+				4BBD8DC61ECC668100AD6234 /* StateStore.m */,
+				4BBD8DC81ECC66D200AD6234 /* StoreStatesWrapper.h */,
+				4BBD8DC91ECC66D200AD6234 /* StoreStatesWrapper.m */,
+				4BBD8DCB1ECC671D00AD6234 /* StoreAction.h */,
+				4BBD8DCC1ECC671D00AD6234 /* StoreAction.m */,
+				4BBD8DCE1ECC673200AD6234 /* StoreDispatcher.h */,
+				4BBD8DCF1ECC673200AD6234 /* StoreDispatcher.m */,
+				4BBD8DD11ECC674B00AD6234 /* StoreReducer.h */,
+				4BBD8DD21ECC674B00AD6234 /* StoreReducer.m */,
 			);
 			name = StateStore;
 			sourceTree = "<group>";
@@ -287,15 +312,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4BBD8DD31ECC674B00AD6234 /* StoreReducer.m in Sources */,
 				4B5FFD481ECC230F00940B9F /* ComponentPropsBuilder.m in Sources */,
 				4B5FFD391ECAF5E400940B9F /* Tools.m in Sources */,
 				4BF7D2F31EC9AA9800A9E5F4 /* ViewController.m in Sources */,
 				4BF7D3091ECAA0E000A9E5F4 /* Componentable.m in Sources */,
+				4BBD8DCA1ECC66D200AD6234 /* StoreStatesWrapper.m in Sources */,
 				4BF7D30C1ECAA13200A9E5F4 /* ViewModel.m in Sources */,
+				4BBD8DC71ECC668100AD6234 /* StateStore.m in Sources */,
 				4BF7D2F01EC9AA9800A9E5F4 /* AppDelegate.m in Sources */,
 				4BF7D2ED1EC9AA9800A9E5F4 /* main.m in Sources */,
 				4B5FFD351ECAED1100940B9F /* ReadonlyObjWrapper.m in Sources */,
 				4B5FFD3F1ECB0F1E00940B9F /* ComponentPropsWrapper.m in Sources */,
+				4BBD8DCD1ECC671D00AD6234 /* StoreAction.m in Sources */,
+				4BBD8DD01ECC673200AD6234 /* StoreDispatcher.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
