@@ -8,20 +8,24 @@
 
 #import "ViewModel.h"
 
-@interface YCMoviePlayerComponentVM ()
+@interface YCMoviePlayerVM ()
 
 @property (nonatomic, strong) id<YCProps> props;
 @property (nonatomic, strong) id<YCCallbacks> callbacks;
 
 @end
 
-@implementation YCMoviePlayerComponentVM
+@implementation YCMoviePlayerVM
 
 - (instancetype)initWithProps:(id<YCProps>)props callbacks:(id<YCCallbacks>)callbacks {
     if (self = [super init]) {
         
     }
     return self;
+}
+
+- (void)updateState:(id)state keyPath:(NSString *)keyPath {
+    
 }
 
 @end

@@ -47,6 +47,16 @@
 
 @end
 
+
+///////////////////////////////////////////////////////
+
+@protocol Callbacks <YCCallbacks>
+
+- (void)onFinished;
+- (void)onError:(NSError *)error;
+
+@end
+
 @interface FooObj : NSObject<YCStates>
 
 @property (nonatomic, assign) BOOL notFlag;
@@ -65,22 +75,43 @@
 
 @end
 
-
-@interface Callbacks1 : NSObject<YCCallbacks>
-
-@property (nonatomic, strong, readonly) RACSignal *onFinished;
-@property (nonatomic, strong, readonly) RACSignal *onError;
+@interface FooObj (xxxSubComponent) <Callbacks>
 
 @end
 
-@implementation Callbacks1
+@implementation FooObj (xxxSubComponent)
+
+- (void)onError:(NSError *)error {
+    NSLog(@"FooObj handle onError event ...");
+}
+
+- (void)onFinished {
+    NSLog(@"FooObj handle onFinished event ...");
+    self.boo.coo.doo.name = @"finished ...";
+}
 
 @end
 
-@protocol Callbacks <YCCallbacks>
+@interface SubC : NSObject
 
-- (void)onFinished;
-- (void)onError:(NSError *)error;
+@property (nonatomic, assign) id<Callbacks> delegate;
+
+- (instancetype)initWithDelegate:(id<Callbacks>)delegate;
+
+@end
+
+@implementation SubC
+
+- (instancetype)initWithDelegate:(id<Callbacks>)delegate {
+    if (self = [super init]) {
+        self.delegate = delegate;
+    }
+    return self;
+}
+
+- (void)doComplete {
+    [self.delegate onFinished];
+}
 
 @end
 
@@ -96,6 +127,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // test props
     FooObj *foo = [FooObj new];
+    SubC *sub = [[SubC alloc] initWithDelegate:foo];
+    
     foo.XXXstartVideoURL = @"start video url xxx";
     DooObj *doo = [DooObj new];
     CooObj *coo = [CooObj new];
@@ -114,7 +147,6 @@
     .build();
     
     
-    
     NSLog(@">>> %@", wrapper.stopVideoURL);
     NSLog(@">>> %@", wrapper.name);
     NSLog(@">>> %@", wrapper.startVideoURL);
@@ -129,10 +161,12 @@
     foo.videoURL = @"low video url xxx";
     doo.name = @"doo name";
     
+    [sub doComplete];
+    
     // build root component
     UIViewController* container = [UIViewController new];
-    YCMoviePlayerComponentVC *vc = [[YCMoviePlayerComponentVC alloc] initWithProps:nil callbacks:nil];
-    [vc addToContainer:container];
+    YCMoviePlayerComponent *component = [[YCMoviePlayerComponent alloc] initWithProps:nil callbacks:nil];
+    [component addToContainer:container];
     
     
     

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4B1888901ECD732100E339AA /* AdapterComponentStatesWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B18888F1ECD732100E339AA /* AdapterComponentStatesWrapper.m */; };
 		4B5FFD351ECAED1100940B9F /* ReadonlyObjWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B5FFD341ECAED1100940B9F /* ReadonlyObjWrapper.m */; };
 		4B5FFD391ECAF5E400940B9F /* Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B5FFD381ECAF5E400940B9F /* Tools.m */; };
 		4B5FFD3F1ECB0F1E00940B9F /* ComponentPropsWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B5FFD3E1ECB0F1E00940B9F /* ComponentPropsWrapper.m */; };
@@ -29,6 +30,8 @@
 
 /* Begin PBXFileReference section */
 		3CBFD0DEAEC98128ABDD438E /* Pods-testModule.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-testModule.debug.xcconfig"; path = "Pods/Target Support Files/Pods-testModule/Pods-testModule.debug.xcconfig"; sourceTree = "<group>"; };
+		4B18888E1ECD732100E339AA /* AdapterComponentStatesWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AdapterComponentStatesWrapper.h; path = source/AdapterComponentStatesWrapper.h; sourceTree = "<group>"; };
+		4B18888F1ECD732100E339AA /* AdapterComponentStatesWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AdapterComponentStatesWrapper.m; path = source/AdapterComponentStatesWrapper.m; sourceTree = "<group>"; };
 		4B5FFD331ECAED1100940B9F /* ReadonlyObjWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReadonlyObjWrapper.h; path = source/ReadonlyObjWrapper.h; sourceTree = "<group>"; };
 		4B5FFD341ECAED1100940B9F /* ReadonlyObjWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReadonlyObjWrapper.m; path = source/ReadonlyObjWrapper.m; sourceTree = "<group>"; };
 		4B5FFD371ECAF5E400940B9F /* Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Tools.h; path = source/Tools.h; sourceTree = "<group>"; };
@@ -169,6 +172,8 @@
 				4B5FFD3E1ECB0F1E00940B9F /* ComponentPropsWrapper.m */,
 				4B5FFD461ECC230F00940B9F /* ComponentPropsBuilder.h */,
 				4B5FFD471ECC230F00940B9F /* ComponentPropsBuilder.m */,
+				4B18888E1ECD732100E339AA /* AdapterComponentStatesWrapper.h */,
+				4B18888F1ECD732100E339AA /* AdapterComponentStatesWrapper.m */,
 			);
 			name = Componentable;
 			sourceTree = "<group>";
@@ -314,6 +319,7 @@
 			files = (
 				4BBD8DD31ECC674B00AD6234 /* StoreReducer.m in Sources */,
 				4B5FFD481ECC230F00940B9F /* ComponentPropsBuilder.m in Sources */,
+				4B1888901ECD732100E339AA /* AdapterComponentStatesWrapper.m in Sources */,
 				4B5FFD391ECAF5E400940B9F /* Tools.m in Sources */,
 				4BF7D2F31EC9AA9800A9E5F4 /* ViewController.m in Sources */,
 				4BF7D3091ECAA0E000A9E5F4 /* Componentable.m in Sources */,

@@ -22,28 +22,40 @@
 @protocol YCStates <NSObject>
 
 - (instancetype)initWithProps:(id<YCProps>)props callbacks:(id<YCCallbacks>)callbacks;
+- (void)updateState:(id)state keyPath:(NSString *)keyPath;
 
 @end
 
-//////////////////////////////////////////////////////////////////
+@protocol YCTemplate <NSObject>
 
-@protocol YCComponentable <NSObject>
-
-- (instancetype)initWithProps:(id<YCProps>)props callbacks:(id<YCCallbacks>)callbacks;
-- (void)addToParent:(id<YCComponentable>)parent;
-- (void)addToContainer:(UIViewController *)container;
+- (instancetype)initWithStates:(id<YCStates>)states;
 - (UIView *)getView;
+- (id<YCStates>)getStates;
 
 @end
 
 //////////////////////////////////////////////////////////////////
 
+@interface YCComponent : NSObject<NSObject>
 
-@interface YCComponentView : UIView<YCComponentable>
+/** 由子类实现 */
+- (instancetype)initWithProps:(id<YCProps>)props callbacks:(id<YCCallbacks>)callbacks;
+/** 由子类调用 */
+- (instancetype)initWithTemplate:(id<YCTemplate>)template;
+- (id<YCTemplate>)getTemplate;
+- (id<YCStates>)getStates;
+- (void)addToParent:(YCComponent *)parent;
+- (void)addToContainer:(UIViewController *)container;
+
+@end
+
+//////////////////////////////////////////////////////////////////
+
+@interface YCTemplateView<States> : UIView<YCTemplate>
 
 @end
 
 
-@interface YCComponentViewController<T> : UIViewController<YCComponentable>
+@interface YCTemplateViewController<States> : UIViewController<YCTemplate>
 
 @end

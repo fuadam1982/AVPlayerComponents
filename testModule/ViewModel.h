@@ -9,6 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "Componentable.h"
 
-@interface YCMoviePlayerComponentVM : NSObject<YCStates>
+@interface YCMoviePlayerVM : NSObject<YCStates>
 
 @end

@@ -8,52 +8,97 @@
 
 #import "Componentable.h"
 
-@implementation YCComponentView
+@interface YCComponent ()
 
-- (instancetype)init {
-    return nil;
+@property (nonatomic, strong) id<YCTemplate> template;
+
+@end
+
+@implementation YCComponent
+
+- (instancetype)initWithTemplate:(id<YCTemplate>)template {
+    if (self = [super init]) {
+        self.template = template;
+    }
+    return self;
 }
 
-- (instancetype)initWithProps:(id<YCProps>)props callbacks:(id<YCCallbacks>)callbacks {
-    return [super init];
-}
-
-- (void)addToParent:(id<YCComponentable>)parent {
-    [[parent getView] addSubview:[self getView]];
+- (void)addToParent:(YCComponent *)parent {
+    [[[parent getTemplate] getView] addSubview:[self.template getView]];
 }
 
 - (void)addToContainer:(UIViewController *)container {
-    [container.view addSubview:[self getView]];
+    [container.view addSubview:[self.template getView]];
 }
 
-- (UIView *)getView {
-    return self;
+- (id<YCTemplate>)getTemplate {
+    return self.template;
+}
+
+- (id<YCStates>)getStates {
+    return [self.template getStates];
 }
 
 @end
 
 //////////////////////////////////////////////////////////////////
 
-@implementation YCComponentViewController
+@interface YCTemplateView ()
+
+@property (nonatomic, strong) id<YCStates> states;
+
+@end
+
+@implementation YCTemplateView
 
 - (instancetype)init {
     return nil;
 }
 
-- (instancetype)initWithProps:(id<YCProps>)props callbacks:(id<YCCallbacks>)callbacks {
-    return [super init];
+- (instancetype)initWithStates:(id<YCStates>)states {
+    if (self = [super init]) {
+        self.states = states;
+    }
+    return self;
 }
 
-- (void)addToParent:(id<YCComponentable>)parent {
-    [[parent getView] addSubview:[self getView]];
+- (UIView *)getView {
+    return self;
 }
 
-- (void)addToContainer:(UIViewController *)container {
-    [container.view addSubview:[self getView]];
+- (id<YCStates>)getStates {
+    return self.states;
+}
+
+@end
+
+//////////////////////////////////////////////////////////////////
+
+@interface YCTemplateViewController ()
+
+@property (nonatomic, strong) id<YCStates> states;
+
+@end
+
+@implementation YCTemplateViewController
+
+- (instancetype)init {
+    return nil;
+}
+
+- (instancetype)initWithStates:(id<YCStates>)states {
+    if (self = [super init]) {
+        self.states = states;
+    }
+    return self;
 }
 
 - (UIView *)getView {
     return self.view;
+}
+
+- (id<YCStates>)getStates {
+    return self.states;
 }
 
 @end

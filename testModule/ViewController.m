@@ -9,22 +9,22 @@
 #import "ViewController.h"
 #import "ViewModel.h"
 
-//////////////////////////////////////////////////////////////////
+@implementation YCMoviePlayerComponent
 
-@interface YCMoviePlayerComponentVC ()
-
-@property (nonatomic, strong) YCMoviePlayerComponentVM *viewModel;
-
-@end
-
-@implementation YCMoviePlayerComponentVC
-
-- (instancetype)initWithProps:(id<YCMoviePlayerComponentVCProps>)props callbacks:(id<YCCallbacks>)callbacks {
-    if (self = [super initWithProps:props callbacks:callbacks]) {
-        self.viewModel = [YCMoviePlayerComponentVM new];
+- (instancetype)initWithProps:(id<YCProps>)props callbacks:(id<YCCallbacks>)callbacks {
+    YCMoviePlayerVM *states = [[YCMoviePlayerVM alloc] initWithProps:props callbacks:callbacks];
+    YCMoviePlayerVC *tempate = [[YCMoviePlayerVC alloc] initWithStates:states];
+    if (self = [super initWithTemplate:tempate]) {
+        
     }
     return self;
 }
+
+@end
+
+//////////////////////////////////////////////////////////////////
+
+@implementation YCMoviePlayerVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];

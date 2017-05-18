@@ -19,9 +19,11 @@
 
 @end
 
-@interface YCMoviePlayerComponentVC : YCComponentViewController
+@interface YCMoviePlayerComponent : YCComponent
 
-- (instancetype)initWithProps:(id<YCMoviePlayerComponentVCProps>)props callbacks:(id<YCCallbacks>)callbacks;
+@end
+
+@interface YCMoviePlayerVC : YCTemplateViewController
 
 @end
 
