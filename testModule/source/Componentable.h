@@ -13,19 +13,19 @@
 
 @end
 
-/** 自定义的Callbacks协议只包含Signal，实际是Subject类型 */
+/** 自定义的Delegate协议，建议每个方法以on开头 */
 @protocol YCCallbacks <NSObject>
 
 @end
 
-/** 自定义的ViewModel实现该协议 */
+/** 用于存储state，一般用viewmodel实现 */
 @protocol YCStates <NSObject>
 
 - (instancetype)initWithProps:(id<YCProps>)props callbacks:(id<YCCallbacks>)callbacks;
-- (void)updateState:(id)state keyPath:(NSString *)keyPath;
 
 @end
 
+/** 用于展示视图，即view/vc */
 @protocol YCTemplate <NSObject>
 
 - (instancetype)initWithStates:(id<YCStates>)states;
@@ -36,16 +36,33 @@
 
 //////////////////////////////////////////////////////////////////
 
-@interface YCComponent : NSObject<NSObject>
+@protocol YCComponent <NSObject>
 
-/** 由子类实现 */
+- (UIView *)getView;
+- (void)addSubComponent:(id<YCComponent>)subComponent;
+
+@end
+
+@protocol YCComponentInit <NSObject>
+
 - (instancetype)initWithProps:(id<YCProps>)props callbacks:(id<YCCallbacks>)callbacks;
-/** 由子类调用 */
+
+@end
+
+@interface YCBaseComponent : NSObject<YCComponent>
+
+@end
+
+@class YCAdapterComponent;
+@interface YCComponent : YCBaseComponent<YCComponent, YCComponentInit>
+
+/** 用于保存子类Template */
 - (instancetype)initWithTemplate:(id<YCTemplate>)template;
-- (id<YCTemplate>)getTemplate;
-- (id<YCStates>)getStates;
-- (void)addToParent:(YCComponent *)parent;
+/** 用于与ViewController关联 */
 - (void)addToContainer:(UIViewController *)container;
+
+/** 添加AdapterComponet为子组件 */
+- (void)addAdapterComponent:(YCAdapterComponent * (^)(id<YCStates> states, YCComponent *origin))block;
 
 @end
 

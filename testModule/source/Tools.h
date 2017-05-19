@@ -31,3 +31,5 @@ NSDictionary * parseObjProtocolPropertiesInfo(id obj, Protocol *parentProtocl, B
  @return 属性信息字典
  */
 NSDictionary * parseProtocolPropertiesInfo(Protocol *protocol, BOOL forReadonly);
+
+NSDictionary * parseClassPropertiesInfo(Class class);

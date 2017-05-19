@@ -11,4 +11,6 @@
 
 @interface YCMoviePlayerVM : NSObject<YCStates>
 
+@property (nonatomic, assign) BOOL canPlay;
+
 @end

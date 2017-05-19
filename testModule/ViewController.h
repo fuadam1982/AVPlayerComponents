@@ -14,6 +14,7 @@
 @property (nonatomic, strong, readonly) NSString *startVideoURL;
 @property (nonatomic, strong, readonly) NSString *stopVideoURL;
 @property (nonatomic, strong, readonly) NSString *videoURL;
+/** 测试非readonly属性 */
 @property (nonatomic, assign) BOOL notFlag;
 @property (nonatomic, strong, readonly) NSString *name;
 

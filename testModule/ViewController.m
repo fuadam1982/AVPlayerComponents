@@ -15,7 +15,7 @@
     YCMoviePlayerVM *states = [[YCMoviePlayerVM alloc] initWithProps:props callbacks:callbacks];
     YCMoviePlayerVC *tempate = [[YCMoviePlayerVC alloc] initWithStates:states];
     if (self = [super initWithTemplate:tempate]) {
-        
+
     }
     return self;
 }

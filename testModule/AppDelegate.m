@@ -10,7 +10,10 @@
 #import "ReactiveCocoa.h"
 #import "ViewController.h"
 #import "ComponentPropsBuilder.h"
-
+#import "AdapterComponent.h"
+#import "AdapterComponentStatesWrapper.h"
+#import "ViewModel.h"
+#import <objc/runtime.h>
 
 @class CooObj, DooObj;
 @interface BooObj : NSObject
@@ -73,6 +76,10 @@
 
 @implementation FooObj
 
+- (instancetype)initWithProps:(id<YCProps>)props callbacks:(id<YCCallbacks>)callbacks {
+    return [super init];
+}
+
 @end
 
 @interface FooObj (xxxSubComponent) <Callbacks>
@@ -129,6 +136,10 @@
     FooObj *foo = [FooObj new];
     SubC *sub = [[SubC alloc] initWithDelegate:foo];
     
+    AdapterComponentStatesWrapper *adapterStates = [[AdapterComponentStatesWrapper alloc] initWithProps:foo callbacks:nil];
+    
+    
+    
     foo.XXXstartVideoURL = @"start video url xxx";
     DooObj *doo = [DooObj new];
     CooObj *coo = [CooObj new];
@@ -138,7 +149,7 @@
     foo.boo = boo;
 
     id<YCMoviePlayerComponentVCProps> wrapper = (id<YCMoviePlayerComponentVCProps>)toProps(@protocol(YCMoviePlayerComponentVCProps))
-    .states(foo)
+    .states(adapterStates)
     .nameMapping(@{
                    @"name": @"boo.coo.doo.name",
                    @"startVideoURL": @"XXXstartVideoURL",
@@ -202,5 +213,60 @@
     
 }
 
+- (void)readProps {
+    NSMutableDictionary* propTypes = [[NSMutableDictionary alloc] initWithCapacity:32];
+    unsigned int count;
+
+    Class class = [YCMoviePlayerVM class];
+    objc_property_t* props = class_copyPropertyList(class, &count);
+    
+    for (int i = 0; i < count; i++) {
+        objc_property_t property = props[i];
+        const char * name = property_getName(property);
+        const char * type = property_getAttributes(property);
+        NSString * typeString = [NSString stringWithUTF8String:type];
+        NSArray * attributes = [typeString componentsSeparatedByString:@","];
+        
+//        // 处理只读属性
+//        if (forReadonly) {
+//            BOOL isReadonly = NO;
+//            for (NSString *ta in attributes) {
+//                if ([ta isEqualToString:@"R"]) {
+//                    isReadonly = YES;
+//                    break;
+//                }
+//            }
+//            if (!isReadonly) {
+//                continue;
+//            }
+//        }
+        
+        // 处理属性encode
+        NSString * typeAttribute = [attributes objectAtIndex:0];
+        NSString * propertyType = [typeAttribute substringFromIndex:1];
+        const char * rawPropertyType = [propertyType UTF8String];
+        NSString* key = [NSString stringWithFormat:@"%s", name];
+        
+        if (strcmp(rawPropertyType, @encode(BOOL)) == 0) {
+            propTypes[key] = [NSString stringWithFormat:@"%s", @encode(BOOL)];
+        } else if (strcmp(rawPropertyType, @encode(int)) == 0) {
+            propTypes[key] = [NSString stringWithFormat:@"%s", @encode(int)];
+        } else if (strcmp(rawPropertyType, @encode(long)) == 0) {
+            propTypes[key] = [NSString stringWithFormat:@"%s", @encode(long)];
+        } else if (strcmp(rawPropertyType, @encode(long long)) == 0) {
+            propTypes[key] = [NSString stringWithFormat:@"%s", @encode(long long)];
+        } else if (strcmp(rawPropertyType, @encode(float)) == 0) {
+            propTypes[key] = [NSString stringWithFormat:@"%s", @encode(float)];
+        } else if (strcmp(rawPropertyType, @encode(double)) == 0) {
+            propTypes[key] = [NSString stringWithFormat:@"%s", @encode(double)];
+        } else if (strcmp(rawPropertyType, @encode(id)) == 0) {
+            propTypes[key] = @"@";
+        } else {
+            propTypes[key] = @"@";
+        }
+    }
+    
+    free(props);
+}
 
 @end

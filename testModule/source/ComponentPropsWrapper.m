@@ -9,6 +9,7 @@
 #import "ComponentPropsWrapper.h"
 #import "Tools.h"
 #import "ReactiveCocoa.h"
+#import "AdapterComponentStatesWrapper.h"
 
 @interface ComponentPropsWrapper () <ReadonlyObjDataSource>
 
@@ -16,8 +17,6 @@
 @property (nonatomic, strong) id<YCStates> states;
 /** keyPath映射，可以用来转为plain object */
 @property (nonatomic, strong) NSDictionary *nameMapping;
-///** 用于将Complex Object转为Plain Object */
-//@property (nonatomic, strong) ComplexObjectTransform transform;
 /** 不会改变的状态 */
 @property (nonatomic, strong) NSDictionary *constVars;
 /** 属性名-类型映射，用于ReadonlyObjWrapper */
@@ -30,12 +29,10 @@
 - (instancetype)initWithPropsProtocol:(Protocol *)propsProtocol
                                states:(id<YCStates>)states
                           nameMapping:(NSDictionary *)nameMapping
-//                            transform:(ComplexObjectTransform)transform
                             constVars:(NSDictionary *)constVars {
     self = [super initWithDataSource:self];
     self.states = states;
     self.nameMapping = nameMapping;
-//    self.transform = transform;
     self.constVars = constVars;
 
     static NSMutableDictionary<NSString *, NSDictionary *> *propTypesMappingCache = nil;
@@ -65,27 +62,6 @@
     // 记录已经绑定的字段名
     NSMutableSet *bindedProp = [[NSMutableSet alloc] initWithCapacity:self.propTypesMapping.count];
     
-//    if (self.transform) {
-//        for (NSString *key in self.propTypesMapping.allKeys) {
-//            if (self.constVars && self.constVars[key]) {
-//                continue;
-//            }
-//            
-//            RACTuple *coInfo = self.transform(key);
-//            if (coInfo) {
-//                [bindedProp addObject:key];
-//                NSObject *obj = coInfo.first;
-//                NSString *propName = coInfo.second ?: key;
-//                [[[obj rac_valuesForKeyPath:propName observer:obj]
-//                  takeUntil:obj.rac_willDeallocSignal]
-//                 subscribeNext:^(id x) {
-//                     @strongify(self);
-//                     [self setValue:x forKey:key];
-//                }];
-//            }
-//        }
-//    }
-    
     if (self.states) {
         NSObject *obj = self.states;
         for (NSString *key in self.propTypesMapping.allKeys) {
@@ -98,7 +74,14 @@
             if (self.nameMapping && self.nameMapping[key]) {
                 propName = self.nameMapping[key];
             }
-            [[[obj rac_valuesForKeyPath:propName observer:obj]
+            
+            // 处理AdapterComponentStatesWrapper KVO
+            if ([obj isMemberOfClass:[AdapterComponentStatesWrapper class]]) {
+                [((AdapterComponentStatesWrapper *)obj) dataBindingWithKeyPath:propName];
+            }
+            
+            [[[obj rac_valuesForKeyPath:propName
+                               observer:obj]
               takeUntil:obj.rac_willDeallocSignal]
              subscribeNext:^(id x) {
                  @strongify(self);
@@ -116,19 +99,7 @@
     if (self.constVars) {
         state = self.constVars[key];
     }
-    
-//    NSString *propName = nil;
-//    // 尝试从Complex Object读取
-//    if (!state && self.transform) {
-//        RACTuple *coInfo = self.transform(key);
-//        if (coInfo) {
-//            NSObject *obj = coInfo.first;
-//            propName = coInfo.second ?: key;
-//            state = [obj valueForKeyPath:propName];
-//        }
-//    }
-    
-//     尝试从states读取，判断propName泳衣防止出现undefinedKeyPath问题
+  
     if (!state && self.states) {
         NSObject *obj = self.states;
         NSString *propName = key;

@@ -24,11 +24,8 @@ BOOL conformsToProtocol(Protocol * protocol, Protocol *parentProtocol) {
     return NO;
 }
 
-NSDictionary* getProtocolPropertiesInfo(Protocol* protocol, BOOL forReadonly) {
-    NSMutableDictionary* propTypes = [[NSMutableDictionary alloc] initWithCapacity:32];
-    unsigned int count;
-    objc_property_t* props = protocol_copyPropertyList(protocol, &count);
-    
+NSDictionary* getPropertiesInfo(objc_property_t *props, unsigned int count, BOOL forReadonly) {
+    NSMutableDictionary* propTypes = [[NSMutableDictionary alloc] initWithCapacity:64];
     for (int i = 0; i < count; i++) {
         objc_property_t property = props[i];
         const char * name = property_getName(property);
@@ -75,7 +72,6 @@ NSDictionary* getProtocolPropertiesInfo(Protocol* protocol, BOOL forReadonly) {
         }
     }
     
-    free(props);
     return propTypes;
 }
 
@@ -91,7 +87,7 @@ NSDictionary * parseObjProtocolPropertiesInfo(id obj, Protocol *parentProtocol, 
         Protocol *protocol = protocolList[i];
         if (![NSStringFromProtocol(protocol) isEqualToString:@"NSObject"]
             && conformsToProtocol(protocol, parentProtocol)) {
-            propertiesInfo = getProtocolPropertiesInfo(protocol, forReadonly);
+            propertiesInfo = parseProtocolPropertiesInfo(protocol, forReadonly);
         }
     }
     
@@ -100,5 +96,17 @@ NSDictionary * parseObjProtocolPropertiesInfo(id obj, Protocol *parentProtocol, 
 }
 
 NSDictionary * parseProtocolPropertiesInfo(Protocol *protocol, BOOL forReadonly) {
-    return getProtocolPropertiesInfo(protocol, forReadonly);
+    unsigned int count;
+    objc_property_t* props = protocol_copyPropertyList(protocol, &count);
+    NSDictionary *info = getPropertiesInfo(props, count, forReadonly);
+    free(props);
+    return info;
+}
+
+NSDictionary * parseClassPropertiesInfo(Class class) {
+    unsigned int count;
+    objc_property_t* props = class_copyPropertyList(class, &count);
+    NSDictionary *info = getPropertiesInfo(props, count, NO);
+    free(props);
+    return info;
 }

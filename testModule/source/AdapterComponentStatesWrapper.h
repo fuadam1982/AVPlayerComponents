@@ -7,7 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Componentable.h"
+#import "ReadonlyObjWrapper.h"
 
-@interface AdapterComponentStatesWrapper : NSObject
+@interface AdapterComponentStatesWrapper : ReadonlyObjWrapper<YCStates>
+
+- (void)updateState:(id)state keyPath:(NSString *)keyPath;
+- (void)dataBindingWithKeyPath:(NSString *)keyPath;
 
 @end

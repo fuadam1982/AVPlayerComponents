@@ -12,6 +12,7 @@
 
 @property (nonatomic, strong) id<YCProps> props;
 @property (nonatomic, strong) id<YCCallbacks> callbacks;
+@property (nonatomic, assign) CGFloat currTimePoint;
 
 @end
 
@@ -22,10 +23,6 @@
         
     }
     return self;
-}
-
-- (void)updateState:(id)state keyPath:(NSString *)keyPath {
-    
 }
 
 @end
