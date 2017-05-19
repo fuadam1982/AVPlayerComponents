@@ -148,7 +148,7 @@
     boo.coo = coo;
     foo.boo = boo;
 
-    id<YCMoviePlayerComponentVCProps> wrapper = (id<YCMoviePlayerComponentVCProps>)toProps(@protocol(YCMoviePlayerComponentVCProps))
+    id<YCMoviePlayerComponentVCProps2> wrapper = (id<YCMoviePlayerComponentVCProps2>)toProps(@protocol(YCMoviePlayerComponentVCProps2))
     .states(adapterStates)
     .nameMapping(@{
                    @"name": @"boo.coo.doo.name",
@@ -176,7 +176,7 @@
     
     // build root component
     UIViewController* container = [UIViewController new];
-    YCMoviePlayerComponent *component = [[YCMoviePlayerComponent alloc] initWithProps:nil callbacks:nil];
+    YCMoviePlayerComponent2 *component = [[YCMoviePlayerComponent2 alloc] initWithProps:nil callbacks:nil];
     [component addToContainer:container];
     
     
@@ -217,7 +217,7 @@
     NSMutableDictionary* propTypes = [[NSMutableDictionary alloc] initWithCapacity:32];
     unsigned int count;
 
-    Class class = [YCMoviePlayerVM class];
+    Class class = [YCMoviePlayerVM2 class];
     objc_property_t* props = class_copyPropertyList(class, &count);
     
     for (int i = 0; i < count; i++) {

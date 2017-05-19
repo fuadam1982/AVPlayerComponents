@@ -50,7 +50,7 @@
 
 @implementation YCComponent
 
-// TODO: 忽略接口为实现警告
+// TODO: 忽略接口实现警告
 
 - (instancetype)initWithTemplate:(id<YCTemplate>)template {
     if (self = [super init]) {
@@ -58,7 +58,7 @@
     }
     return self;
 }
-
+//
 - (UIView *)getView {
     return [self.template getView];
 }

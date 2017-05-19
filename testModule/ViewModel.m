@@ -8,7 +8,7 @@
 
 #import "ViewModel.h"
 
-@interface YCMoviePlayerVM ()
+@interface YCMoviePlayerVM2 ()
 
 @property (nonatomic, strong) id<YCProps> props;
 @property (nonatomic, strong) id<YCCallbacks> callbacks;
@@ -16,7 +16,7 @@
 
 @end
 
-@implementation YCMoviePlayerVM
+@implementation YCMoviePlayerVM2
 
 - (instancetype)initWithProps:(id<YCProps>)props callbacks:(id<YCCallbacks>)callbacks {
     if (self = [super init]) {

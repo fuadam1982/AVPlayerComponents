@@ -83,6 +83,37 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4B18889B1ECE9F6C00E339AA /* YCVideoPlayer */ = {
+			isa = PBXGroup;
+			children = (
+				4B18889C1ECE9F7D00E339AA /* components */,
+				4B18889E1ECE9F8B00E339AA /* viewmodels */,
+				4B18889D1ECE9F8500E339AA /* views */,
+			);
+			name = YCVideoPlayer;
+			sourceTree = "<group>";
+		};
+		4B18889C1ECE9F7D00E339AA /* components */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = components;
+			sourceTree = "<group>";
+		};
+		4B18889D1ECE9F8500E339AA /* views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = views;
+			sourceTree = "<group>";
+		};
+		4B18889E1ECE9F8B00E339AA /* viewmodels */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = viewmodels;
+			sourceTree = "<group>";
+		};
 		4B5FFD361ECAF59500940B9F /* Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -115,6 +146,7 @@
 		4BF7D2EA1EC9AA9800A9E5F4 /* testModule */ = {
 			isa = PBXGroup;
 			children = (
+				4B18889B1ECE9F6C00E339AA /* YCVideoPlayer */,
 				4B5FFD361ECAF59500940B9F /* Utils */,
 				4BF7D3061EC9ABE500A9E5F4 /* Componentable */,
 				4BF7D3051EC9ABD000A9E5F4 /* Modulable */,

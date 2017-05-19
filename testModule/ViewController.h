@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Componentable.h"
 
-@protocol YCMoviePlayerComponentVCProps <NSObject, YCProps>
+@protocol YCMoviePlayerComponentVCProps2 <NSObject, YCProps>
 
 @property (nonatomic, strong, readonly) NSString *startVideoURL;
 @property (nonatomic, strong, readonly) NSString *stopVideoURL;
@@ -20,11 +20,11 @@
 
 @end
 
-@interface YCMoviePlayerComponent : YCComponent
+@interface YCMoviePlayerComponent2 : YCComponent
 
 @end
 
-@interface YCMoviePlayerVC : YCTemplateViewController
+@interface YCMoviePlayerVC2 : YCTemplateViewController
 
 @end
 

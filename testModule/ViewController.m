@@ -9,11 +9,11 @@
 #import "ViewController.h"
 #import "ViewModel.h"
 
-@implementation YCMoviePlayerComponent
+@implementation YCMoviePlayerComponent2
 
 - (instancetype)initWithProps:(id<YCProps>)props callbacks:(id<YCCallbacks>)callbacks {
-    YCMoviePlayerVM *states = [[YCMoviePlayerVM alloc] initWithProps:props callbacks:callbacks];
-    YCMoviePlayerVC *tempate = [[YCMoviePlayerVC alloc] initWithStates:states];
+    YCMoviePlayerVM2 *states = [[YCMoviePlayerVM2 alloc] initWithProps:props callbacks:callbacks];
+    YCMoviePlayerVC2 *tempate = [[YCMoviePlayerVC2 alloc] initWithStates:states];
     if (self = [super initWithTemplate:tempate]) {
 
     }
@@ -24,7 +24,7 @@
 
 //////////////////////////////////////////////////////////////////
 
-@implementation YCMoviePlayerVC
+@implementation YCMoviePlayerVC2
 
 - (void)viewDidLoad {
     [super viewDidLoad];
