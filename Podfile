@@ -2,5 +2,6 @@
 
 target 'testModule' do
  pod 'ReactiveCocoa','2.5'
+ pod 'Masonry'
 end
 

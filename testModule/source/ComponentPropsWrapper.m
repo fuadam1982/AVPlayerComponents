@@ -9,7 +9,6 @@
 #import "ComponentPropsWrapper.h"
 #import "Tools.h"
 #import "ReactiveCocoa.h"
-#import "AdapterComponentStatesWrapper.h"
 
 @interface ComponentPropsWrapper () <ReadonlyObjDataSource>
 
@@ -73,11 +72,6 @@
             NSString *propName = key;
             if (self.nameMapping && self.nameMapping[key]) {
                 propName = self.nameMapping[key];
-            }
-            
-            // 处理AdapterComponentStatesWrapper KVO
-            if ([obj isMemberOfClass:[AdapterComponentStatesWrapper class]]) {
-                [((AdapterComponentStatesWrapper *)obj) dataBindingWithKeyPath:propName];
             }
             
             [[[obj rac_valuesForKeyPath:propName

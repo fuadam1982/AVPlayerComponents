@@ -7,14 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4B1888901ECD732100E339AA /* AdapterComponentStatesWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B18888F1ECD732100E339AA /* AdapterComponentStatesWrapper.m */; };
-		4B1888931ECD81C600E339AA /* AdapterComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B1888921ECD81C600E339AA /* AdapterComponent.m */; };
-		4B1888A11ECEA15100E339AA /* YCMoviePlayerComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B1888A01ECEA15100E339AA /* YCMoviePlayerComponent.m */; };
-		4B1888A41ECEA1D400E339AA /* YCAVPlayerComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B1888A31ECEA1D400E339AA /* YCAVPlayerComponent.m */; };
-		4B1888A81ECEA2D300E339AA /* YCSimpleMoviePlayerComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B1888A71ECEA2D300E339AA /* YCSimpleMoviePlayerComponent.m */; };
 		4B1888AB1ECEA69C00E339AA /* YCSimpleMoviePlayerVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B1888AA1ECEA69C00E339AA /* YCSimpleMoviePlayerVM.m */; };
 		4B1888AE1ECEA8D600E339AA /* YCSimpleMoviePlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B1888AD1ECEA8D600E339AA /* YCSimpleMoviePlayerView.m */; };
-		4B1888B11ECEAF1C00E339AA /* YCPlayerSkipBtnComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B1888B01ECEAF1C00E339AA /* YCPlayerSkipBtnComponent.m */; };
 		4B1888B41ECEAF4000E339AA /* YCPlayerSkipBtnVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B1888B31ECEAF4000E339AA /* YCPlayerSkipBtnVM.m */; };
 		4B1888B71ECEAF6600E339AA /* YCPlayerSkipBtnVIew.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B1888B61ECEAF6600E339AA /* YCPlayerSkipBtnVIew.m */; };
 		4B5FFD351ECAED1100940B9F /* ReadonlyObjWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B5FFD341ECAED1100940B9F /* ReadonlyObjWrapper.m */; };
@@ -39,22 +33,10 @@
 
 /* Begin PBXFileReference section */
 		3CBFD0DEAEC98128ABDD438E /* Pods-testModule.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-testModule.debug.xcconfig"; path = "Pods/Target Support Files/Pods-testModule/Pods-testModule.debug.xcconfig"; sourceTree = "<group>"; };
-		4B18888E1ECD732100E339AA /* AdapterComponentStatesWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AdapterComponentStatesWrapper.h; path = source/AdapterComponentStatesWrapper.h; sourceTree = "<group>"; };
-		4B18888F1ECD732100E339AA /* AdapterComponentStatesWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AdapterComponentStatesWrapper.m; path = source/AdapterComponentStatesWrapper.m; sourceTree = "<group>"; };
-		4B1888911ECD81C600E339AA /* AdapterComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AdapterComponent.h; path = source/AdapterComponent.h; sourceTree = "<group>"; };
-		4B1888921ECD81C600E339AA /* AdapterComponent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AdapterComponent.m; path = source/AdapterComponent.m; sourceTree = "<group>"; };
-		4B18889F1ECEA15100E339AA /* YCMoviePlayerComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YCMoviePlayerComponent.h; path = components/YCMoviePlayerComponent.h; sourceTree = "<group>"; };
-		4B1888A01ECEA15100E339AA /* YCMoviePlayerComponent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YCMoviePlayerComponent.m; path = components/YCMoviePlayerComponent.m; sourceTree = "<group>"; };
-		4B1888A21ECEA1D400E339AA /* YCAVPlayerComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YCAVPlayerComponent.h; path = components/YCAVPlayerComponent.h; sourceTree = "<group>"; };
-		4B1888A31ECEA1D400E339AA /* YCAVPlayerComponent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YCAVPlayerComponent.m; path = components/YCAVPlayerComponent.m; sourceTree = "<group>"; };
-		4B1888A61ECEA2D300E339AA /* YCSimpleMoviePlayerComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YCSimpleMoviePlayerComponent.h; path = components/YCSimpleMoviePlayerComponent.h; sourceTree = "<group>"; };
-		4B1888A71ECEA2D300E339AA /* YCSimpleMoviePlayerComponent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YCSimpleMoviePlayerComponent.m; path = components/YCSimpleMoviePlayerComponent.m; sourceTree = "<group>"; };
 		4B1888A91ECEA69C00E339AA /* YCSimpleMoviePlayerVM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YCSimpleMoviePlayerVM.h; path = components/YCSimpleMoviePlayerVM.h; sourceTree = "<group>"; };
 		4B1888AA1ECEA69C00E339AA /* YCSimpleMoviePlayerVM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YCSimpleMoviePlayerVM.m; path = components/YCSimpleMoviePlayerVM.m; sourceTree = "<group>"; };
 		4B1888AC1ECEA8D600E339AA /* YCSimpleMoviePlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YCSimpleMoviePlayerView.h; path = components/YCSimpleMoviePlayerView.h; sourceTree = "<group>"; };
 		4B1888AD1ECEA8D600E339AA /* YCSimpleMoviePlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YCSimpleMoviePlayerView.m; path = components/YCSimpleMoviePlayerView.m; sourceTree = "<group>"; };
-		4B1888AF1ECEAF1C00E339AA /* YCPlayerSkipBtnComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YCPlayerSkipBtnComponent.h; path = components/YCPlayerSkipBtnComponent.h; sourceTree = "<group>"; };
-		4B1888B01ECEAF1C00E339AA /* YCPlayerSkipBtnComponent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YCPlayerSkipBtnComponent.m; path = components/YCPlayerSkipBtnComponent.m; sourceTree = "<group>"; };
 		4B1888B21ECEAF4000E339AA /* YCPlayerSkipBtnVM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YCPlayerSkipBtnVM.h; path = components/YCPlayerSkipBtnVM.h; sourceTree = "<group>"; };
 		4B1888B31ECEAF4000E339AA /* YCPlayerSkipBtnVM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YCPlayerSkipBtnVM.m; path = components/YCPlayerSkipBtnVM.m; sourceTree = "<group>"; };
 		4B1888B51ECEAF6600E339AA /* YCPlayerSkipBtnVIew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YCPlayerSkipBtnVIew.h; path = components/YCPlayerSkipBtnVIew.h; sourceTree = "<group>"; };
@@ -110,26 +92,10 @@
 		4B18889B1ECE9F6C00E339AA /* YCVideoPlayer */ = {
 			isa = PBXGroup;
 			children = (
-				4B18889C1ECE9F7D00E339AA /* components */,
 				4B18889E1ECE9F8B00E339AA /* viewmodels */,
 				4B18889D1ECE9F8500E339AA /* views */,
 			);
 			name = YCVideoPlayer;
-			sourceTree = "<group>";
-		};
-		4B18889C1ECE9F7D00E339AA /* components */ = {
-			isa = PBXGroup;
-			children = (
-				4B1888A21ECEA1D400E339AA /* YCAVPlayerComponent.h */,
-				4B1888A31ECEA1D400E339AA /* YCAVPlayerComponent.m */,
-				4B1888AF1ECEAF1C00E339AA /* YCPlayerSkipBtnComponent.h */,
-				4B1888B01ECEAF1C00E339AA /* YCPlayerSkipBtnComponent.m */,
-				4B1888A61ECEA2D300E339AA /* YCSimpleMoviePlayerComponent.h */,
-				4B1888A71ECEA2D300E339AA /* YCSimpleMoviePlayerComponent.m */,
-				4B18889F1ECEA15100E339AA /* YCMoviePlayerComponent.h */,
-				4B1888A01ECEA15100E339AA /* YCMoviePlayerComponent.m */,
-			);
-			name = components;
 			sourceTree = "<group>";
 		};
 		4B18889D1ECE9F8500E339AA /* views */ = {
@@ -247,10 +213,6 @@
 				4B5FFD3E1ECB0F1E00940B9F /* ComponentPropsWrapper.m */,
 				4B5FFD461ECC230F00940B9F /* ComponentPropsBuilder.h */,
 				4B5FFD471ECC230F00940B9F /* ComponentPropsBuilder.m */,
-				4B1888911ECD81C600E339AA /* AdapterComponent.h */,
-				4B1888921ECD81C600E339AA /* AdapterComponent.m */,
-				4B18888E1ECD732100E339AA /* AdapterComponentStatesWrapper.h */,
-				4B18888F1ECD732100E339AA /* AdapterComponentStatesWrapper.m */,
 			);
 			name = Componentable;
 			sourceTree = "<group>";
@@ -396,22 +358,16 @@
 			files = (
 				4BBD8DD31ECC674B00AD6234 /* StoreReducer.m in Sources */,
 				4B1888AE1ECEA8D600E339AA /* YCSimpleMoviePlayerView.m in Sources */,
-				4B1888931ECD81C600E339AA /* AdapterComponent.m in Sources */,
 				4B5FFD481ECC230F00940B9F /* ComponentPropsBuilder.m in Sources */,
-				4B1888901ECD732100E339AA /* AdapterComponentStatesWrapper.m in Sources */,
 				4B5FFD391ECAF5E400940B9F /* Tools.m in Sources */,
-				4B1888B11ECEAF1C00E339AA /* YCPlayerSkipBtnComponent.m in Sources */,
 				4BF7D2F31EC9AA9800A9E5F4 /* ViewController.m in Sources */,
 				4BF7D3091ECAA0E000A9E5F4 /* Componentable.m in Sources */,
 				4BBD8DCA1ECC66D200AD6234 /* StoreStatesWrapper.m in Sources */,
-				4B1888A81ECEA2D300E339AA /* YCSimpleMoviePlayerComponent.m in Sources */,
 				4BF7D30C1ECAA13200A9E5F4 /* ViewModel.m in Sources */,
 				4BBD8DC71ECC668100AD6234 /* StateStore.m in Sources */,
 				4BF7D2F01EC9AA9800A9E5F4 /* AppDelegate.m in Sources */,
-				4B1888A41ECEA1D400E339AA /* YCAVPlayerComponent.m in Sources */,
 				4B1888B71ECEAF6600E339AA /* YCPlayerSkipBtnVIew.m in Sources */,
 				4B1888B41ECEAF4000E339AA /* YCPlayerSkipBtnVM.m in Sources */,
-				4B1888A11ECEA15100E339AA /* YCMoviePlayerComponent.m in Sources */,
 				4BF7D2ED1EC9AA9800A9E5F4 /* main.m in Sources */,
 				4B5FFD351ECAED1100940B9F /* ReadonlyObjWrapper.m in Sources */,
 				4B1888AB1ECEA69C00E339AA /* YCSimpleMoviePlayerVM.m in Sources */,

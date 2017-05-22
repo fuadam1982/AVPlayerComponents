@@ -9,8 +9,10 @@
 #import <Foundation/Foundation.h>
 #import "Componentable.h"
 
+@protocol YCPlayerSkipBtnProps;
 @interface YCPlayerSkipBtnVM : NSObject<YCStates>
 
+@property (nonatomic, strong, readonly) id<YCPlayerSkipBtnProps> props;
 /** 提示用户多少秒后可以跳过 */
 @property (nonatomic, assign, readonly) NSInteger skipSeconds;
 /** 是否可以跳过 */

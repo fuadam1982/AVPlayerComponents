@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-/** 自定义的Props协议只包含只读属性 */
+/** 自定义的Props协议只包含只读属性，用于Component对外暴露接口 */
 @protocol YCProps <NSObject>
 
 @end
@@ -25,54 +25,29 @@
 
 @end
 
-/** 用于展示视图，即view/vc */
+@protocol YCComponent <NSObject>
+
+/** 需要子类实现 */
+- (instancetype)initWithProps:(id<YCProps>)props callbacks:(id<YCCallbacks>)callbacks;
+- (UIView *)getView;
+
+@end
+
 @protocol YCTemplate <NSObject>
 
 - (instancetype)initWithStates:(id<YCStates>)states;
-- (UIView *)getView;
 - (id<YCStates>)getStates;
-
-@end
-
-//////////////////////////////////////////////////////////////////
-
-@protocol YCComponent <NSObject>
-
 - (UIView *)getView;
-- (void)addSubComponent:(id<YCComponent>)subComponent;
+- (UIView *)addSubComponent:(id<YCComponent>)subComponent;
 
 @end
 
-@protocol YCComponentInit <NSObject>
+//////////////////////////////////////////////////////////////
 
-- (instancetype)initWithProps:(id<YCProps>)props callbacks:(id<YCCallbacks>)callbacks;
-
-@end
-
-@interface YCBaseComponent : NSObject<YCComponent>
+@interface YCViewComponent<T> : UIView<YCTemplate>
 
 @end
 
-@class YCAdapterComponent;
-@interface YCComponent : YCBaseComponent<YCComponent, YCComponentInit>
-
-/** 用于保存子类Template */
-- (instancetype)initWithTemplate:(id<YCTemplate>)template;
-/** 用于与ViewController关联 */
-- (void)addToContainer:(UIViewController *)container;
-
-/** 添加AdapterComponet为子组件 */
-- (void)addAdapterComponent:(YCAdapterComponent * (^)(id<YCStates> states, YCComponent *origin))block;
-
-@end
-
-//////////////////////////////////////////////////////////////////
-
-@interface YCTemplateView<States> : UIView<YCTemplate>
-
-@end
-
-
-@interface YCTemplateViewController<States> : UIViewController<YCTemplate>
+@interface YCViewControllerComponent : UIViewController<YCTemplate>
 
 @end

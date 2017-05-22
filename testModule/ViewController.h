@@ -20,11 +20,7 @@
 
 @end
 
-@interface YCMoviePlayerComponent2 : YCComponent
-
-@end
-
-@interface YCMoviePlayerVC2 : YCTemplateViewController
+@interface YCMoviePlayerVC2 : YCViewControllerComponent
 
 @end
 

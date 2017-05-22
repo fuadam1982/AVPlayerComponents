@@ -7,95 +7,21 @@
 //
 
 #import "Componentable.h"
-#import "AdapterComponent.h"
 
-@interface YCBaseComponent ()
-
-@property (nonatomic, strong) NSMutableArray *children;
-
-@end
-
-@implementation YCBaseComponent
-
-- (instancetype)init {
-    if (self = [super init]) {
-        self.children = [[NSMutableArray alloc] initWithCapacity:16];
-    }
-    return self;
-}
-
-- (UIView *)getView {
-    return nil;
-}
-
-- (void)addSubComponent:(id<YCComponent>)subComponent {
-    [self.children addObject:subComponent];
-    
-    UIView *selfView = [self getView];
-    UIView *view = [subComponent getView];
-    if (view && ![view isEqual:selfView]) {
-        [selfView addSubview:view];
-    }
-}
-
-@end
-
-//////////////////////////////////////////////////////////////////
-
-@interface YCComponent ()
-
-@property (nonatomic, strong) id<YCTemplate> template;
-
-@end
-
-@implementation YCComponent
-
-// TODO: 忽略接口实现警告
-
-- (instancetype)initWithTemplate:(id<YCTemplate>)template {
-    if (self = [super init]) {
-        self.template = template;
-    }
-    return self;
-}
-//
-- (UIView *)getView {
-    return [self.template getView];
-}
-
-- (void)addToContainer:(UIViewController *)container {
-    [container.view addSubview:[self.template getView]];
-}
-
-- (void)addAdapterComponent:(YCAdapterComponent * (^)(id<YCStates> states, YCComponent *origin))block {
-    YCAdapterComponent *adapter = block([self.template getStates], self);
-    [self addSubComponent:adapter];
-}
-
-@end
-
-//////////////////////////////////////////////////////////////////
-
-@interface YCTemplateView ()
+@interface YCViewComponent ()
 
 @property (nonatomic, strong) id<YCStates> states;
+@property (nonatomic, strong) NSMutableArray<id<YCComponent>> *children;
 
 @end
 
-@implementation YCTemplateView
-
-- (instancetype)init {
-    return nil;
-}
+@implementation YCViewComponent
 
 - (instancetype)initWithStates:(id<YCStates>)states {
     if (self = [super init]) {
         self.states = states;
+        self.children = [[NSMutableArray alloc] initWithCapacity:32];
     }
-    return self;
-}
-
-- (UIView *)getView {
     return self;
 }
 
@@ -103,35 +29,47 @@
     return self.states;
 }
 
+- (UIView *)getView {
+    return self;
+}
+
+- (UIView *)addSubComponent:(id<YCComponent>)subComponent {
+    [self.children addObject:subComponent];
+    return [subComponent getView];
+}
+
 @end
 
-//////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
 
-@interface YCTemplateViewController ()
+@interface YCViewControllerComponent ()
 
 @property (nonatomic, strong) id<YCStates> states;
+@property (nonatomic, strong) NSMutableArray<id<YCComponent>> *children;
 
 @end
 
-@implementation YCTemplateViewController
-
-- (instancetype)init {
-    return nil;
-}
+@implementation YCViewControllerComponent
 
 - (instancetype)initWithStates:(id<YCStates>)states {
     if (self = [super init]) {
         self.states = states;
+        self.children = [[NSMutableArray alloc] initWithCapacity:32];
     }
     return self;
+}
+
+- (id<YCStates>)getStates {
+    return self.states;
 }
 
 - (UIView *)getView {
     return self.view;
 }
 
-- (id<YCStates>)getStates {
-    return self.states;
+- (UIView *)addSubComponent:(id<YCComponent>)subComponent {
+    [self.children addObject:subComponent];
+    return [subComponent getView];
 }
 
 @end

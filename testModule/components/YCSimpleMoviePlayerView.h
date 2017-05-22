@@ -9,6 +9,21 @@
 #import <UIKit/UIKit.h>
 #import "Componentable.h"
 
-@interface YCSimpleMoviePlayerView : YCTemplateView
+@protocol YCSimpleMoviePlayerProps <NSObject>
+
+@property (nonatomic, strong, readonly) NSString *movieURL;
+
+@end
+
+@protocol YCSimpleMoviePlayerCallbacks <NSObject>
+
+- (void)onFinished:(BOOL)isSkiped;
+
+@end
+
+/*!
+ *  简单视频播放组件
+ */
+@interface YCSimpleMoviePlayerView : YCViewComponent<YCComponent>
 
 @end

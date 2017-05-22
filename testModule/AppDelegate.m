@@ -10,8 +10,6 @@
 #import "ReactiveCocoa.h"
 #import "ViewController.h"
 #import "ComponentPropsBuilder.h"
-#import "AdapterComponent.h"
-#import "AdapterComponentStatesWrapper.h"
 #import "ViewModel.h"
 #import <objc/runtime.h>
 
@@ -136,10 +134,6 @@
     FooObj *foo = [FooObj new];
     SubC *sub = [[SubC alloc] initWithDelegate:foo];
     
-    AdapterComponentStatesWrapper *adapterStates = [[AdapterComponentStatesWrapper alloc] initWithProps:foo callbacks:nil];
-    
-    
-    
     foo.XXXstartVideoURL = @"start video url xxx";
     DooObj *doo = [DooObj new];
     CooObj *coo = [CooObj new];
@@ -149,7 +143,7 @@
     foo.boo = boo;
 
     id<YCMoviePlayerComponentVCProps2> wrapper = (id<YCMoviePlayerComponentVCProps2>)toProps(@protocol(YCMoviePlayerComponentVCProps2))
-    .states(adapterStates)
+    .states(foo)
     .nameMapping(@{
                    @"name": @"boo.coo.doo.name",
                    @"startVideoURL": @"XXXstartVideoURL",
@@ -174,15 +168,10 @@
     
     [sub doComplete];
     
-    // build root component
-    UIViewController* container = [UIViewController new];
-    YCMoviePlayerComponent2 *component = [[YCMoviePlayerComponent2 alloc] initWithProps:nil callbacks:nil];
-    [component addToContainer:container];
     
-    
-    
+    YCMoviePlayerVC2 *vc = [YCMoviePlayerVC2 new];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.rootViewController = container;
+    self.window.rootViewController = vc;
     [self.window makeKeyAndVisible];
     
     return YES;

@@ -7,7 +7,7 @@
 //
 
 #import "YCSimpleMoviePlayerVM.h"
-#import "YCSimpleMoviePlayerComponent.h"
+#import "YCSimpleMoviePlayerView.h"
 
 @interface YCSimpleMoviePlayerVM ()
 

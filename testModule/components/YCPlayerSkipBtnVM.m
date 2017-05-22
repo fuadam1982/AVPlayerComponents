@@ -7,8 +7,8 @@
 //
 
 #import "YCPlayerSkipBtnVM.h"
-#import "YCPlayerSkipBtnComponent.h"
 #import "ReactiveCocoa.h"
+#import "YCPlayerSkipBtnVIew.h"
 
 @interface YCPlayerSkipBtnVM ()
 
