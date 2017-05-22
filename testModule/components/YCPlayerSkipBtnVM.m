@@ -13,7 +13,7 @@
 @interface YCPlayerSkipBtnVM ()
 
 @property (nonatomic, strong) id<YCPlayerSkipBtnProps> props;
-@property (nonatomic, strong) id<YCPlayerSkipBtnCallbacks> callbacks;
+@property (nonatomic, weak) id<YCPlayerSkipBtnCallbacks> callbacks;
 /** 提示用户多少秒后可以跳过 */
 @property (nonatomic, assign) NSInteger skipSeconds;
 /** 是否可以跳过 */

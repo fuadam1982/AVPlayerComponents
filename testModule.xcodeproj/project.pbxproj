@@ -11,6 +11,8 @@
 		4B1888AE1ECEA8D600E339AA /* YCSimpleMoviePlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B1888AD1ECEA8D600E339AA /* YCSimpleMoviePlayerView.m */; };
 		4B1888B41ECEAF4000E339AA /* YCPlayerSkipBtnVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B1888B31ECEAF4000E339AA /* YCPlayerSkipBtnVM.m */; };
 		4B1888B71ECEAF6600E339AA /* YCPlayerSkipBtnVIew.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B1888B61ECEAF6600E339AA /* YCPlayerSkipBtnVIew.m */; };
+		4B2462841ED2B726000D1363 /* YCAVPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B2462831ED2B726000D1363 /* YCAVPlayerView.m */; };
+		4B2462871ED2C702000D1363 /* YCAVPlayerVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B2462861ED2C702000D1363 /* YCAVPlayerVM.m */; };
 		4B5FFD351ECAED1100940B9F /* ReadonlyObjWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B5FFD341ECAED1100940B9F /* ReadonlyObjWrapper.m */; };
 		4B5FFD391ECAF5E400940B9F /* Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B5FFD381ECAF5E400940B9F /* Tools.m */; };
 		4B5FFD3F1ECB0F1E00940B9F /* ComponentPropsWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B5FFD3E1ECB0F1E00940B9F /* ComponentPropsWrapper.m */; };
@@ -41,6 +43,10 @@
 		4B1888B31ECEAF4000E339AA /* YCPlayerSkipBtnVM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YCPlayerSkipBtnVM.m; path = components/YCPlayerSkipBtnVM.m; sourceTree = "<group>"; };
 		4B1888B51ECEAF6600E339AA /* YCPlayerSkipBtnVIew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YCPlayerSkipBtnVIew.h; path = components/YCPlayerSkipBtnVIew.h; sourceTree = "<group>"; };
 		4B1888B61ECEAF6600E339AA /* YCPlayerSkipBtnVIew.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YCPlayerSkipBtnVIew.m; path = components/YCPlayerSkipBtnVIew.m; sourceTree = "<group>"; };
+		4B2462821ED2B726000D1363 /* YCAVPlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YCAVPlayerView.h; path = components/YCAVPlayerView.h; sourceTree = "<group>"; };
+		4B2462831ED2B726000D1363 /* YCAVPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YCAVPlayerView.m; path = components/YCAVPlayerView.m; sourceTree = "<group>"; };
+		4B2462851ED2C702000D1363 /* YCAVPlayerVM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YCAVPlayerVM.h; path = components/YCAVPlayerVM.h; sourceTree = "<group>"; };
+		4B2462861ED2C702000D1363 /* YCAVPlayerVM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YCAVPlayerVM.m; path = components/YCAVPlayerVM.m; sourceTree = "<group>"; };
 		4B5FFD331ECAED1100940B9F /* ReadonlyObjWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReadonlyObjWrapper.h; path = source/ReadonlyObjWrapper.h; sourceTree = "<group>"; };
 		4B5FFD341ECAED1100940B9F /* ReadonlyObjWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReadonlyObjWrapper.m; path = source/ReadonlyObjWrapper.m; sourceTree = "<group>"; };
 		4B5FFD371ECAF5E400940B9F /* Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Tools.h; path = source/Tools.h; sourceTree = "<group>"; };
@@ -101,10 +107,12 @@
 		4B18889D1ECE9F8500E339AA /* views */ = {
 			isa = PBXGroup;
 			children = (
-				4B1888AC1ECEA8D600E339AA /* YCSimpleMoviePlayerView.h */,
-				4B1888AD1ECEA8D600E339AA /* YCSimpleMoviePlayerView.m */,
+				4B2462821ED2B726000D1363 /* YCAVPlayerView.h */,
+				4B2462831ED2B726000D1363 /* YCAVPlayerView.m */,
 				4B1888B51ECEAF6600E339AA /* YCPlayerSkipBtnVIew.h */,
 				4B1888B61ECEAF6600E339AA /* YCPlayerSkipBtnVIew.m */,
+				4B1888AC1ECEA8D600E339AA /* YCSimpleMoviePlayerView.h */,
+				4B1888AD1ECEA8D600E339AA /* YCSimpleMoviePlayerView.m */,
 			);
 			name = views;
 			sourceTree = "<group>";
@@ -112,10 +120,12 @@
 		4B18889E1ECE9F8B00E339AA /* viewmodels */ = {
 			isa = PBXGroup;
 			children = (
-				4B1888A91ECEA69C00E339AA /* YCSimpleMoviePlayerVM.h */,
-				4B1888AA1ECEA69C00E339AA /* YCSimpleMoviePlayerVM.m */,
+				4B2462851ED2C702000D1363 /* YCAVPlayerVM.h */,
+				4B2462861ED2C702000D1363 /* YCAVPlayerVM.m */,
 				4B1888B21ECEAF4000E339AA /* YCPlayerSkipBtnVM.h */,
 				4B1888B31ECEAF4000E339AA /* YCPlayerSkipBtnVM.m */,
+				4B1888A91ECEA69C00E339AA /* YCSimpleMoviePlayerVM.h */,
+				4B1888AA1ECEA69C00E339AA /* YCSimpleMoviePlayerVM.m */,
 			);
 			name = viewmodels;
 			sourceTree = "<group>";
@@ -356,6 +366,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4B2462871ED2C702000D1363 /* YCAVPlayerVM.m in Sources */,
 				4BBD8DD31ECC674B00AD6234 /* StoreReducer.m in Sources */,
 				4B1888AE1ECEA8D600E339AA /* YCSimpleMoviePlayerView.m in Sources */,
 				4B5FFD481ECC230F00940B9F /* ComponentPropsBuilder.m in Sources */,
@@ -369,6 +380,7 @@
 				4B1888B71ECEAF6600E339AA /* YCPlayerSkipBtnVIew.m in Sources */,
 				4B1888B41ECEAF4000E339AA /* YCPlayerSkipBtnVM.m in Sources */,
 				4BF7D2ED1EC9AA9800A9E5F4 /* main.m in Sources */,
+				4B2462841ED2B726000D1363 /* YCAVPlayerView.m in Sources */,
 				4B5FFD351ECAED1100940B9F /* ReadonlyObjWrapper.m in Sources */,
 				4B1888AB1ECEA69C00E339AA /* YCSimpleMoviePlayerVM.m in Sources */,
 				4B5FFD3F1ECB0F1E00940B9F /* ComponentPropsWrapper.m in Sources */,

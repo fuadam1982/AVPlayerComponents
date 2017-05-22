@@ -9,6 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "Componentable.h"
 
+@protocol YCSimpleMoviePlayerProps;
 @interface YCSimpleMoviePlayerVM : NSObject<YCStates>
+
+@property (nonatomic, strong, readonly) id<YCSimpleMoviePlayerProps> props;
 
 @end
