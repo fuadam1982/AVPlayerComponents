@@ -17,7 +17,6 @@ ComponentPropsBuilder * toProps(Protocol *propsProtocol);
 
 - (instancetype)initWithPropsProtocol:(Protocol *)propsProtocol;
 - (ComponentPropsBuilder * (^) (id<YCStates>))states;
-//- (ComponentPropsBuilder * (^) (ComplexObjectTransform))transform;
 - (ComponentPropsBuilder * (^) (NSDictionary *))nameMapping;
 - (ComponentPropsBuilder * (^) (NSDictionary *))constVars;
 - (ComponentPropsWrapper * (^) ())build;

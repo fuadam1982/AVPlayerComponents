@@ -130,6 +130,7 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    /*
     // test props
     FooObj *foo = [FooObj new];
     SubC *sub = [[SubC alloc] initWithDelegate:foo];
@@ -167,7 +168,7 @@
     doo.name = @"doo name";
     
     [sub doComplete];
-    
+    */
     
     YCMoviePlayerVC2 *vc = [YCMoviePlayerVC2 new];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];

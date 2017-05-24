@@ -9,8 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "Componentable.h"
 
-@interface YCMoviePlayerVM2 : NSObject<YCStates>
+@class ComponentPropsWrapper;
+@interface YCMoviePlayerVM2 : NSObject
 
-@property (nonatomic, assign) BOOL canPlay;
+- (id<YCProps>)toProps;
 
 @end

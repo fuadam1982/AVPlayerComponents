@@ -18,8 +18,10 @@
 @property (nonatomic, strong) NSDictionary *nameMapping;
 /** 不会改变的状态 */
 @property (nonatomic, strong) NSDictionary *constVars;
-/** 属性名-类型映射，用于ReadonlyObjWrapper */
+/** props属性名-类型映射，用于ReadonlyObjWrapper */
 @property (nonatomic, strong) NSDictionary *propTypesMapping;
+/** state属性名-类型映射，避免valueForUndefinedKey */
+@property (nonatomic, strong) NSDictionary *stateTypesMapping;
 
 @end
 
@@ -34,13 +36,17 @@
     self.nameMapping = nameMapping;
     self.constVars = constVars;
 
+    // 缓存prop协议的属性类型信息
     static NSMutableDictionary<NSString *, NSDictionary *> *propTypesMappingCache = nil;
+    // 缓存state类型的属性类型信息
+    static NSMutableDictionary<NSString *, NSDictionary *> *statePropTypesMappingCache = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         propTypesMappingCache = [[NSMutableDictionary alloc] initWithCapacity:64];
+        statePropTypesMappingCache = [[NSMutableDictionary alloc] initWithCapacity:64];
     });
     
-    // 获取属性类型映射信息
+    // 获取prop协议的属性类信息
     NSString *cacheKey = NSStringFromProtocol(propsProtocol);
     NSDictionary *propTypesMapping = propTypesMappingCache[cacheKey];
     if (!propTypesMapping) {
@@ -50,6 +56,19 @@
         }
     }
     self.propTypesMapping = propTypesMapping;
+    
+    // 获取state类型的属性类型信息
+    cacheKey = NSStringFromClass([states class]);
+    NSDictionary *stateTypesMapping = statePropTypesMappingCache[cacheKey];
+    if (!stateTypesMapping) {
+        @synchronized (statePropTypesMappingCache) {
+            stateTypesMapping = parseClassPropertiesInfo([states class]);
+            statePropTypesMappingCache[cacheKey] = stateTypesMapping;
+        }
+    }
+    self.stateTypesMapping = stateTypesMapping;
+    
+    
     [self dataBinding];
     
     return self;
@@ -74,13 +93,15 @@
                 propName = self.nameMapping[key];
             }
             
-            [[[obj rac_valuesForKeyPath:propName
-                               observer:obj]
-              takeUntil:obj.rac_willDeallocSignal]
-             subscribeNext:^(id x) {
-                 @strongify(self);
-                 [self setValue:x forKey:key];
-             }];
+            if (self.stateTypesMapping[propName]) {
+                [[[obj rac_valuesForKeyPath:propName
+                                   observer:obj]
+                  takeUntil:obj.rac_willDeallocSignal]
+                 subscribeNext:^(id x) {
+                     @strongify(self);
+                     [self setValue:x forKey:key];
+                 }];
+            }
         }
     }
 }

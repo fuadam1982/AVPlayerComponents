@@ -8,10 +8,16 @@
 
 #import <Foundation/Foundation.h>
 #import "Componentable.h"
+#import "YCAVPlayerView.h"
 
-@protocol YCAVPlayerProps;
-@interface YCAVPlayerVM : NSObject<YCStates>
+@class YCAVPlayerView;
+@interface YCAVPlayerVM : NSObject<YCAVPlayerStates>
 
 @property (nonatomic, strong, readonly) id<YCAVPlayerProps> props;
+
+- (void)setPlayer:(YCAVPlayerView *)player;
+- (void)setPlayerError:(NSError *)error;
+- (void)getVideoDuration:(NSTimeInterval)videoDuration;
+- (void)videoReadyToPlay;
 
 @end

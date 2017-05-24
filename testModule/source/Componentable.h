@@ -36,6 +36,7 @@
 @protocol YCTemplate <NSObject>
 
 - (instancetype)initWithStates:(id<YCStates>)states;
+/** 用于获取states实例，在子类中定义viewmodel属性时通过getter注入 */
 - (id<YCStates>)getStates;
 - (UIView *)getView;
 - (UIView *)addSubComponent:(id<YCComponent>)subComponent;

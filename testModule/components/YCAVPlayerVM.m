@@ -7,9 +7,8 @@
 //
 
 #import "YCAVPlayerVM.h"
-#import "YCAVPlayerView.h"
 
-@interface YCAVPlayerVM () <YCAVPlayerStates>
+@interface YCAVPlayerVM ()
 
 // MARK: YCStates
 @property (nonatomic, strong) id<YCAVPlayerProps> props;
@@ -44,6 +43,8 @@
 @property (nonatomic, assign) NSInteger currinteractionTimePoint;
 
 // MARK: private
+/** 用于delegate传出player实例 */
+@property (nonatomic, weak) YCAVPlayerView *player;
 /** 已加载的最大时间点 */
 @property (nonatomic, assign) float loadedTimePoint;
 /** 暂停preload，例如3G网络下不需要下载, 同时不需要loading */
@@ -59,6 +60,31 @@
         self.callbacks = callbacks;
     }
     return self;
+}
+
+- (void)setPlayer:(YCAVPlayerView *)player {
+    _player = player;
+}
+
+- (void)setPlayerError:(NSError *)error {
+    self.error = error;
+    if ([self.callbacks respondsToSelector:@selector(player:onError:)]) {
+        [self.callbacks player:self.player onError:self.error];
+    }
+}
+
+- (void)getVideoDuration:(NSTimeInterval)videoDuration {
+    self.videoDuration = videoDuration;
+    if ([self.callbacks respondsToSelector:@selector(player:onGetVideoDuration:)]) {
+        [self.callbacks player:self.player onGetVideoDuration:self.videoDuration];
+    }
+}
+
+- (void)videoReadyToPlay {
+    self.readyToPlay = YES;
+    if ([self.callbacks respondsToSelector:@selector(playerOnReadyToPlay:)]) {
+        [self.callbacks playerOnReadyToPlay:self.player];
+    }
 }
 
 @end

@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "Componentable.h"
 
-@protocol YCAVPlayerProps <NSObject>
+@protocol YCAVPlayerProps <YCProps>
 
 /** 是否有网络 */
 @property (nonatomic, assign, readonly) BOOL hasNetworking;
@@ -35,7 +35,7 @@
 
 @end
 
-@protocol YCAVPlayerStates <NSObject>
+@protocol YCAVPlayerStates <YCStates>
 
 /** 播放中出现错误 */
 @property (nonatomic, strong, readonly) NSError *error;
@@ -43,7 +43,7 @@
 @property (nonatomic, assign, readonly) float videoDuration;
 /** 已经加载的最大时长 */
 @property (nonatomic, assign, readonly) float loadedDuration;
-/** 是否可以播放 */
+/** 是否可以播放, 指真正可以播放 */
 @property (nonatomic, assign, readonly) BOOL readyToPlay;
 /** 是否正在播放 */
 @property (nonatomic, assign, readonly) BOOL isPlaying;
@@ -64,32 +64,111 @@
 /** 当前的交互点, -1表示没有 */
 @property (nonatomic, assign, readonly) NSInteger currinteractionTimePoint;
 
-
 @end
 
 @class YCAVPlayerView;
-@protocol YCAVPlayerCallbacks <NSObject>
+@protocol YCAVPlayerCallbacks <YCCallbacks>
 
+@optional;
+
+/**
+ 获取到视频总时长
+
+ @param player player
+ @param videoDuration 时长
+ */
 - (void)player:(YCAVPlayerView *)player onGetVideoDuration:(float)videoDuration;
+
+
+/**
+ 视频可以播放
+
+ @param player player
+ */
 - (void)playerOnReadyToPlay:(YCAVPlayerView *)player;
+
+
+/**
+ 视频播放完毕
+
+ @param player player
+ @param staySecond 观看视频的停留时间
+ @param realPlaySecond 实际播放的时间
+ */
 - (void)player:(YCAVPlayerView *)player
     onFinished:(NSInteger)staySecond
 realPlaySecond:(NSInteger)realPlaySecond;
+
+
+/**
+ 视频播放发生错误
+
+ @param player player
+ @param error 错误信息
+ */
 - (void)player:(YCAVPlayerView *)player onError:(NSError *)error;
+
+
+/**
+ 正在播放视频
+
+ @param player player
+ @param currTimePoint 当前播放时间点
+ @param isPause 是否暂停
+ */
 - (void)player:(YCAVPlayerView *)player
      onPlaying:(NSInteger)currTimePoint
         isPause:(BOOL)isPause;
+
+
+/**
+ 视频缓冲了数据
+
+ @param player player
+ @param loadedDuration 缓冲的最大时间点
+ */
 - (void)player:(YCAVPlayerView *)player onLoadedDuration:(float)loadedDuration;
+
+
+/**
+ 视频发生卡顿
+
+ @param player player
+ @param isLagged 是否卡顿
+ @param loadSpeed 卡顿时加载数据的网速
+ */
 - (void)player:(YCAVPlayerView *)player
       onLagged:(BOOL)isLagged
      loadSpeed:(CGFloat)loadSpeed;
+
+
+/**
+ 视频出现交互点
+
+ @param player player
+ @param timePoint 交互时间点
+ */
 - (void)player:(YCAVPlayerView *)player onInteract:(NSInteger)timePoint;
+
+
+
+/**
+ 视频缓冲完毕
+ 如果props.isCachedRemoteVideo == NO, 那么缓存的路径为nil
+
+ @param player player
+ @param videoFolder 缓冲的临时文件报错的文件夹
+ @param videoPath 缓冲的临时文件路径
+ @param isHLSVideo 是否为HLS格式
+ */
 - (void)player:(YCAVPlayerView *)player
- onCachedVideo:(NSString *)videoFolder
+onVideoLoadCompleted:(NSString *)videoFolder
      videoPath:(NSString *)videoPath
     isHLSVideo:(BOOL)isHLSVideo;
 
 @end
+
+/////////////////////////////////////////////////////////////////
 
 /*!
  *  基础播放器，不包含业务逻辑
