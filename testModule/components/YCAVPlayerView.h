@@ -53,10 +53,8 @@
 @property (nonatomic, assign, readonly) BOOL isLoadedAllVideo;
 /** 是否为HLS格式视频 */
 @property (nonatomic, assign, readonly) BOOL isHLSVideo;
-/** 已经缓存的视频所在路径，如果是HLS则为所有ts文件的目录 */
+/** 已经缓存的视频所在目录 */
 @property (nonatomic, strong, readonly) NSString *cachedVideoFolder;
-/** 已经缓存的视频所在路径，如果是HLS则为第一个ts文件名 */
-@property (nonatomic, strong, readonly) NSString *cachedVideoPath;
 /** 当前加载网速 */
 @property (nonatomic, assign, readonly) float loadSpeed;
 /** 当前播放的时间点 */

@@ -33,8 +33,6 @@
 @property (nonatomic, assign) BOOL isHLSVideo;
 /** 已经缓存的视频所在路径，如果是HLS则为所有ts文件的目录 */
 @property (nonatomic, strong) NSString *cachedVideoFolder;
-/** 已经缓存的视频所在路径，如果是HLS则为第一个ts文件名 */
-@property (nonatomic, strong) NSString *cachedVideoPath;
 /** 当前加载网速 */
 @property (nonatomic, assign) float loadSpeed;
 /** 当前播放的时间点 */
@@ -71,6 +69,10 @@
     if ([self.callbacks respondsToSelector:@selector(player:onError:)]) {
         [self.callbacks player:self.player onError:self.error];
     }
+}
+
+- (void)setCachedVideoFolder:(NSString *)cachedVideoFolder {
+    _cachedVideoFolder = cachedVideoFolder;
 }
 
 - (void)getVideoDuration:(NSTimeInterval)videoDuration {

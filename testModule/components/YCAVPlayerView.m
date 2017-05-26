@@ -39,8 +39,10 @@
 
 - (void)buildPlayer {
     @weakify(self);
-    NSURL *videoURL = [NSURL URLWithString:self.viewModel.props.videoURL];
-    self.asset = [AVURLAsset URLAssetWithURL:videoURL options:nil];
+    // Asset
+    AVURLAsset *asset = [AVURLAsset URLAssetWithURL:[NSURL URLWithString:self.viewModel.props.videoURL]
+                                            options:nil];
+    self.asset = asset;
 
     NSArray *keys = @[@"tracks", @"playable", @"duration", @"commonMetadata"];
     [self.asset loadValuesAsynchronouslyForKeys:keys completionHandler:^{
@@ -100,6 +102,12 @@
         [isPause boolValue] ? [self pauseVideo] : [self playVideo];
     }];
 }
+
+#pragma mark - handle video cache
+
+
+
+#pragma mark - player methods
 
 - (void)playVideo {
     self.player.rate = 1;

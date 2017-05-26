@@ -14,6 +14,7 @@
 		4B2462841ED2B726000D1363 /* YCAVPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B2462831ED2B726000D1363 /* YCAVPlayerView.m */; };
 		4B2462871ED2C702000D1363 /* YCAVPlayerVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B2462861ED2C702000D1363 /* YCAVPlayerVM.m */; };
 		4B24628A1ED2CDF8000D1363 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B2462891ED2CDF8000D1363 /* AVFoundation.framework */; };
+		4B2462971ED670DD000D1363 /* YCAVAssetResourceLoaderDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B2462961ED670DD000D1363 /* YCAVAssetResourceLoaderDelegate.m */; };
 		4B5FFD351ECAED1100940B9F /* ReadonlyObjWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B5FFD341ECAED1100940B9F /* ReadonlyObjWrapper.m */; };
 		4B5FFD391ECAF5E400940B9F /* Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B5FFD381ECAF5E400940B9F /* Tools.m */; };
 		4B5FFD3F1ECB0F1E00940B9F /* ComponentPropsWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B5FFD3E1ECB0F1E00940B9F /* ComponentPropsWrapper.m */; };
@@ -49,6 +50,8 @@
 		4B2462851ED2C702000D1363 /* YCAVPlayerVM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YCAVPlayerVM.h; path = components/YCAVPlayerVM.h; sourceTree = "<group>"; };
 		4B2462861ED2C702000D1363 /* YCAVPlayerVM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YCAVPlayerVM.m; path = components/YCAVPlayerVM.m; sourceTree = "<group>"; };
 		4B2462891ED2CDF8000D1363 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		4B2462951ED670DD000D1363 /* YCAVAssetResourceLoaderDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YCAVAssetResourceLoaderDelegate.h; path = components/YCAVAssetResourceLoaderDelegate.h; sourceTree = "<group>"; };
+		4B2462961ED670DD000D1363 /* YCAVAssetResourceLoaderDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YCAVAssetResourceLoaderDelegate.m; path = components/YCAVAssetResourceLoaderDelegate.m; sourceTree = "<group>"; };
 		4B5FFD331ECAED1100940B9F /* ReadonlyObjWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReadonlyObjWrapper.h; path = source/ReadonlyObjWrapper.h; sourceTree = "<group>"; };
 		4B5FFD341ECAED1100940B9F /* ReadonlyObjWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReadonlyObjWrapper.m; path = source/ReadonlyObjWrapper.m; sourceTree = "<group>"; };
 		4B5FFD371ECAF5E400940B9F /* Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Tools.h; path = source/Tools.h; sourceTree = "<group>"; };
@@ -112,6 +115,8 @@
 			children = (
 				4B2462821ED2B726000D1363 /* YCAVPlayerView.h */,
 				4B2462831ED2B726000D1363 /* YCAVPlayerView.m */,
+				4B2462951ED670DD000D1363 /* YCAVAssetResourceLoaderDelegate.h */,
+				4B2462961ED670DD000D1363 /* YCAVAssetResourceLoaderDelegate.m */,
 				4B1888B51ECEAF6600E339AA /* YCPlayerSkipBtnVIew.h */,
 				4B1888B61ECEAF6600E339AA /* YCPlayerSkipBtnVIew.m */,
 				4B1888AC1ECEA8D600E339AA /* YCSimpleMoviePlayerView.h */,
@@ -370,6 +375,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4B2462971ED670DD000D1363 /* YCAVAssetResourceLoaderDelegate.m in Sources */,
 				4B2462871ED2C702000D1363 /* YCAVPlayerVM.m in Sources */,
 				4BBD8DD31ECC674B00AD6234 /* StoreReducer.m in Sources */,
 				4B1888AE1ECEA8D600E339AA /* YCSimpleMoviePlayerView.m in Sources */,
