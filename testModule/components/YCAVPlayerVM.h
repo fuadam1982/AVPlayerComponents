@@ -18,8 +18,10 @@
 - (void)setPlayer:(YCAVPlayerView *)player;
 - (void)setPlayerError:(NSError *)error;
 - (void)setCachedVideoFolder:(NSString *)cachedVideoFolder;
+- (void)setVideoDuration:(NSTimeInterval)videoDuration;
+- (void)setPlayTimePoint:(NSTimeInterval)currTimePoint;
+- (void)addWatchedTimeInterval:(NSTimeInterval)interval;
 
-- (void)getVideoDuration:(NSTimeInterval)videoDuration;
 - (void)videoReadyToPlay;
 
 @end

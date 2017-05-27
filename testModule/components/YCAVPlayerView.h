@@ -40,9 +40,9 @@
 /** 播放中出现错误 */
 @property (nonatomic, strong, readonly) NSError *error;
 /** 视频的总时长(秒) */
-@property (nonatomic, assign, readonly) float videoDuration;
+@property (nonatomic, assign, readonly) NSTimeInterval videoDuration;
 /** 已经加载的最大时长 */
-@property (nonatomic, assign, readonly) float loadedDuration;
+@property (nonatomic, assign, readonly) NSTimeInterval loadedDuration;
 /** 是否可以播放, 指真正可以播放 */
 @property (nonatomic, assign, readonly) BOOL readyToPlay;
 /** 是否正在播放 */
@@ -58,9 +58,13 @@
 /** 当前加载网速 */
 @property (nonatomic, assign, readonly) float loadSpeed;
 /** 当前播放的时间点 */
-@property (nonatomic, assign, readonly) float currTimePoint;
+@property (nonatomic, assign, readonly) NSTimeInterval currTimePoint;
+/** 实际观看时长 */
+@property (nonatomic, assign, readonly) NSTimeInterval watchedDuration;
+/** 观看总时长 */
+@property (nonatomic, assign, readonly) NSTimeInterval stayDuration;
 /** 当前的交互点, -1表示没有 */
-@property (nonatomic, assign, readonly) NSInteger currinteractionTimePoint;
+@property (nonatomic, assign, readonly) NSTimeInterval currinteractionTimePoint;
 
 @end
 
@@ -80,23 +84,22 @@
 
 /**
  视频可以播放
+ 调用者可以在未收到该回调时处理默认视频图、显示loading等逻辑
 
  @param player player
  */
 - (void)playerOnReadyToPlay:(YCAVPlayerView *)player;
 
-
 /**
  视频播放完毕
 
  @param player player
- @param staySecond 观看视频的停留时间
- @param realPlaySecond 实际播放的时间
+ @param watchedDuration 实际观看视频时长
+ @param stayDuration 观看视频停留时长
  */
 - (void)player:(YCAVPlayerView *)player
-    onFinished:(NSInteger)staySecond
-realPlaySecond:(NSInteger)realPlaySecond;
-
+    onFinished:(NSTimeInterval)watchedDuration
+  stayDuration:(NSTimeInterval)stayDuration;
 
 /**
  视频播放发生错误
@@ -107,17 +110,15 @@ realPlaySecond:(NSInteger)realPlaySecond;
 - (void)player:(YCAVPlayerView *)player onError:(NSError *)error;
 
 
+
 /**
- 正在播放视频
+ 视频播放
 
  @param player player
- @param currTimePoint 当前播放时间点
+ @param currTime 当前播放进度
  @param isPause 是否暂停
  */
-- (void)player:(YCAVPlayerView *)player
-     onPlaying:(NSInteger)currTimePoint
-        isPause:(BOOL)isPause;
-
+- (void)player:(YCAVPlayerView *)player onPlayingCurrTime:(NSTimeInterval)currTime isPause:(BOOL)isPause;
 
 /**
  视频缓冲了数据
