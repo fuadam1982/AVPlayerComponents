@@ -40,9 +40,9 @@
 /** 播放中出现错误 */
 @property (nonatomic, strong, readonly) NSError *error;
 /** 视频的总时长(秒) */
-@property (nonatomic, assign, readonly) float videoDuration;
+@property (nonatomic, assign, readonly) NSTimeInterval videoDuration;
 /** 已经加载的最大时长 */
-@property (nonatomic, assign, readonly) float loadedDuration;
+@property (nonatomic, assign, readonly) NSTimeInterval loadedDuration;
 /** 是否可以播放, 指真正可以播放 */
 @property (nonatomic, assign, readonly) BOOL readyToPlay;
 /** 是否正在播放 */
@@ -58,9 +58,13 @@
 /** 当前加载网速 */
 @property (nonatomic, assign, readonly) float loadSpeed;
 /** 当前播放的时间点 */
-@property (nonatomic, assign, readonly) float currTimePoint;
+@property (nonatomic, assign, readonly) NSTimeInterval currTimePoint;
+/** 实际观看时长 */
+@property (nonatomic, assign, readonly) NSTimeInterval watchedDuration;
+/** 观看总时长 */
+@property (nonatomic, assign, readonly) NSTimeInterval stayDuration;
 /** 当前的交互点, -1表示没有 */
-@property (nonatomic, assign, readonly) NSInteger currinteractionTimePoint;
+@property (nonatomic, assign, readonly) NSTimeInterval currinteractionTimePoint;
 
 @end
 
@@ -80,6 +84,7 @@
 
 /**
  视频可以播放
+ 调用者可以在未收到该回调时处理默认视频图、显示loading等逻辑
 
  @param player player
  */
@@ -96,7 +101,6 @@
 - (void)player:(YCAVPlayerView *)player
     onFinished:(NSInteger)staySecond
 realPlaySecond:(NSInteger)realPlaySecond;
-
 
 /**
  视频播放发生错误

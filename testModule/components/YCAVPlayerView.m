@@ -13,8 +13,11 @@
 @import AVFoundation;
 #import "ReactiveCocoa.h"
 
+static NSTimeInterval kPlayerRefreshInterval = 0.5f;
+
 @interface YCAVPlayerView ()
 
+@property (nonatomic, strong) dispatch_queue_t queue;
 @property (nonatomic, strong) YCAVPlayerVM *viewModel;
 @property (nonatomic, strong) AVAsset *asset;
 @property (nonatomic, strong) AVPlayerItem *playerItem;
@@ -27,12 +30,15 @@
 - (instancetype)initWithProps:(id<YCProps>)props callbacks:(id<YCCallbacks>)callbacks {
     YCAVPlayerVM *states = [[YCAVPlayerVM alloc] initWithProps:props callbacks:callbacks];
     if (self = [super initWithStates:states]) {
+        self.queue = dispatch_queue_create("CUSTOM_AVPLAYER_QUEUE", DISPATCH_QUEUE_SERIAL);
+        // 设置player，用于callbacks
         [self.viewModel setPlayer:self];
         [self buildPlayer];
     }
     return self;
 }
 
+/** 包装下，用于属性访问 */
 - (id<YCStates>)viewModel {
     return [self getStates];
 }
@@ -62,31 +68,35 @@
         if (!isSucc) {
             return;
         }
-        
+        // 获取视频总时长
         NSTimeInterval videoDuration = CMTimeGetSeconds(self.asset.duration);
-        [self.viewModel getVideoDuration:videoDuration];
-        
+        [self.viewModel setVideoDuration:videoDuration];
+
         self.playerItem = [AVPlayerItem playerItemWithAsset:self.asset automaticallyLoadedAssetKeys:keys];
         self.player = [AVPlayer playerWithPlayerItem:self.playerItem];
         [self addPlayerToLayer:self.player];
-        
+
+        // 视频资源可播放
         [[[RACObserve(self.asset, playable) ignore:@NO] take:1] subscribeNext:^(id x) {
             @strongify(self);
-            [self dataBinding];
+            // todo: seek, 需要确定play和seek的先后顺序
+            [self bindPlayerState];
+            [self bindViewModelState];
         }];
     }];
 }
 
-- (void)dataBinding {
+#pragma mark - DataBinding
+
+- (void)bindPlayerState {
     @weakify(self);
-    
-    // binding avplayer stuffs
+    // 播放状态
     [[RACObserve(self.playerItem, status)
       takeUntil:self.playerItem.rac_willDeallocSignal]
      subscribeNext:^(id status) {
          @strongify(self);
          if ([status integerValue] == AVPlayerItemStatusReadyToPlay) {
-             [self playVideo];
+             [self videoPlayControl];
              [self.viewModel videoReadyToPlay];
          } else {
              // TODO: error
@@ -94,18 +104,25 @@
          }
      }];
     
-    // binding props states
+    // 播放时间
+    [self.player addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(kPlayerRefreshInterval, NSEC_PER_SEC)
+                                              queue:self.queue
+                                         usingBlock:^(CMTime time) {
+                                             @strongify(self);
+                                             [self.viewModel addWatchedTimeInterval:kPlayerRefreshInterval];
+                                         }];
+}
+
+- (void)bindViewModelState {
+    @weakify(self);
     [[RACObserve(self.viewModel.props, isPause) filter:^BOOL(id value) {
         @strongify(self);
         return self.viewModel.readyToPlay;
     }] subscribeNext:^(id isPause) {
-        [isPause boolValue] ? [self pauseVideo] : [self playVideo];
+        @strongify(self);
+        [self videoPlayControl];
     }];
 }
-
-#pragma mark - handle video cache
-
-
 
 #pragma mark - player methods
 
@@ -115,6 +132,10 @@
 
 - (void)pauseVideo {
     self.player.rate = 0;
+}
+
+- (void)videoPlayControl {
+    self.viewModel.props.isPause ? [self pauseVideo] : [self playVideo];
 }
 
 #pragma mark - AVPlayerLayer Setting

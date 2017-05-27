@@ -7,6 +7,7 @@
 //
 
 #import "YCAVPlayerVM.h"
+#import "ReactiveCocoa.h"
 
 @interface YCAVPlayerVM ()
 
@@ -18,9 +19,9 @@
 /** 播放中出现错误 */
 @property (nonatomic, strong) NSError *error;
 /** 视频的总时长(秒) */
-@property (nonatomic, assign) float videoDuration;
+@property (nonatomic, assign) NSTimeInterval videoDuration;
 /** 已经加载的最大时长 */
-@property (nonatomic, assign) float loadedDuration;
+@property (nonatomic, assign) NSTimeInterval loadedDuration;
 /** 是否可以播放 */
 @property (nonatomic, assign) BOOL readyToPlay;
 /** 是否正在播放 */
@@ -36,9 +37,13 @@
 /** 当前加载网速 */
 @property (nonatomic, assign) float loadSpeed;
 /** 当前播放的时间点 */
-@property (nonatomic, assign) float currTimePoint;
+@property (nonatomic, assign) NSTimeInterval currTimePoint;
+/** 实际观看时长 */
+@property (nonatomic, assign) NSTimeInterval watchedDuration;
+/** 观看总时长 */
+@property (nonatomic, assign) NSTimeInterval stayDuration;
 /** 当前的交互点, -1表示没有 */
-@property (nonatomic, assign) NSInteger currinteractionTimePoint;
+@property (nonatomic, assign) NSTimeInterval currinteractionTimePoint;
 
 // MARK: private
 /** 用于delegate传出player实例 */
@@ -56,8 +61,32 @@
     if (self = [super init]) {
         self.props = props;
         self.callbacks = callbacks;
+        [self dataBinding];
     }
     return self;
+}
+
+- (void)dataBinding {
+    @weakify(self);
+    // 暂停
+    [[[RACObserve(self.props, isPause) ignore:@NO] filter:^BOOL(id value) {
+        @strongify(self);
+        // 视频播放器被创建后才开始关注该状态
+        return self.player != nil;
+    }]
+     subscribeNext:^(id x) {
+        @strongify(self);
+        [self addWatchedTimeInterval:0];
+     }];
+    // 记录停留时间
+    NSTimeInterval interval = 0.5;
+    [[[RACSignal interval:interval
+              onScheduler:[RACScheduler scheduler]]
+      takeUntil:self.rac_willDeallocSignal]
+     subscribeNext:^(id x) {
+         @strongify(self);
+         self.stayDuration += interval;
+     }];
 }
 
 - (void)setPlayer:(YCAVPlayerView *)player {
@@ -65,28 +94,47 @@
 }
 
 - (void)setPlayerError:(NSError *)error {
-    self.error = error;
-    if ([self.callbacks respondsToSelector:@selector(player:onError:)]) {
-        [self.callbacks player:self.player onError:self.error];
-    }
+    _error = error;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if ([self.callbacks respondsToSelector:@selector(player:onError:)]) {
+            [self.callbacks player:self.player onError:self.error];
+        }
+    });
 }
 
 - (void)setCachedVideoFolder:(NSString *)cachedVideoFolder {
     _cachedVideoFolder = cachedVideoFolder;
 }
 
-- (void)getVideoDuration:(NSTimeInterval)videoDuration {
-    self.videoDuration = videoDuration;
-    if ([self.callbacks respondsToSelector:@selector(player:onGetVideoDuration:)]) {
-        [self.callbacks player:self.player onGetVideoDuration:self.videoDuration];
-    }
+- (void)setVideoDuration:(NSTimeInterval)videoDuration {
+    _videoDuration = videoDuration;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if ([self.callbacks respondsToSelector:@selector(player:onGetVideoDuration:)]) {
+            [self.callbacks player:self.player onGetVideoDuration:self.videoDuration];
+        }
+    });
+}
+
+- (void)setPlayTimePoint:(NSTimeInterval)currTimePoint {
+    self.currTimePoint = currTimePoint;
+}
+
+- (void)addWatchedTimeInterval:(NSTimeInterval)interval {
+    self.currTimePoint += interval;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if ([self.callbacks respondsToSelector:@selector(player:onPlaying:isPause:)]) {
+            [self.callbacks player:self.player onPlaying:self.currTimePoint isPause:self.props.isPause];
+        }
+    });
 }
 
 - (void)videoReadyToPlay {
     self.readyToPlay = YES;
-    if ([self.callbacks respondsToSelector:@selector(playerOnReadyToPlay:)]) {
-        [self.callbacks playerOnReadyToPlay:self.player];
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if ([self.callbacks respondsToSelector:@selector(playerOnReadyToPlay:)]) {
+            [self.callbacks playerOnReadyToPlay:self.player];
+        }
+    });
 }
 
 @end
