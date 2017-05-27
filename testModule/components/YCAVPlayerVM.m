@@ -122,8 +122,8 @@
 - (void)addWatchedTimeInterval:(NSTimeInterval)interval {
     self.currTimePoint += interval;
     dispatch_async(dispatch_get_main_queue(), ^{
-        if ([self.callbacks respondsToSelector:@selector(player:onPlaying:isPause:)]) {
-            [self.callbacks player:self.player onPlaying:self.currTimePoint isPause:self.props.isPause];
+        if ([self.callbacks respondsToSelector:@selector(player:onPlayingCurrTime:isPause:)]) {
+            [self.callbacks player:self.player onPlayingCurrTime:self.currTimePoint isPause:self.props.isPause];
         }
     });
 }
