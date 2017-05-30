@@ -74,12 +74,20 @@
 @optional;
 
 /**
+ 视频播放发生错误
+ 
+ @param player player
+ @param error 错误信息
+ */
+- (void)player:(YCAVPlayerView *)player onError:(NSError *)error;
+
+/**
  获取到视频总时长
 
  @param player player
  @param videoDuration 时长
  */
-- (void)player:(YCAVPlayerView *)player onGetVideoDuration:(float)videoDuration;
+- (void)player:(YCAVPlayerView *)player onReadVideoDuration:(float)videoDuration;
 
 
 /**
@@ -90,26 +98,17 @@
  */
 - (void)playerOnReadyToPlay:(YCAVPlayerView *)player;
 
+
 /**
- 视频播放完毕
+ 视频播放完成
 
  @param player player
- @param watchedDuration 实际观看视频时长
+ @param isInterrupt 是否由用户或事件中断完成
+ @param watchedDuration 视频实际观看时长
  @param stayDuration 观看视频停留时长
  */
-- (void)player:(YCAVPlayerView *)player
-    onFinished:(NSTimeInterval)watchedDuration
-  stayDuration:(NSTimeInterval)stayDuration;
-
-/**
- 视频播放发生错误
-
- @param player player
- @param error 错误信息
- */
-- (void)player:(YCAVPlayerView *)player onError:(NSError *)error;
-
-
+// TODO: 例如返回按钮返回时需要记录当前的播放状态，子控件tap -> onFinished -> parent component delegate.
+- (void)player:(YCAVPlayerView *)player onFinishedByInterrupt:(BOOL)isInterrupt watchedDuration:(NSTimeInterval)watchedDuration stayDuration:(NSTimeInterval)stayDuration;
 
 /**
  视频播放
@@ -136,10 +135,7 @@
  @param isLagged 是否卡顿
  @param loadSpeed 卡顿时加载数据的网速
  */
-- (void)player:(YCAVPlayerView *)player
-      onLagged:(BOOL)isLagged
-     loadSpeed:(CGFloat)loadSpeed;
-
+- (void)player:(YCAVPlayerView *)player onLagged:(BOOL)isLagged loadSpeed:(CGFloat)loadSpeed;
 
 /**
  视频出现交互点
@@ -147,8 +143,8 @@
  @param player player
  @param timePoint 交互时间点
  */
+// TODO: -3，从结尾处开始。还可以增加精度-1表示到下个终结点全部都监听
 - (void)player:(YCAVPlayerView *)player onInteract:(NSInteger)timePoint;
-
 
 
 /**
@@ -160,10 +156,7 @@
  @param videoPath 缓冲的临时文件路径
  @param isHLSVideo 是否为HLS格式
  */
-- (void)player:(YCAVPlayerView *)player
-onVideoLoadCompleted:(NSString *)videoFolder
-     videoPath:(NSString *)videoPath
-    isHLSVideo:(BOOL)isHLSVideo;
+- (void)player:(YCAVPlayerView *)player onVideoLoadCompleted:(NSString *)videoFolder videoPath:(NSString *)videoPath isHLSVideo:(BOOL)isHLSVideo;
 
 @end
 

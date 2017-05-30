@@ -139,7 +139,7 @@ NSString *localStringFromRemoteString(NSString *remoteURLString) {
 
 
 - (BOOL)resourceLoader:(AVAssetResourceLoader *)resourceLoader shouldWaitForLoadingOfRequestedResource:(AVAssetResourceLoadingRequest *)loadingRequest {
-    NSLog(@">>> shouldWaitForLoadingOfRequestedResource %@ - %lld", loadingRequest.request.URL.absoluteString, loadingRequest.dataRequest.requestedLength);
+    NSLog(@">>> shouldWaitForLoadingOfRequestedResource %@ - %ld", loadingRequest.request.URL.absoluteString, loadingRequest.dataRequest.requestedLength);
     // start downloading the fragment.
     NSURL *interceptedURL = [loadingRequest.request URL];
     

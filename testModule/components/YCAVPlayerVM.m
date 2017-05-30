@@ -109,19 +109,22 @@
 - (void)setVideoDuration:(NSTimeInterval)videoDuration {
     _videoDuration = videoDuration;
     dispatch_async(dispatch_get_main_queue(), ^{
-        if ([self.callbacks respondsToSelector:@selector(player:onGetVideoDuration:)]) {
-            [self.callbacks player:self.player onGetVideoDuration:self.videoDuration];
+        if ([self.callbacks respondsToSelector:@selector(player:onReadVideoDuration:)]) {
+            [self.callbacks player:self.player onReadVideoDuration:self.videoDuration];
         }
     });
 }
 
 - (void)setPlayTimePoint:(NSTimeInterval)currTimePoint {
-    self.currTimePoint = currTimePoint;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.currTimePoint = currTimePoint;
+        [self addWatchedTimeInterval:0];
+    });
 }
 
 - (void)addWatchedTimeInterval:(NSTimeInterval)interval {
-    self.currTimePoint += interval;
     dispatch_async(dispatch_get_main_queue(), ^{
+        self.currTimePoint += interval;
         if ([self.callbacks respondsToSelector:@selector(player:onPlayingCurrTime:isPause:)]) {
             [self.callbacks player:self.player onPlayingCurrTime:self.currTimePoint isPause:self.props.isPause];
         }
