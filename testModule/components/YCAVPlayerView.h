@@ -24,7 +24,7 @@
 /** 视频播放地址，如果发生变化即切换清晰度 */
 @property (nonatomic, strong, readonly) NSString *videoURL;
 /** 最小可播放时间，如果buffer时间小于该值则属于卡顿。不需要联动 */
-@property (nonatomic, assign, readonly) NSInteger minPlayTime;
+@property (nonatomic, assign, readonly) NSTimeInterval minPlayTime;
 /** 是否暂停，默认加载好立即播放 */
 @property (nonatomic, assign, readonly) BOOL isPause;
 /** 从指定时间点开始播放 */

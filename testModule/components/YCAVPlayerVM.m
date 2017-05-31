@@ -54,6 +54,12 @@
 @property (nonatomic, assign) BOOL isPausePreloading;
 /** seekToTime后是否可以播放 */
 @property (nonatomic, assign) BOOL isCanPlay;
+/** 最近加载的时间点 */
+@property (nonatomic, assign) NSTimeInterval lastLoadedStartTime;
+/** 最近加载的时间段 */
+@property (nonatomic, assign) NSTimeInterval lastLoadedDuration;
+/** 是否已经加载完毕 */
+@property (nonatomic, assign) NSTimeInterval isLoadCompleted;
 
 @end
 
@@ -175,12 +181,22 @@
        loadedDuration:(NSTimeInterval)loadedDuration
         currTimePoint:(NSTimeInterval)currTimePoint
         videoDuration:(NSTimeInterval)videoDuration {
+    // 通过player加载数据回调判断是否卡顿
     if (loadedStartTime < currTimePoint) {
         self.currTimePoint = loadedStartTime;
     }
+    self.lastLoadedStartTime = loadedStartTime;
+    self.lastLoadedDuration = loadedDuration;
+    if (self.videoDuration > 0
+        && ((self.lastLoadedStartTime + self.lastLoadedDuration > self.videoDuration)
+        || (fabs(self.lastLoadedStartTime + self.lastLoadedDuration - self.videoDuration) < 1))) {
+        self.isLoadCompleted = YES;
+    }
+    
     NSTimeInterval buffer = loadedStartTime + loadedDuration - self.currTimePoint;
     BOOL isLagging = YES;
-    if (buffer > self.props.minPlayTime
+    if (self.isLoadCompleted
+        || buffer > self.props.minPlayTime
         || fabs(buffer - self.props.minPlayTime) < 0.001) {
         isLagging = NO;
     } else {
@@ -191,6 +207,11 @@
                          || fabs(videoDuration - loadedStartTime - loadedDuration) < 0.001);
         }
     }
+    
+    [self _detectLagging:isLagging];
+}
+
+- (void)_detectLagging:(BOOL)isLagging {
     if (self.isLagged != isLagging) {
         self.isLagged = isLagging;
     }
@@ -216,6 +237,14 @@
         if (self.isCanPlay
             && [self.callbacks respondsToSelector:@selector(player:onPlayingCurrTime:isPause:)]) {
             [self.callbacks player:self.player onPlayingCurrTime:self.currTimePoint isPause:!self.isPlaying];
+            
+            // 正常播放时判断是否会卡顿
+            if (self.isPlaying && !self.isLoadCompleted) {
+                NSTimeInterval buffer = self.lastLoadedStartTime + self.lastLoadedDuration - self.currTimePoint;
+                if (buffer < self.props.minPlayTime) {
+                    [self _detectLagging:YES];
+                }
+            }
         }
     });
 }
@@ -224,18 +253,8 @@
     self.isCanPlay = YES;
     
     // 处理已经缓存， playerItem不回调loadedTimeRanges情况
-    NSNumber* lastCachedKey = nil;
-    for (NSNumber *key in self.loadedDurations) {
-        if (self.currTimePoint > key.floatValue
-            && key.floatValue > lastCachedKey.floatValue) {
-            lastCachedKey = key;
-        }
-    }
-    NSNumber *lastCachedDuration = self.loadedDurations[lastCachedKey];
-    if (lastCachedKey.floatValue + lastCachedDuration.floatValue > self.currTimePoint) {
-        if (!self.isPlaying && !self.props.isPause) {
-            self.isPlaying = YES;
-        }
+    if (!self.isPlaying && self.isLoadCompleted) {
+        self.isPlaying = YES;
     }
 }
 

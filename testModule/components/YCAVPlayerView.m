@@ -127,6 +127,22 @@ static NSTimeInterval kPlayerRefreshInterval = 0.5f;
              [self.viewModel setLoadedDuration:start duration:duration];
          }
      }];
+    
+    // TODO: how to do
+//    // 无buffer
+//    [[RACObserve(self.playerItem, playbackBufferEmpty)
+//     takeUntil:self.playerItem.rac_willDeallocSignal]
+//     subscribeNext:^(id x) {
+//         @strongify(self);
+//         NSLog(@"");
+//     }];
+//    // 可以恢复播放
+//    [[RACObserve(self.playerItem, playbackLikelyToKeepUp)
+//      takeUntil:self.playerItem.rac_willDeallocSignal]
+//     subscribeNext:^(id x) {
+//         @strongify(self);
+//         NSLog(@"");
+//     }];
 }
 
 - (void)bindPlayerState {
