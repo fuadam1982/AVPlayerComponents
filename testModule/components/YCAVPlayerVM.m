@@ -20,8 +20,6 @@
 @property (nonatomic, strong) NSError *error;
 /** 视频的总时长(秒) */
 @property (nonatomic, assign) NSTimeInterval videoDuration;
-/** 已经加载的最大时长 */
-@property (nonatomic, assign) NSTimeInterval loadedDuration;
 /** 是否可以播放 */
 @property (nonatomic, assign) BOOL readyToPlay;
 /** 视频播放结束 */
@@ -38,6 +36,8 @@
 @property (nonatomic, strong) NSString *cachedVideoFolder;
 /** 当前加载网速 */
 @property (nonatomic, assign) float loadSpeed;
+/** 已经加载的时间段 */
+@property (nonatomic, strong) NSDictionary<NSNumber *, NSNumber *> * loadedDurations;
 /** 当前播放的时间点 */
 @property (nonatomic, assign) NSTimeInterval currTimePoint;
 /** 实际观看时长 */
@@ -65,6 +65,7 @@
     if (self = [super init]) {
         self.props = props;
         self.callbacks = callbacks;
+        self.loadedDurations = [[NSMutableDictionary alloc] initWithCapacity:8];
         [self dataBinding];
     }
     return self;
@@ -140,6 +141,43 @@
     self.isPlaying = NO;
     dispatch_async(dispatch_get_main_queue(), ^{
         [self setVideoCurrTimePoint:timePoint];
+    });
+}
+
+- (void)setLoadedDuration:(NSTimeInterval)startTime duration:(NSTimeInterval)duration {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSMutableDictionary *loadedDurations = (NSMutableDictionary *)self.loadedDurations;
+        NSNumber *currKey = @(startTime);
+        NSNumber *currDuration = @(duration);
+        NSMutableArray *removeKeys = [[NSMutableArray alloc] initWithCapacity:4];
+
+        // 合并已加载的数据段
+        for (NSNumber *key in self.loadedDurations.allKeys) {
+            NSNumber *val = self.loadedDurations[key];
+            if (startTime > key.floatValue
+                && fabs(startTime - key.floatValue) > 0.001) {
+                if ((key.floatValue + val.floatValue) >= startTime) {
+                    currKey = key;
+                    currDuration = @(startTime + duration);
+                }
+            }
+            if (startTime < key.floatValue
+                && fabs(key.floatValue - startTime) > 0.001
+                && (startTime + duration) >= key.floatValue) {
+                [removeKeys addObject:key];
+            }
+        }
+        // 删除重复的数据段
+        for (NSString *key in removeKeys) {
+            [loadedDurations removeObjectForKey:key];
+        }
+        // 更新缓存段
+        loadedDurations[currKey] = currDuration;
+        self.loadedDurations = loadedDurations;
+
+        if ([self.callbacks respondsToSelector:@selector(player:onLoadedDurations:)]) {
+            [self.callbacks player:self.player onLoadedDurations:self.loadedDurations];
+        }
     });
 }
 

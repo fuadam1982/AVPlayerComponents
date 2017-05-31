@@ -21,7 +21,7 @@
 - (void)setVideoDuration:(NSTimeInterval)videoDuration;
 - (void)setVideoCurrTimePoint:(NSTimeInterval)currTimePoint;
 - (void)seekToTime:(NSTimeInterval)timePoint;
-
+- (void)setLoadedDuration:(NSTimeInterval)startTime duration:(NSTimeInterval)duration;
 - (void)videoReadyToPlay;
 - (void)videoPlayFinishedByInterrupt:(BOOL)interrupt;
 

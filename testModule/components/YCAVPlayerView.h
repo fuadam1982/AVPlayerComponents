@@ -41,8 +41,6 @@
 @property (nonatomic, strong, readonly) NSError *error;
 /** 视频的总时长(秒) */
 @property (nonatomic, assign, readonly) NSTimeInterval videoDuration;
-/** 已经加载的最大时长 */
-@property (nonatomic, assign, readonly) NSTimeInterval loadedDuration;
 /** 是否可以播放, 指真正可以播放 */
 @property (nonatomic, assign, readonly) BOOL readyToPlay;
 /** 视频播放结束 */
@@ -59,6 +57,8 @@
 @property (nonatomic, strong, readonly) NSString *cachedVideoFolder;
 /** 当前加载网速 */
 @property (nonatomic, assign, readonly) float loadSpeed;
+/** 已经加载的时间段 */
+@property (nonatomic, strong, readonly) NSDictionary<NSNumber *, NSNumber *> * loadedDurations;
 /** 当前播放的时间点 */
 @property (nonatomic, assign, readonly) NSTimeInterval currTimePoint;
 /** 实际观看时长 */
@@ -124,9 +124,9 @@
  视频缓冲了数据
 
  @param player player
- @param loadedDuration 缓冲的最大时间点
+ @param loadedDurations 缓冲的时间段, 例: {0: 47, 287: 32}. 其中key为加载起点，val为时间段
  */
-- (void)player:(YCAVPlayerView *)player onLoadedDuration:(float)loadedDuration;
+- (void)player:(YCAVPlayerView *)player onLoadedDurations:(NSDictionary<NSNumber *, NSNumber *> *)loadedDurations;
 
 
 /**

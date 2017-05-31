@@ -79,12 +79,11 @@ static NSTimeInterval kPlayerRefreshInterval = 0.5f;
         // 视频资源可播放
         [[[RACObserve(self.asset, playable) ignore:@NO] take:1] subscribeNext:^(id x) {
             @strongify(self);
-            // TODO: seek
-            [self.player seekToTime:CMTimeMakeWithSeconds(self.viewModel.props.seekTimePoint, NSEC_PER_SEC)];
-            [self.viewModel seekToTime:self.viewModel.props.seekTimePoint];
             [self bindPlayerItemState];
             [self bindPlayerState];
             [self bindViewModelState];
+            // 默认为0，即从头开始播放
+            [self seekToTimePoint:self.viewModel.props.seekTimePoint];
         }];
     }];
 }
@@ -105,6 +104,18 @@ static NSTimeInterval kPlayerRefreshInterval = 0.5f;
          } else {
              // TODO: error
              [self.viewModel setPlayerError:nil];
+         }
+     }];
+    // 加载数据
+    [[RACObserve(self.playerItem, loadedTimeRanges)
+     takeUntil:self.playerItem.rac_willDeallocSignal]
+     subscribeNext:^(NSArray *loadedTimeRange) {
+         @strongify(self);
+         if (loadedTimeRange.count > 0) {
+             CMTimeRange timeRange = [loadedTimeRange[0] CMTimeRangeValue];
+             NSTimeInterval start    = CMTimeGetSeconds(timeRange.start);
+             NSTimeInterval duration = CMTimeGetSeconds(timeRange.duration);
+             [self.viewModel setLoadedDuration:start duration:duration];
          }
      }];
 }
@@ -162,6 +173,11 @@ static NSTimeInterval kPlayerRefreshInterval = 0.5f;
 
 - (void)videoPlayControl {
     self.viewModel.isPlaying ? [self playVideo] : [self pauseVideo];
+}
+
+- (void)seekToTimePoint:(NSTimeInterval)timePoint {
+    [self.player seekToTime:CMTimeMakeWithSeconds(timePoint, NSEC_PER_SEC)];
+    [self.viewModel seekToTime:timePoint];
 }
 
 #pragma mark - AVPlayerLayer Setting
