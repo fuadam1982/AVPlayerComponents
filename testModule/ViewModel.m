@@ -32,6 +32,7 @@
     if (self = [super init]) {
         self.isPause = NO;
         self.videoURL = @"https://o558dvxry.qnssl.com/mobileM/mobileM_586d9599065b7e9d7142953e.m3u8";
+        self.seekTimePoint = 0;
     }
     return self;
 }
@@ -42,7 +43,7 @@
     .constVars(@{
                  @"isWANNetworkingStopPreload": @YES,
                  @"minPlayTime": @5,
-                 @"interactionTimes": @[]
+                 @"interactionTimes": @[],
                  })
     .build();
 }

@@ -14,6 +14,8 @@
 @interface YCAVPlayerVM : NSObject<YCAVPlayerStates>
 
 @property (nonatomic, strong, readonly) id<YCAVPlayerProps> props;
+/** 是否已经加载完毕 */
+@property (nonatomic, assign, readonly) NSTimeInterval isLoadCompleted;
 
 - (void)setPlayer:(YCAVPlayerView *)player;
 - (void)setPlayerError:(NSError *)error;
@@ -22,6 +24,7 @@
 - (void)setVideoCurrTimePoint:(NSTimeInterval)currTimePoint;
 - (void)seekToTime:(NSTimeInterval)timePoint;
 - (void)setLoadedDuration:(NSTimeInterval)startTime duration:(NSTimeInterval)duration;
+- (void)setNetSpeed:(double)netSpeed;
 - (void)videoReadyToPlay;
 - (void)videoPlayFinishedByInterrupt:(BOOL)interrupt;
 

@@ -143,6 +143,24 @@ static NSTimeInterval kPlayerRefreshInterval = 0.5f;
 //         @strongify(self);
 //         NSLog(@"");
 //     }];
+    
+    // TODO: 精确度，loadedcomplete delegate，netspeed = 0 delegate
+    [self computeNetSpeed];
+    [[[[RACSignal interval:kPlayerRefreshInterval
+             onScheduler:[RACScheduler scheduler]]
+     takeUntil:self.playerItem.rac_willDeallocSignal]
+      takeUntilBlock:^BOOL(id x) {
+          @strongify(self);
+          BOOL flag = self.viewModel.isLoadCompleted || self.viewModel.isPlayFinished;
+          if (flag) {
+              [self.viewModel setNetSpeed:0];
+          }
+          return flag;
+      }]
+     subscribeNext:^(id x) {
+         @strongify(self);
+         [self computeNetSpeed];
+     }];
 }
 
 - (void)bindPlayerState {
@@ -212,6 +230,21 @@ static NSTimeInterval kPlayerRefreshInterval = 0.5f;
 - (void)seekToTimePoint:(NSTimeInterval)timePoint {
     [self.player seekToTime:CMTimeMakeWithSeconds(timePoint, NSEC_PER_SEC)];
     [self.viewModel seekToTime:timePoint];
+}
+
+- (void)computeNetSpeed {
+    AVPlayerItemAccessLog *accesslog = self.playerItem.accessLog;
+    AVPlayerItemAccessLogEvent* event = nil;
+    NSArray *events = [accesslog events];
+    if (events.count > 0) {
+        event = [events firstObject];
+    }
+    double netSpeed = (event.numberOfBytesTransferred / event.transferDuration) / 1024;
+    // 异常处理
+    if (isinf(netSpeed) || isnan(netSpeed)) {
+        netSpeed = 0;
+    }
+    [self.viewModel setNetSpeed:netSpeed];
 }
 
 #pragma mark - AVPlayerLayer Setting

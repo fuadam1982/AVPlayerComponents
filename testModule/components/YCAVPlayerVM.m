@@ -126,6 +126,10 @@
     });
 }
 
+- (void)setNetSpeed:(double)netSpeed {
+    self.loadSpeed = netSpeed;
+}
+
 - (void)seekToTime:(NSTimeInterval)timePoint {
     self.isCanPlay = NO;
     self.isPlaying = NO;
@@ -181,18 +185,20 @@
        loadedDuration:(NSTimeInterval)loadedDuration
         currTimePoint:(NSTimeInterval)currTimePoint
         videoDuration:(NSTimeInterval)videoDuration {
-    // 通过player加载数据回调判断是否卡顿
+    // seekToTime后会出现加载的时间小于当前时间
     if (loadedStartTime < currTimePoint) {
         self.currTimePoint = loadedStartTime;
     }
+    
     self.lastLoadedStartTime = loadedStartTime;
     self.lastLoadedDuration = loadedDuration;
+    // 判断是否加载完毕
     if (self.videoDuration > 0
         && ((self.lastLoadedStartTime + self.lastLoadedDuration > self.videoDuration)
         || (fabs(self.lastLoadedStartTime + self.lastLoadedDuration - self.videoDuration) < 1))) {
         self.isLoadCompleted = YES;
     }
-    
+    // 计算buffer
     NSTimeInterval buffer = loadedStartTime + loadedDuration - self.currTimePoint;
     BOOL isLagging = YES;
     if (self.isLoadCompleted
@@ -251,10 +257,23 @@
 
 - (void)videoReadyToPlay {
     self.isCanPlay = YES;
+    NSLog(@">>> isReadyToPlay ...");
     
     // 处理已经缓存， playerItem不回调loadedTimeRanges情况
-    if (!self.isPlaying && self.isLoadCompleted) {
+    if (self.isLoadCompleted && !self.isPlaying) {
         self.isPlaying = YES;
+    } else {
+        [[[[RACSignal interval:0.25
+                   onScheduler:[RACScheduler scheduler]] take:1] deliverOnMainThread]
+         subscribeNext:^(id x) {
+             if (!self.isPlaying
+                && self.lastLoadedStartTime + self.lastLoadedDuration >= self.currTimePoint) {
+                [self detectLagging:self.lastLoadedStartTime
+                     loadedDuration:self.lastLoadedDuration
+                      currTimePoint:self.currTimePoint
+                      videoDuration:self.videoDuration];
+                }
+        }];
     }
 }
 
