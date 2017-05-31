@@ -1,0 +1,7 @@
+1. isnan
+2. 计算网速,netSpeedUpdate
+3. 没有网处理
+4. 4g是否预下载
+5. 切换高低清
+6. 埋点
+7. emptybuffer，playlikey是否需要用
