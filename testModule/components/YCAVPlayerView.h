@@ -27,9 +27,9 @@
 @property (nonatomic, assign, readonly) NSInteger minPlayTime;
 /** 是否暂停，默认加载好立即播放 */
 @property (nonatomic, assign, readonly) BOOL isPause;
-/** 从指定时间点开始播放，默认值为-1 */
-@property (nonatomic, assign, readonly) NSInteger seekTimePoint;
-/** 交互时间点数组, 值为NSInteger。不需要联动 */
+/** 从指定时间点开始播放 */
+@property (nonatomic, assign, readonly) NSTimeInterval seekTimePoint;
+/** 交互时间点数组, 值为float。不需要联动 */
 @property (nonatomic, strong, readonly) NSArray<NSNumber *> *interactionTimes;
 // TODO: 亮度、音量、
 
@@ -45,6 +45,8 @@
 @property (nonatomic, assign, readonly) NSTimeInterval loadedDuration;
 /** 是否可以播放, 指真正可以播放 */
 @property (nonatomic, assign, readonly) BOOL readyToPlay;
+/** 视频播放结束 */
+@property (nonatomic, assign, readonly) BOOL isPlayFinished;
 /** 是否正在播放 */
 @property (nonatomic, assign, readonly) BOOL isPlaying;
 /** 是否卡顿 */
@@ -63,7 +65,7 @@
 @property (nonatomic, assign, readonly) NSTimeInterval watchedDuration;
 /** 观看总时长 */
 @property (nonatomic, assign, readonly) NSTimeInterval stayDuration;
-/** 当前的交互点, -1表示没有 */
+/** 当前的交互点, -1表示还没有 */
 @property (nonatomic, assign, readonly) NSTimeInterval currinteractionTimePoint;
 
 @end
@@ -107,7 +109,6 @@
  @param watchedDuration 视频实际观看时长
  @param stayDuration 观看视频停留时长
  */
-// TODO: 例如返回按钮返回时需要记录当前的播放状态，子控件tap -> onFinished -> parent component delegate.
 - (void)player:(YCAVPlayerView *)player onFinishedByInterrupt:(BOOL)isInterrupt watchedDuration:(NSTimeInterval)watchedDuration stayDuration:(NSTimeInterval)stayDuration;
 
 /**
@@ -143,7 +144,6 @@
  @param player player
  @param timePoint 交互时间点
  */
-// TODO: -3，从结尾处开始。还可以增加精度-1表示到下个终结点全部都监听
 - (void)player:(YCAVPlayerView *)player onInteract:(NSInteger)timePoint;
 
 

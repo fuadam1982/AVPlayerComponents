@@ -24,6 +24,8 @@
 @property (nonatomic, assign) NSTimeInterval loadedDuration;
 /** 是否可以播放 */
 @property (nonatomic, assign) BOOL readyToPlay;
+/** 视频播放结束 */
+@property (nonatomic, assign) BOOL isPlayFinished;
 /** 是否正在播放 */
 @property (nonatomic, assign) BOOL isPlaying;
 /** 是否卡顿 */
@@ -52,6 +54,8 @@
 @property (nonatomic, assign) float loadedTimePoint;
 /** 暂停preload，例如3G网络下不需要下载, 同时不需要loading */
 @property (nonatomic, assign) BOOL isPausePreloading;
+/** seekToTime后是否可以播放 */
+@property (nonatomic, assign) BOOL isCanPlay;
 
 @end
 
@@ -76,7 +80,7 @@
     }]
      subscribeNext:^(id x) {
         @strongify(self);
-        [self addWatchedTimeInterval:0];
+        [self setVideoCurrTimePoint:self.currTimePoint];
      }];
     // 记录停留时间
     NSTimeInterval interval = 0.5;
@@ -115,27 +119,50 @@
     });
 }
 
-- (void)setPlayTimePoint:(NSTimeInterval)currTimePoint {
+- (void)setVideoCurrTimePoint:(NSTimeInterval)currTimePoint {
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.currTimePoint = currTimePoint;
-        [self addWatchedTimeInterval:0];
-    });
-}
-
-- (void)addWatchedTimeInterval:(NSTimeInterval)interval {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        self.currTimePoint += interval;
+        NSTimeInterval interval = 0;
+        if (currTimePoint > self.currTimePoint) {
+            interval = currTimePoint - self.currTimePoint;
+            self.currTimePoint = currTimePoint;
+        }
+        if (self.isPlaying) {
+            self.watchedDuration += interval;
+        }
         if ([self.callbacks respondsToSelector:@selector(player:onPlayingCurrTime:isPause:)]) {
-            [self.callbacks player:self.player onPlayingCurrTime:self.currTimePoint isPause:self.props.isPause];
+            [self.callbacks player:self.player onPlayingCurrTime:self.currTimePoint isPause:self.isPlaying];
         }
     });
 }
 
+- (void)seekToTime:(NSTimeInterval)timePoint {
+    self.currTimePoint = timePoint;
+    self.isPlaying = NO;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self setVideoCurrTimePoint:timePoint];
+    });
+}
+
 - (void)videoReadyToPlay {
+    self.isPlaying = !self.props.isPause;
+    if (self.readyToPlay) return;
+    // 只记录第一次
     self.readyToPlay = YES;
     dispatch_async(dispatch_get_main_queue(), ^{
         if ([self.callbacks respondsToSelector:@selector(playerOnReadyToPlay:)]) {
             [self.callbacks playerOnReadyToPlay:self.player];
+        }
+    });
+}
+
+- (void)videoPlayFinishedByInterrupt:(BOOL)interrupt {
+    self.isPlayFinished = YES;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if ([self.callbacks respondsToSelector:@selector(player:onFinishedByInterrupt:watchedDuration:stayDuration:)]) {
+            [self.callbacks player:self.player
+             onFinishedByInterrupt:interrupt
+                   watchedDuration:self.watchedDuration
+                      stayDuration:self.stayDuration];
         }
     });
 }

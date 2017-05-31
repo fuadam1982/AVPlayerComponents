@@ -41,7 +41,8 @@
     .states(self)
     .constVars(@{
                  @"isWANNetworkingStopPreload": @YES,
-                 @"minPlayTime": @5
+                 @"minPlayTime": @5,
+                 @"interactionTimes": @[]
                  })
     .build();
 }

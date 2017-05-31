@@ -79,7 +79,10 @@ static NSTimeInterval kPlayerRefreshInterval = 0.5f;
         // 视频资源可播放
         [[[RACObserve(self.asset, playable) ignore:@NO] take:1] subscribeNext:^(id x) {
             @strongify(self);
-            // todo: seek, 需要确定play和seek的先后顺序
+            // TODO: seek
+            [self.player seekToTime:CMTimeMakeWithSeconds(self.viewModel.props.seekTimePoint, NSEC_PER_SEC)];
+            [self.viewModel seekToTime:self.viewModel.props.seekTimePoint];
+            [self bindPlayerItemState];
             [self bindPlayerState];
             [self bindViewModelState];
         }];
@@ -88,29 +91,52 @@ static NSTimeInterval kPlayerRefreshInterval = 0.5f;
 
 #pragma mark - DataBinding
 
-- (void)bindPlayerState {
+- (void)bindPlayerItemState {
     @weakify(self);
     // 播放状态
     [[RACObserve(self.playerItem, status)
       takeUntil:self.playerItem.rac_willDeallocSignal]
      subscribeNext:^(id status) {
          @strongify(self);
+         // 每次seek后都会执行一遍，因此从头开始播放相当于seekToTime:0
          if ([status integerValue] == AVPlayerItemStatusReadyToPlay) {
-             [self videoPlayControl];
              [self.viewModel videoReadyToPlay];
+             [self videoPlayControl];
          } else {
              // TODO: error
              [self.viewModel setPlayerError:nil];
          }
      }];
-    
-    // 播放时间
+}
+
+- (void)bindPlayerState {
+    @weakify(self);
+    // 播放时间（低精度）
     [self.player addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(kPlayerRefreshInterval, NSEC_PER_SEC)
                                               queue:self.queue
                                          usingBlock:^(CMTime time) {
                                              @strongify(self);
-                                             [self.viewModel addWatchedTimeInterval:kPlayerRefreshInterval];
+                                             NSTimeInterval currTimePoint = CMTimeGetSeconds(time);
+                                             [self.viewModel setVideoCurrTimePoint:currTimePoint];
                                          }];
+    
+    // 播放时间点(高精度)
+    if (self.viewModel.props.interactionTimes.count > 0) {
+        [self.player addBoundaryTimeObserverForTimes:self.viewModel.props.interactionTimes
+                                               queue:self.queue
+                                          usingBlock:^{
+        
+        }];
+    }
+    
+    // 播放结束
+    [[[[NSNotificationCenter defaultCenter] rac_addObserverForName:AVPlayerItemDidPlayToEndTimeNotification
+                                                            object:nil]
+     takeUntil:self.rac_willDeallocSignal]
+     subscribeNext:^(id x) {
+         @strongify(self);
+         [self.viewModel videoPlayFinishedByInterrupt:NO];
+     }];
 }
 
 - (void)bindViewModelState {
@@ -135,7 +161,7 @@ static NSTimeInterval kPlayerRefreshInterval = 0.5f;
 }
 
 - (void)videoPlayControl {
-    self.viewModel.props.isPause ? [self pauseVideo] : [self playVideo];
+    self.viewModel.isPlaying ? [self playVideo] : [self pauseVideo];
 }
 
 #pragma mark - AVPlayerLayer Setting

@@ -19,9 +19,10 @@
 - (void)setPlayerError:(NSError *)error;
 - (void)setCachedVideoFolder:(NSString *)cachedVideoFolder;
 - (void)setVideoDuration:(NSTimeInterval)videoDuration;
-- (void)setPlayTimePoint:(NSTimeInterval)currTimePoint;
-- (void)addWatchedTimeInterval:(NSTimeInterval)interval;
+- (void)setVideoCurrTimePoint:(NSTimeInterval)currTimePoint;
+- (void)seekToTime:(NSTimeInterval)timePoint;
 
 - (void)videoReadyToPlay;
+- (void)videoPlayFinishedByInterrupt:(BOOL)interrupt;
 
 @end
