@@ -20,8 +20,6 @@
 @property (nonatomic, strong) NSError *error;
 /** 视频的总时长(秒) */
 @property (nonatomic, assign) NSTimeInterval videoDuration;
-/** 是否可以播放 */
-@property (nonatomic, assign) BOOL readyToPlay;
 /** 视频播放结束 */
 @property (nonatomic, assign) BOOL isPlayFinished;
 /** 是否正在播放 */
@@ -73,6 +71,8 @@
 
 - (void)dataBinding {
     @weakify(self);
+    // 播放器初始化时不可播放
+    [self detectLagging:0 loadedDuration:0 currTimePoint:0 videoDuration:0];
     // 暂停
     [[[RACObserve(self.props, isPause) ignore:@NO] filter:^BOOL(id value) {
         @strongify(self);
@@ -120,25 +120,10 @@
     });
 }
 
-- (void)setVideoCurrTimePoint:(NSTimeInterval)currTimePoint {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        NSTimeInterval interval = 0;
-        if (currTimePoint > self.currTimePoint) {
-            interval = currTimePoint - self.currTimePoint;
-            self.currTimePoint = currTimePoint;
-        }
-        if (self.isPlaying) {
-            self.watchedDuration += interval;
-        }
-        if ([self.callbacks respondsToSelector:@selector(player:onPlayingCurrTime:isPause:)]) {
-            [self.callbacks player:self.player onPlayingCurrTime:self.currTimePoint isPause:self.isPlaying];
-        }
-    });
-}
-
 - (void)seekToTime:(NSTimeInterval)timePoint {
-    self.currTimePoint = timePoint;
+    self.isCanPlay = NO;
     self.isPlaying = NO;
+    self.currTimePoint = timePoint;
     dispatch_async(dispatch_get_main_queue(), ^{
         [self setVideoCurrTimePoint:timePoint];
     });
@@ -178,22 +163,91 @@
         if ([self.callbacks respondsToSelector:@selector(player:onLoadedDurations:)]) {
             [self.callbacks player:self.player onLoadedDurations:self.loadedDurations];
         }
+        // 判定延迟
+        [self detectLagging:startTime
+             loadedDuration:duration
+              currTimePoint:self.currTimePoint
+              videoDuration:self.videoDuration];
     });
 }
 
-- (void)videoReadyToPlay {
-    self.isPlaying = !self.props.isPause;
-    if (self.readyToPlay) return;
-    // 只记录第一次
-    self.readyToPlay = YES;
+- (void)detectLagging:(NSTimeInterval)loadedStartTime
+       loadedDuration:(NSTimeInterval)loadedDuration
+        currTimePoint:(NSTimeInterval)currTimePoint
+        videoDuration:(NSTimeInterval)videoDuration {
+    if (loadedStartTime < currTimePoint) {
+        self.currTimePoint = loadedStartTime;
+    }
+    NSTimeInterval buffer = loadedStartTime + loadedDuration - self.currTimePoint;
+    BOOL isLagging = YES;
+    if (buffer > self.props.minPlayTime
+        || fabs(buffer - self.props.minPlayTime) < 0.001) {
+        isLagging = NO;
+    } else {
+        // 视频即将结束
+        BOOL isWillCompleted = videoDuration > 0 && (videoDuration - self.currTimePoint) < self.props.minPlayTime;
+        if (isWillCompleted) {
+            isLagging = !(buffer > self.currTimePoint
+                         || fabs(videoDuration - loadedStartTime - loadedDuration) < 0.001);
+        }
+    }
+    if (self.isLagged != isLagging) {
+        self.isLagged = isLagging;
+    }
+    if (self.isCanPlay && !self.props.isPause) {
+        BOOL isPlaying = !self.isLagged;
+        if (self.isPlaying != isPlaying) {
+            self.isPlaying = isPlaying;
+        }
+    }
+    
+    if ([self.callbacks respondsToSelector:@selector(player:onLagged:loadSpeed:)]) {
+        [self.callbacks player:self.player onLagged:self.isLagged loadSpeed:self.loadSpeed];
+    }
+}
+
+- (void)setVideoCurrTimePoint:(NSTimeInterval)currTimePoint {
     dispatch_async(dispatch_get_main_queue(), ^{
-        if ([self.callbacks respondsToSelector:@selector(playerOnReadyToPlay:)]) {
-            [self.callbacks playerOnReadyToPlay:self.player];
+        NSTimeInterval interval = currTimePoint - self.currTimePoint;
+        if (self.isPlaying) {
+            self.currTimePoint += interval;
+            self.watchedDuration += interval;
+        }
+        if (self.isCanPlay
+            && [self.callbacks respondsToSelector:@selector(player:onPlayingCurrTime:isPause:)]) {
+            [self.callbacks player:self.player onPlayingCurrTime:self.currTimePoint isPause:!self.isPlaying];
         }
     });
 }
 
+- (void)videoReadyToPlay {
+    self.isCanPlay = YES;
+    
+    // 处理已经缓存， playerItem不回调loadedTimeRanges情况
+    NSNumber* lastCachedKey = nil;
+    for (NSNumber *key in self.loadedDurations) {
+        if (self.currTimePoint > key.floatValue
+            && key.floatValue > lastCachedKey.floatValue) {
+            lastCachedKey = key;
+        }
+    }
+    NSNumber *lastCachedDuration = self.loadedDurations[lastCachedKey];
+    if (lastCachedKey.floatValue + lastCachedDuration.floatValue > self.currTimePoint) {
+        if (!self.isPlaying && !self.props.isPause) {
+            self.isPlaying = YES;
+        }
+    }
+}
+
 - (void)videoPlayFinishedByInterrupt:(BOOL)interrupt {
+    if (self.watchedDuration > self.stayDuration) {
+        // TODO: const var interval
+        if ((self.stayDuration + 0.5) > self.watchedDuration) {
+            self.stayDuration += 0.5;
+        } else {
+            self.stayDuration = self.watchedDuration;
+        }
+    }
     self.isPlayFinished = YES;
     dispatch_async(dispatch_get_main_queue(), ^{
         if ([self.callbacks respondsToSelector:@selector(player:onFinishedByInterrupt:watchedDuration:stayDuration:)]) {

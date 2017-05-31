@@ -48,4 +48,25 @@
 
 #pragma mark - YCAVPlayerCallbacks
 
+//- (void)playerOnReadyToPlay:(YCAVPlayerView *)player {
+//    NSLog(@">>> readyToPlay ...");
+//}
+
+- (void)player:(YCAVPlayerView *)player onLoadedDurations:(NSDictionary<NSNumber *,NSNumber *> *)loadedDurations {
+    NSLog(@">>> loaded: %@", loadedDurations);
+}
+
+// TODO: ignore isLagged = NO
+- (void)player:(YCAVPlayerView *)player onLagged:(BOOL)isLagging loadSpeed:(CGFloat)loadSpeed {
+    NSLog(@">>> isLagged: %d, loadSpeed:%0.2f ...", isLagging, loadSpeed);
+}
+
+- (void)player:(YCAVPlayerView *)player onPlayingCurrTime:(NSTimeInterval)currTime isPause:(BOOL)isPause {
+    NSLog(@">>> currTime: %0.2f, isPause: %d", currTime, isPause);
+}
+
+- (void)player:(YCAVPlayerView *)player onFinishedByInterrupt:(BOOL)isInterrupt watchedDuration:(NSTimeInterval)watchedDuration stayDuration:(NSTimeInterval)stayDuration {
+    NSLog(@">>> interrupt: %d, watch: %0.2f, stay: %0.2f", isInterrupt, watchedDuration, stayDuration);
+}
+
 @end

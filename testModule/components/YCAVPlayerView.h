@@ -41,8 +41,6 @@
 @property (nonatomic, strong, readonly) NSError *error;
 /** 视频的总时长(秒) */
 @property (nonatomic, assign, readonly) NSTimeInterval videoDuration;
-/** 是否可以播放, 指真正可以播放 */
-@property (nonatomic, assign, readonly) BOOL readyToPlay;
 /** 视频播放结束 */
 @property (nonatomic, assign, readonly) BOOL isPlayFinished;
 /** 是否正在播放 */
@@ -92,13 +90,14 @@
 - (void)player:(YCAVPlayerView *)player onReadVideoDuration:(float)videoDuration;
 
 
-/**
- 视频可以播放
- 调用者可以在未收到该回调时处理默认视频图、显示loading等逻辑
-
- @param player player
- */
-- (void)playerOnReadyToPlay:(YCAVPlayerView *)player;
+// TODO: delete
+///**
+// 视频可以播放
+// 调用者可以在未收到该回调时处理默认视频图、显示loading等逻辑
+//
+// @param player player
+// */
+//- (void)playerOnReadyToPlay:(YCAVPlayerView *)player;
 
 
 /**
@@ -129,14 +128,14 @@
 - (void)player:(YCAVPlayerView *)player onLoadedDurations:(NSDictionary<NSNumber *, NSNumber *> *)loadedDurations;
 
 
+
 /**
  视频发生卡顿
 
  @param player player
- @param isLagged 是否卡顿
  @param loadSpeed 卡顿时加载数据的网速
  */
-- (void)player:(YCAVPlayerView *)player onLagged:(BOOL)isLagged loadSpeed:(CGFloat)loadSpeed;
+- (void)player:(YCAVPlayerView *)player onLagged:(BOOL)isLagging loadSpeed:(CGFloat)loadSpeed;
 
 /**
  视频出现交互点

@@ -92,6 +92,16 @@ static NSTimeInterval kPlayerRefreshInterval = 0.5f;
 
 - (void)bindPlayerItemState {
     @weakify(self);
+    [[[RACSignal interval:2 onScheduler:[RACScheduler scheduler]] take:1]
+     subscribeNext:^(id x) {
+         NSLog(@"seek to 280");
+         [self seekToTimePoint:300];
+     }];
+    [[[RACSignal interval:3 onScheduler:[RACScheduler scheduler]] take:1]
+     subscribeNext:^(id x) {
+         NSLog(@"seek to 320");
+         [self seekToTimePoint:320];
+     }];
     // 播放状态
     [[RACObserve(self.playerItem, status)
       takeUntil:self.playerItem.rac_willDeallocSignal]
@@ -100,7 +110,6 @@ static NSTimeInterval kPlayerRefreshInterval = 0.5f;
          // 每次seek后都会执行一遍，因此从头开始播放相当于seekToTime:0
          if ([status integerValue] == AVPlayerItemStatusReadyToPlay) {
              [self.viewModel videoReadyToPlay];
-             [self videoPlayControl];
          } else {
              // TODO: error
              [self.viewModel setPlayerError:nil];
@@ -127,7 +136,7 @@ static NSTimeInterval kPlayerRefreshInterval = 0.5f;
                                               queue:self.queue
                                          usingBlock:^(CMTime time) {
                                              @strongify(self);
-                                             NSTimeInterval currTimePoint = CMTimeGetSeconds(time);
+                                             NSTimeInterval currTimePoint = CMTimeGetSeconds(time);                                             
                                              [self.viewModel setVideoCurrTimePoint:currTimePoint];
                                          }];
     
@@ -136,8 +145,8 @@ static NSTimeInterval kPlayerRefreshInterval = 0.5f;
         [self.player addBoundaryTimeObserverForTimes:self.viewModel.props.interactionTimes
                                                queue:self.queue
                                           usingBlock:^{
-        
-        }];
+                                            // TODO:
+                                          }];
     }
     
     // 播放结束
@@ -152,10 +161,19 @@ static NSTimeInterval kPlayerRefreshInterval = 0.5f;
 
 - (void)bindViewModelState {
     @weakify(self);
+    // 外部暂停状态
     [[RACObserve(self.viewModel.props, isPause) filter:^BOOL(id value) {
         @strongify(self);
-        return self.viewModel.readyToPlay;
+        return self.viewModel.videoDuration > 0;
     }] subscribeNext:^(id isPause) {
+        @strongify(self);
+        [self videoPlayControl];
+    }];
+    // 内部播放状态
+    [[RACObserve(self.viewModel, isPlaying) filter:^BOOL(id value) {
+        @strongify(self);
+        return self.viewModel.videoDuration > 0;
+    }] subscribeNext:^(id x) {
         @strongify(self);
         [self videoPlayControl];
     }];
