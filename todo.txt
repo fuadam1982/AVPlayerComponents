@@ -1,14 +1,21 @@
+0. 进度条拖动70%即为老用户
 [ok] 1. isnan, 从avplayer拿到的数据都要检测
 [ok] 2. 计算网速,netSpeedUpdate, 以后使用本地代理会计算的更准确些
 3. 没有网处理, 父组件提示
-[ok] 4. 4g是否预下载, 父组件提示用户。如果不看则停止后返回
+[ok] 4. 4g是否预下载, 父组件提示用户。如果不看则停止后返回。4G时先暂停然后提示
 [ok] 5. 切换高低清
 6. 埋点
 [suspend] 7. emptybuffer，playlikey是否需要用
+7. 错误处理, 遵循以前的提示逻辑, 本地视频如果出错则删除重新在线播放。错误码-103等
+[ok] 8. 无网时buffer播放完不需要loading提示，暂停后再开始是否需要提示？
+9. 目前卡顿时会自动暂停，注意8的逻辑，暂停后恢复如何触发lagging提示，如果可以播放自动0.5好秒后就可以提示
+10. 播放完成后回到开始，是否需要这个逻辑？
+11. 拖动进度条后隐藏的逻辑？
+12. 加载进度条需求确认，是精确的，还是覆盖的
 
 1. 本地视频，解密在avplayercomponent之前。如果没有网络是否提示，展示header,tailer视频
 2. asset.playable 可用之前需要显示loading，已确认。目前的做法playable后才创建playerItem，然后根据playerItem的status判断是否可以播放。并且清除以前的playerItem的KVO
-3. 屏幕旋转，锁定
+3. 屏幕旋转，statusbar隐藏。提示，分享等也应该是横屏
 4. 非wifi，停止PlayItem的数据加载。清除playitem，cancelLoading cancelPendingSeeks [player replaceCurrentItemWithPlayerItem:nil]。如果设置了3G可播放AwesomePlayerReachWWANAllowed。如果3G不允许播放，那么可以回调lagged,且下载速率为0
 [suspend] 5. playbackLikelyToKeepUp含义？有buffer可以播放，预加载使用loadValuesAsynchronouslyForKeys。暂停后又可以播放了
 6. progress显示加载条和播放条

@@ -30,6 +30,10 @@
     NSLog(@"");
 }
 
+- (instancetype)initWithProps:(id<YCProps>)props callbacks:(id<YCCallbacks>)callbacks {
+    return nil;
+}
+
 - (instancetype)init {
     if (self = [super init]) {
         self.isPause = NO;

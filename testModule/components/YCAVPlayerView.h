@@ -13,9 +13,11 @@
 
 /** 是否有网络 */
 @property (nonatomic, assign, readonly) BOOL hasNetworking;
+/** 是否在无网络是继续播放, 不需要联动 */
+@property (nonatomic, assign, readonly) BOOL isCanPlayWithoutNetworking;
 /** 是否正在使用WIFI */
 @property (nonatomic, assign, readonly) BOOL isWIFINetworking;
-/** 是否在非WIFI网络下继续预加载 。不需要联动*/
+/** 是否在非WIFI网络下继续预加载, 不需要联动*/
 @property (nonatomic, assign, readonly) BOOL isWANNetworkingStopPreload;
 /** 是否手动取消播放 */
 @property (nonatomic, assign, readonly) BOOL isCancelPlay;
@@ -81,7 +83,7 @@
  @param player player
  @param error 错误信息
  */
-- (void)player:(YCAVPlayerView *)player onError:(NSError *)error;
+- (void)player:(YCViewComponent *)player onError:(NSError *)error;
 
 /**
  获取到视频总时长
@@ -89,7 +91,7 @@
  @param player player
  @param videoDuration 时长
  */
-- (void)player:(YCAVPlayerView *)player onReadVideoDuration:(float)videoDuration;
+- (void)player:(YCViewComponent *)player onReadVideoDuration:(float)videoDuration;
 
 
 // TODO: delete
@@ -110,7 +112,7 @@
  @param watchedDuration 视频实际观看时长
  @param stayDuration 观看视频停留时长
  */
-- (void)player:(YCAVPlayerView *)player onFinishedByInterrupt:(BOOL)isInterrupt watchedDuration:(NSTimeInterval)watchedDuration stayDuration:(NSTimeInterval)stayDuration;
+- (void)player:(YCViewComponent *)player onFinishedByInterrupt:(BOOL)isInterrupt watchedDuration:(NSTimeInterval)watchedDuration stayDuration:(NSTimeInterval)stayDuration;
 
 /**
  视频播放
@@ -119,7 +121,7 @@
  @param currTime 当前播放进度
  @param isPause 是否暂停
  */
-- (void)player:(YCAVPlayerView *)player onPlayingCurrTime:(NSTimeInterval)currTime isPause:(BOOL)isPause;
+- (void)player:(YCViewComponent *)player onPlayingCurrTime:(NSTimeInterval)currTime isPause:(BOOL)isPause;
 
 /**
  视频缓冲了数据
@@ -127,9 +129,7 @@
  @param player player
  @param loadedDurations 缓冲的时间段, 例: {0: 47, 287: 32}. 其中key为加载起点，val为时间段
  */
-- (void)player:(YCAVPlayerView *)player onLoadedDurations:(NSDictionary<NSNumber *, NSNumber *> *)loadedDurations;
-
-
+- (void)player:(YCViewComponent *)player onLoadedDurations:(NSDictionary<NSNumber *, NSNumber *> *)loadedDurations;
 
 /**
  视频发生卡顿
@@ -137,7 +137,7 @@
  @param player player
  @param loadSpeed 卡顿时加载数据的网速
  */
-- (void)player:(YCAVPlayerView *)player onLagged:(BOOL)isLagging loadSpeed:(CGFloat)loadSpeed;
+- (void)player:(YCViewComponent *)player onLagged:(BOOL)isLagging loadSpeed:(CGFloat)loadSpeed;
 
 /**
  视频出现交互点
@@ -145,7 +145,7 @@
  @param player player
  @param timePoint 交互时间点
  */
-- (void)player:(YCAVPlayerView *)player onInteract:(NSInteger)timePoint;
+- (void)player:(YCViewComponent *)player onInteract:(NSInteger)timePoint;
 
 
 /**
@@ -155,9 +155,9 @@
  @param player player
  @param videoFolder 缓冲的临时文件报错的文件夹
  @param videoPath 缓冲的临时文件路径
- @param isHLSVideo 是否为HLS格式
+ @param isHLSVideo 是否为HLS格式（该参数暂不使用）
  */
-- (void)player:(YCAVPlayerView *)player onVideoLoadCompleted:(NSString *)videoFolder videoPath:(NSString *)videoPath isHLSVideo:(BOOL)isHLSVideo;
+- (void)player:(YCViewComponent *)player onVideoLoadCompleted:(NSString *)videoFolder videoPath:(NSString *)videoPath isHLSVideo:(BOOL)isHLSVideo;
 
 @end
 
@@ -167,5 +167,7 @@
  *  基础播放器，不包含业务逻辑
  */
 @interface YCAVPlayerView : YCViewComponent<YCComponent>
+
+- (instancetype)initWithProps:(id<YCAVPlayerProps>)props callbacks:(id<YCAVPlayerCallbacks>)callbacks;
 
 @end

@@ -9,6 +9,8 @@
 #import "YCAVPlayerVM.h"
 #import "ReactiveCocoa.h"
 
+static NSTimeInterval kRefreshInterval = 0.5f;
+
 @interface YCAVPlayerVM ()
 
 // MARK: YCStates
@@ -90,13 +92,12 @@
         [self setVideoCurrTimePoint:self.currTimePoint];
      }];
     // 记录停留时间
-    NSTimeInterval interval = 0.5;
-    [[[RACSignal interval:interval
+    [[[RACSignal interval:kRefreshInterval
               onScheduler:[RACScheduler scheduler]]
       takeUntil:self.rac_willDeallocSignal]
      subscribeNext:^(id x) {
          @strongify(self);
-         self.stayDuration += interval;
+         self.stayDuration += kRefreshInterval;
      }];
 }
 
@@ -240,16 +241,24 @@
             self.currTimePoint += interval;
             self.watchedDuration += interval;
         }
-        if (self.isCanPlay
-            && [self.callbacks respondsToSelector:@selector(player:onPlayingCurrTime:isPause:)]) {
-            [self.callbacks player:self.player onPlayingCurrTime:self.currTimePoint isPause:!self.isPlaying];
-            
+        if (self.isCanPlay) {
             // 正常播放时判断是否会卡顿
             if (self.isPlaying && !self.isLoadCompleted) {
                 NSTimeInterval buffer = self.lastLoadedStartTime + self.lastLoadedDuration - self.currTimePoint;
-                if (buffer < self.props.minPlayTime) {
+                if (fabs(buffer) < 0.001) {
                     [self _detectLagging:YES];
                 }
+                // 无网状态下是否需要检查buffer
+                BOOL notCheck = !self.props.hasNetworking && self.props.isCanPlayWithoutNetworking;
+                if (!notCheck && buffer < self.props.minPlayTime) {
+                    [self _detectLagging:YES];
+                }
+            }
+            
+            if ([self.callbacks respondsToSelector:@selector(player:onPlayingCurrTime:isPause:)]) {
+                [self.callbacks player:self.player
+                     onPlayingCurrTime:self.currTimePoint
+                               isPause:!self.isPlaying];
             }
         }
     });
@@ -257,31 +266,27 @@
 
 - (void)videoReadyToPlay {
     self.isCanPlay = YES;
-    NSLog(@">>> isReadyToPlay ...");
     
     // 处理已经缓存， playerItem不回调loadedTimeRanges情况
     if (self.isLoadCompleted && !self.isPlaying) {
         self.isPlaying = YES;
     } else {
+        // 延迟0.25s，如果还是无法播放判断是否已经加载过了缓冲
         [[[[RACSignal interval:0.25
                    onScheduler:[RACScheduler scheduler]] take:1] deliverOnMainThread]
          subscribeNext:^(id x) {
              if (!self.isPlaying
                 && self.lastLoadedStartTime + self.lastLoadedDuration >= self.currTimePoint) {
-                [self detectLagging:self.lastLoadedStartTime
-                     loadedDuration:self.lastLoadedDuration
-                      currTimePoint:self.currTimePoint
-                      videoDuration:self.videoDuration];
-                }
+                 [self receiveSystemStallNotify];
+             }
         }];
     }
 }
 
 - (void)videoPlayFinishedByInterrupt:(BOOL)interrupt {
     if (self.watchedDuration > self.stayDuration) {
-        // TODO: const var interval
-        if ((self.stayDuration + 0.5) > self.watchedDuration) {
-            self.stayDuration += 0.5;
+        if ((self.stayDuration + kRefreshInterval) > self.watchedDuration) {
+            self.stayDuration += kRefreshInterval;
         } else {
             self.stayDuration = self.watchedDuration;
         }

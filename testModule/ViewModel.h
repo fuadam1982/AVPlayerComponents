@@ -9,9 +9,10 @@
 #import <Foundation/Foundation.h>
 #import "Componentable.h"
 
+@protocol YCAVPlayerProps;
 @class ComponentPropsWrapper;
 @interface YCMoviePlayerVM2 : NSObject
 
-- (id<YCProps>)toProps;
+@property (nonatomic, strong, readonly, getter=toProps) id<YCAVPlayerProps> subComponentProps;
 
 @end

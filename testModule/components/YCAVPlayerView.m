@@ -22,7 +22,6 @@ static NSArray *AssetKeys = nil;
 
 @property (nonatomic, strong) dispatch_queue_t queue;
 @property (nonatomic, strong) YCAVPlayerVM *viewModel;
-//@property (nonatomic, strong) AVAsset *asset;
 @property (nonatomic, strong) AVPlayerItem *playerItem;
 @property (nonatomic, strong) AVPlayer *player;
 
@@ -30,7 +29,7 @@ static NSArray *AssetKeys = nil;
 
 @implementation YCAVPlayerView
 
-- (instancetype)initWithProps:(id<YCProps>)props callbacks:(id<YCCallbacks>)callbacks {
+- (instancetype)initWithProps:(id<YCAVPlayerProps>)props callbacks:(id<YCAVPlayerCallbacks>)callbacks {
     if (AssetKeys == nil) {
         AssetKeys = @[@"tracks", @"playable", @"duration", @"commonMetadata"];
     }
@@ -63,17 +62,16 @@ static NSArray *AssetKeys = nil;
             for (NSString *key in AssetKeys) {
                 NSError *error = nil;
                 AVKeyValueStatus keyStatus = [asset statusOfValueForKey:key error:&error];
-                if (keyStatus != AVKeyValueStatusLoaded) {
+                if (keyStatus == AVKeyValueStatusFailed) {
                     isSucc = NO;
-                    // TODO: error == nil
-                    [subscriber sendError:nil];
+                    [subscriber sendError:error];
                     break;
                 }
             }
             if (!isSucc) {
-                // TODO: error
-                [subscriber sendError:nil];
+                return;
             }
+            
             NSTimeInterval videoDuration = CMTimeGetSeconds(asset.duration);
             if (isnan(videoDuration)) {
                 // TODO: error
@@ -103,6 +101,11 @@ static NSArray *AssetKeys = nil;
                                    automaticallyLoadedAssetKeys:AssetKeys];
             self.player = [AVPlayer playerWithPlayerItem:self.playerItem];
             [self addPlayerToLayer:self.player];
+            // 处理iOS 10播放本地视频意外中断问题
+            if(self.viewModel.props.isLocalVideo
+               && [[UIDevice currentDevice] systemVersion].intValue >= 10) {
+                self.player.automaticallyWaitsToMinimizeStalling = NO;
+            }
             // 设置视频时长
             [self.viewModel setVideoDuration:[args.third floatValue]];
         }
@@ -162,7 +165,6 @@ static NSArray *AssetKeys = nil;
                  duration = 0;
              }
              [self.viewModel setLoadedDuration:start duration:duration];
-             NSLog(@"### loading %0.2f", duration);
          }
      }];
     
@@ -257,28 +259,32 @@ static NSArray *AssetKeys = nil;
          [self.viewModel videoPlayFinishedByInterrupt:YES];
      }];
     // 外部切换数据源
-    [[RACObserve(self.viewModel.props, videoURL) distinctUntilChanged]
+    [[[RACObserve(self.viewModel.props, videoURL) skip:1] distinctUntilChanged]
      subscribeNext:^(id x) {
          @strongify(self);
          [self stopPlayerItem];
          [self replacePlayerItem];
      }];
     // 外部暂停状态
-    [[RACObserve(self.viewModel.props, isPause) filter:^BOOL(id value) {
+    [[[RACObserve(self.viewModel.props, isPause) distinctUntilChanged]
+      filter:^BOOL(id value) {
         @strongify(self);
         return self.viewModel.videoDuration > 0;
-    }] subscribeNext:^(id isPause) {
+      }]
+     subscribeNext:^(id isPause) {
         @strongify(self);
         [self videoPlayControl];
-    }];
+     }];
     // 内部播放状态
-    [[RACObserve(self.viewModel, isPlaying) filter:^BOOL(id value) {
+    [[[RACObserve(self.viewModel, isPlaying) distinctUntilChanged]
+      filter:^BOOL(id value) {
         @strongify(self);
         return self.viewModel.videoDuration > 0;
-    }] subscribeNext:^(id x) {
+      }]
+     subscribeNext:^(id x) {
         @strongify(self);
         [self videoPlayControl];
-    }];
+     }];
 }
 
 #pragma mark - player methods
