@@ -36,7 +36,7 @@
     self.view.backgroundColor = [UIColor grayColor];
     
     self.playerView = [[YCAVPlayerView alloc] initWithProps:[self.viewModel toProps] callbacks:self];
-    self.playerView.backgroundColor = [UIColor lightGrayColor];
+    self.playerView.backgroundColor = [UIColor blackColor];
     [self.view addSubview:self.playerView];
     
     [self.playerView mas_makeConstraints:^(MASConstraintMaker *make) {

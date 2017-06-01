@@ -15,6 +15,8 @@
 
 /** 视频播放地址，如果发生变化即切换清晰度 */
 @property (nonatomic, strong) NSString *videoURL;
+/** 是否手动取消播放 */
+@property (nonatomic, assign) BOOL isCancelPlay;
 /** 是否暂停，默认加载好立即播放 */
 @property (nonatomic, assign) BOOL isPause;
 /** 从指定时间点开始播放，默认值为-1 */

@@ -14,12 +14,15 @@
 #import "ReactiveCocoa.h"
 
 static NSTimeInterval kPlayerRefreshInterval = 0.5f;
+static NSString *kAssetKeyDuration = @"duration";
+static NSString *kAssetKeyPlayable = @"playable";
+static NSArray *AssetKeys = nil;
 
 @interface YCAVPlayerView ()
 
 @property (nonatomic, strong) dispatch_queue_t queue;
 @property (nonatomic, strong) YCAVPlayerVM *viewModel;
-@property (nonatomic, strong) AVAsset *asset;
+//@property (nonatomic, strong) AVAsset *asset;
 @property (nonatomic, strong) AVPlayerItem *playerItem;
 @property (nonatomic, strong) AVPlayer *player;
 
@@ -28,6 +31,9 @@ static NSTimeInterval kPlayerRefreshInterval = 0.5f;
 @implementation YCAVPlayerView
 
 - (instancetype)initWithProps:(id<YCProps>)props callbacks:(id<YCCallbacks>)callbacks {
+    if (AssetKeys == nil) {
+        AssetKeys = @[@"tracks", @"playable", @"duration", @"commonMetadata"];
+    }
     YCAVPlayerVM *states = [[YCAVPlayerVM alloc] initWithProps:props callbacks:callbacks];
     if (self = [super initWithStates:states]) {
         self.queue = dispatch_queue_create("CUSTOM_AVPLAYER_QUEUE", DISPATCH_QUEUE_SERIAL);
@@ -43,52 +49,75 @@ static NSTimeInterval kPlayerRefreshInterval = 0.5f;
     return [self getStates];
 }
 
-/** 构造播放器 */
+#pragma mark - build player
+
+- (RACSignal *)buildAsset {
+    @weakify(self);
+    return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+        @strongify(self);
+        AVURLAsset *asset = [AVURLAsset URLAssetWithURL:[NSURL URLWithString:self.viewModel.props.videoURL]
+                                                options:nil];
+        [asset loadValuesAsynchronouslyForKeys:AssetKeys completionHandler:^{
+            // 检查资源是否正常
+            BOOL isSucc = YES;
+            for (NSString *key in AssetKeys) {
+                NSError *error = nil;
+                AVKeyValueStatus keyStatus = [asset statusOfValueForKey:key error:&error];
+                if (keyStatus != AVKeyValueStatusLoaded) {
+                    isSucc = NO;
+                    // TODO: error == nil
+                    [subscriber sendError:nil];
+                    break;
+                }
+            }
+            if (!isSucc) {
+                // TODO: error
+                [subscriber sendError:nil];
+            }
+            NSTimeInterval videoDuration = CMTimeGetSeconds(asset.duration);
+            if (isnan(videoDuration)) {
+                // TODO: error
+                [subscriber sendError:nil];
+            }
+            [subscriber sendNext:RACTuplePack(kAssetKeyDuration, asset, @(videoDuration))];
+            [[[RACObserve(asset, playable) ignore:@NO] take:1]
+             subscribeNext:^(id x) {
+                [subscriber sendNext:RACTuplePack(kAssetKeyPlayable, asset)];
+                [subscriber sendCompleted];
+            }];
+        }];
+        
+        return nil;
+    }];
+}
+
 - (void)buildPlayer {
     @weakify(self);
-    // Asset
-    AVURLAsset *asset = [AVURLAsset URLAssetWithURL:[NSURL URLWithString:self.viewModel.props.videoURL]
-                                            options:nil];
-    self.asset = asset;
-
-    NSArray *keys = @[@"tracks", @"playable", @"duration", @"commonMetadata"];
-    [self.asset loadValuesAsynchronouslyForKeys:keys completionHandler:^{
+    [[self buildAsset] subscribeNext:^(RACTuple *args) {
         @strongify(self);
-        // 检查资源是否正常
-        BOOL isSucc = YES;
-        for (NSString *key in keys) {
-            NSError *error = nil;
-            AVKeyValueStatus keyStatus = [self.asset statusOfValueForKey:key error:&error];
-            if (keyStatus != AVKeyValueStatusLoaded) {
-                isSucc = NO;
-                // TODO: error == nil
-                [self.viewModel setPlayerError:error];
-                break;
-            }
+        // 获取到视频时长
+        if ([args.first isEqualToString:kAssetKeyDuration]) {
+            // 创建Player
+            AVAsset *asset = args.second;
+            self.playerItem = [AVPlayerItem playerItemWithAsset:asset
+                                   automaticallyLoadedAssetKeys:AssetKeys];
+            self.player = [AVPlayer playerWithPlayerItem:self.playerItem];
+            [self addPlayerToLayer:self.player];
+            // 设置视频时长
+            [self.viewModel setVideoDuration:[args.third floatValue]];
         }
-        if (!isSucc) {
-            return;
-        }
-        // 获取视频总时长
-        NSTimeInterval videoDuration = CMTimeGetSeconds(self.asset.duration);
-        if (isnan(videoDuration)) {
-            // TODO: error
-        }
-        [self.viewModel setVideoDuration:videoDuration];
-
-        self.playerItem = [AVPlayerItem playerItemWithAsset:self.asset automaticallyLoadedAssetKeys:keys];
-        self.player = [AVPlayer playerWithPlayerItem:self.playerItem];
-        [self addPlayerToLayer:self.player];
-
-        // 视频资源可播放
-        [[[RACObserve(self.asset, playable) ignore:@NO] take:1] subscribeNext:^(id x) {
-            @strongify(self);
+        // 获取到视频可播放
+        if ([args.first isEqualToString:kAssetKeyPlayable]) {
+            // 绑定状态
             [self bindPlayerItemState];
             [self bindPlayerState];
-            [self bindViewModelState];
+            [self bindViewModelState];            
             // 默认为0，即从头开始播放
             [self seekToTimePoint:self.viewModel.props.seekTimePoint];
-        }];
+        }
+    } error:^(NSError *error) {
+        @strongify(self);
+        [self.viewModel setPlayerError:error];
     }];
 }
 
@@ -96,9 +125,13 @@ static NSTimeInterval kPlayerRefreshInterval = 0.5f;
 
 - (void)bindPlayerItemState {
     @weakify(self);
+    
     // 播放状态
     [[RACObserve(self.playerItem, status)
-      takeUntil:self.playerItem.rac_willDeallocSignal]
+      takeUntilBlock:^BOOL(id x) {
+          @strongify(self);
+          return self.playerItem == nil;
+      }]
      subscribeNext:^(id status) {
          @strongify(self);
          // 每次seek后都会执行一遍，因此从头开始播放相当于seekToTime:0
@@ -109,9 +142,13 @@ static NSTimeInterval kPlayerRefreshInterval = 0.5f;
              [self.viewModel setPlayerError:nil];
          }
      }];
+    
     // 加载数据
     [[RACObserve(self.playerItem, loadedTimeRanges)
-     takeUntil:self.playerItem.rac_willDeallocSignal]
+      takeUntilBlock:^BOOL(id x) {
+          @strongify(self);
+          return self.playerItem == nil;
+      }]
      subscribeNext:^(NSArray *loadedTimeRange) {
          @strongify(self);
          if (loadedTimeRange.count > 0) {
@@ -125,32 +162,38 @@ static NSTimeInterval kPlayerRefreshInterval = 0.5f;
                  duration = 0;
              }
              [self.viewModel setLoadedDuration:start duration:duration];
+             NSLog(@"### loading %0.2f", duration);
          }
      }];
     
     // TODO: how to use
 //    // 无buffer
 //    [[RACObserve(self.playerItem, playbackBufferEmpty)
-//     takeUntil:self.playerItem.rac_willDeallocSignal]
+//      takeUntilBlock:^BOOL(id x) {
+//          @strongify(self);
+//          return self.playerItem == nil;
+//      }]
 //     subscribeNext:^(id x) {
 //         @strongify(self);
 //         NSLog(@"");
 //     }];
 //    // 可以恢复播放
 //    [[RACObserve(self.playerItem, playbackLikelyToKeepUp)
-//      takeUntil:self.playerItem.rac_willDeallocSignal]
+//      takeUntilBlock:^BOOL(id x) {
+//          @strongify(self);
+//          return self.playerItem == nil;
+//      }]
 //     subscribeNext:^(id x) {
 //         @strongify(self);
 //         NSLog(@"");
 //     }];
     
     // TODO: 精确度，loadedcomplete delegate，netspeed = 0 delegate
-    [[[[RACSignal interval:kPlayerRefreshInterval
+    [[[RACSignal interval:kPlayerRefreshInterval
              onScheduler:[RACScheduler scheduler]]
-     takeUntil:self.playerItem.rac_willDeallocSignal]
       takeUntilBlock:^BOOL(id x) {
           @strongify(self);
-          BOOL flag = self.viewModel.isLoadCompleted || self.viewModel.isPlayFinished;
+          BOOL flag = self.playerItem == nil || self.viewModel.isLoadCompleted || self.viewModel.isPlayFinished;
           if (flag) {
               [self.viewModel setNetSpeed:0];
           }
@@ -206,6 +249,20 @@ static NSTimeInterval kPlayerRefreshInterval = 0.5f;
 
 - (void)bindViewModelState {
     @weakify(self);
+    // 外部取消播放
+    [[RACObserve(self.viewModel.props, isCancelPlay) ignore:@NO]
+     subscribeNext:^(id x) {
+         @strongify(self);
+         [self stopPlayerItem];
+         [self.viewModel videoPlayFinishedByInterrupt:YES];
+     }];
+    // 外部切换数据源
+    [[RACObserve(self.viewModel.props, videoURL) distinctUntilChanged]
+     subscribeNext:^(id x) {
+         @strongify(self);
+         [self stopPlayerItem];
+         [self replacePlayerItem];
+     }];
     // 外部暂停状态
     [[RACObserve(self.viewModel.props, isPause) filter:^BOOL(id value) {
         @strongify(self);
@@ -256,6 +313,27 @@ static NSTimeInterval kPlayerRefreshInterval = 0.5f;
     }
     [self.viewModel setNetSpeed:netSpeed];
 }
+
+- (void)stopPlayerItem {
+    [self.player replaceCurrentItemWithPlayerItem:nil];
+    self.playerItem = nil;
+}
+
+- (void)replacePlayerItem {
+    @weakify(self);
+    [[self buildAsset] subscribeNext:^(RACTuple *args) {
+        @strongify(self);
+        if ([args.first isEqualToString:kAssetKeyPlayable]) {
+            [self bindPlayerItemState];
+            [self seekToTimePoint:self.viewModel.currTimePoint];
+        }
+    } error:^(NSError *error) {
+        @strongify(self);
+        [self.viewModel setPlayerError:error];
+    }];
+}
+
+#pragma mark - handle error
 
 #pragma mark - AVPlayerLayer Setting
 

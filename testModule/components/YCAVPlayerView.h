@@ -17,6 +17,8 @@
 @property (nonatomic, assign, readonly) BOOL isWIFINetworking;
 /** 是否在非WIFI网络下继续预加载 。不需要联动*/
 @property (nonatomic, assign, readonly) BOOL isWANNetworkingStopPreload;
+/** 是否手动取消播放 */
+@property (nonatomic, assign, readonly) BOOL isCancelPlay;
 /** 是否播放本地视频，不需要联动 */
 @property (nonatomic, assign, readonly) BOOL isLocalVideo;
 /** 是否缓存视频到本地 */

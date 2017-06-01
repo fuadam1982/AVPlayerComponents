@@ -1,10 +1,10 @@
-1. isnan
+[ok] 1. isnan, 从avplayer拿到的数据都要检测
 [ok] 2. 计算网速,netSpeedUpdate, 以后使用本地代理会计算的更准确些
-3. 没有网处理
-4. 4g是否预下载
-5. 切换高低清
+3. 没有网处理, 父组件提示
+[ok] 4. 4g是否预下载, 父组件提示用户。如果不看则停止后返回
+[ok] 5. 切换高低清
 6. 埋点
-7. emptybuffer，playlikey是否需要用
+[suspend] 7. emptybuffer，playlikey是否需要用
 
 1. 本地视频，解密在avplayercomponent之前。如果没有网络是否提示，展示header,tailer视频
 2. asset.playable 可用之前需要显示loading，已确认。目前的做法playable后才创建playerItem，然后根据playerItem的status判断是否可以播放。并且清除以前的playerItem的KVO
@@ -30,3 +30,5 @@
 22. 如果有cache几只，反复seek就不会出现loading过得内容还被重复loading
 23. 暂停时显示loading网速直到加载全部后，显示什么
 24. UIApplicationWillResignActiveNotification 使用系统事件
+25. 限速测试
+26. 通过AVAssetImageGenerator获取最后一frame图片，切换时可以效果更好
