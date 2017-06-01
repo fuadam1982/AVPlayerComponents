@@ -324,6 +324,10 @@ static NSArray *AssetKeys = nil;
     [[self buildAsset] subscribeNext:^(RACTuple *args) {
         @strongify(self);
         if ([args.first isEqualToString:kAssetKeyPlayable]) {
+            AVAsset *asset = args.second;
+            self.playerItem = [AVPlayerItem playerItemWithAsset:asset
+                                   automaticallyLoadedAssetKeys:AssetKeys];
+            [self.player replaceCurrentItemWithPlayerItem:self.playerItem];
             [self bindPlayerItemState];
             [self seekToTimePoint:self.viewModel.currTimePoint];
         }
