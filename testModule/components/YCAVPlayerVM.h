@@ -27,5 +27,7 @@
 - (void)setNetSpeed:(double)netSpeed;
 - (void)videoReadyToPlay;
 - (void)videoPlayFinishedByInterrupt:(BOOL)interrupt;
+/** 接收到系统发来的卡顿通知 */
+- (void)receiveSystemStallNotify;
 
 @end

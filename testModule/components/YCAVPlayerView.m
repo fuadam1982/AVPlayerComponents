@@ -43,6 +43,7 @@ static NSTimeInterval kPlayerRefreshInterval = 0.5f;
     return [self getStates];
 }
 
+/** 构造播放器 */
 - (void)buildPlayer {
     @weakify(self);
     // Asset
@@ -70,6 +71,9 @@ static NSTimeInterval kPlayerRefreshInterval = 0.5f;
         }
         // 获取视频总时长
         NSTimeInterval videoDuration = CMTimeGetSeconds(self.asset.duration);
+        if (isnan(videoDuration)) {
+            // TODO: error
+        }
         [self.viewModel setVideoDuration:videoDuration];
 
         self.playerItem = [AVPlayerItem playerItemWithAsset:self.asset automaticallyLoadedAssetKeys:keys];
@@ -92,16 +96,6 @@ static NSTimeInterval kPlayerRefreshInterval = 0.5f;
 
 - (void)bindPlayerItemState {
     @weakify(self);
-    [[[RACSignal interval:2 onScheduler:[RACScheduler scheduler]] take:1]
-     subscribeNext:^(id x) {
-         NSLog(@"seek to 280");
-         [self seekToTimePoint:300];
-     }];
-    [[[RACSignal interval:3 onScheduler:[RACScheduler scheduler]] take:1]
-     subscribeNext:^(id x) {
-         NSLog(@"seek to 320");
-         [self seekToTimePoint:320];
-     }];
     // 播放状态
     [[RACObserve(self.playerItem, status)
       takeUntil:self.playerItem.rac_willDeallocSignal]
@@ -123,12 +117,18 @@ static NSTimeInterval kPlayerRefreshInterval = 0.5f;
          if (loadedTimeRange.count > 0) {
              CMTimeRange timeRange = [loadedTimeRange[0] CMTimeRangeValue];
              NSTimeInterval start    = CMTimeGetSeconds(timeRange.start);
+             if (isnan(start)) {
+                 start = 0;
+             }
              NSTimeInterval duration = CMTimeGetSeconds(timeRange.duration);
+             if (isnan(duration)) {
+                 duration = 0;
+             }
              [self.viewModel setLoadedDuration:start duration:duration];
          }
      }];
     
-    // TODO: how to do
+    // TODO: how to use
 //    // 无buffer
 //    [[RACObserve(self.playerItem, playbackBufferEmpty)
 //     takeUntil:self.playerItem.rac_willDeallocSignal]
@@ -145,7 +145,6 @@ static NSTimeInterval kPlayerRefreshInterval = 0.5f;
 //     }];
     
     // TODO: 精确度，loadedcomplete delegate，netspeed = 0 delegate
-    [self computeNetSpeed];
     [[[[RACSignal interval:kPlayerRefreshInterval
              onScheduler:[RACScheduler scheduler]]
      takeUntil:self.playerItem.rac_willDeallocSignal]
@@ -170,7 +169,10 @@ static NSTimeInterval kPlayerRefreshInterval = 0.5f;
                                               queue:self.queue
                                          usingBlock:^(CMTime time) {
                                              @strongify(self);
-                                             NSTimeInterval currTimePoint = CMTimeGetSeconds(time);                                             
+                                             NSTimeInterval currTimePoint = CMTimeGetSeconds(time);
+                                             if (isnan(currTimePoint)) {
+                                                 currTimePoint = 0;
+                                             }
                                              [self.viewModel setVideoCurrTimePoint:currTimePoint];
                                          }];
     
@@ -182,6 +184,15 @@ static NSTimeInterval kPlayerRefreshInterval = 0.5f;
                                             // TODO: 
                                           }];
     }
+    
+    // 播放卡顿
+    [[[[NSNotificationCenter defaultCenter] rac_addObserverForName:AVPlayerItemPlaybackStalledNotification
+                                                            object:nil]
+      takeUntil:self.rac_willDeallocSignal]
+     subscribeNext:^(id x) {
+         @strongify(self);
+         [self.viewModel receiveSystemStallNotify];
+     }];
     
     // 播放结束
     [[[[NSNotificationCenter defaultCenter] rac_addObserverForName:AVPlayerItemDidPlayToEndTimeNotification
@@ -233,11 +244,10 @@ static NSTimeInterval kPlayerRefreshInterval = 0.5f;
 }
 
 - (void)computeNetSpeed {
-    AVPlayerItemAccessLog *accesslog = self.playerItem.accessLog;
+    AVPlayerItemAccessLog *accesslog = self.player.currentItem.accessLog;
     AVPlayerItemAccessLogEvent* event = nil;
-    NSArray *events = [accesslog events];
-    if (events.count > 0) {
-        event = [events firstObject];
+    if (accesslog.events.count > 0) {
+        event = accesslog.events[0];
     }
     double netSpeed = (event.numberOfBytesTransferred / event.transferDuration) / 1024;
     // 异常处理

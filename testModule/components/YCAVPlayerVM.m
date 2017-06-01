@@ -297,4 +297,11 @@
     });
 }
 
+- (void)receiveSystemStallNotify {
+    [self detectLagging:self.lastLoadedStartTime
+         loadedDuration:self.lastLoadedDuration
+          currTimePoint:self.currTimePoint
+          videoDuration:self.videoDuration];
+}
+
 @end
