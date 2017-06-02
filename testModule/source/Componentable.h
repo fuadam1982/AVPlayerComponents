@@ -42,7 +42,6 @@
 /** 用于获取states实例，在子类中定义viewmodel属性时通过getter注入. 由于语法问题不应该在子类以外使用 */
 - (id<YCStates>)getStates;
 - (UIView *)getView;
-- (UIView *)addSubComponent:(id<YCComponent>)subComponent;
 
 @end
 

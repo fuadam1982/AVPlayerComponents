@@ -25,6 +25,19 @@ static NSArray *AssetKeys = nil;
 @property (nonatomic, strong) AVPlayerItem *playerItem;
 @property (nonatomic, strong) AVPlayer *player;
 
+/*
+ player
+    avplayer
+    playerItem
+ 
+ object <player>
+ 
+ 播放器
+ 1,播放
+ 2.暂停
+ 3。结束
+ */
+
 @end
 
 @implementation YCAVPlayerView

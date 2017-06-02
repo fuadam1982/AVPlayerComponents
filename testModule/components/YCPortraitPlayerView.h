@@ -8,11 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import "Componentable.h"
-
-@protocol YCPortraitPlayerView <NSObject>
-
-@end
+#import "YCAVPlayerView.h"
 
 @interface YCPortraitPlayerView : YCViewComponent<YCComponent>
+
+- (instancetype)initWithProps:(id<YCAVPlayerProps>)props callbacks:(id<YCAVPlayerCallbacks>)callbacks;
 
 @end

@@ -41,7 +41,7 @@
     
     [self.playerView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.and.right.equalTo(self.view);
-        make.top.equalTo(@20);
+        make.top.equalTo(@0);
         make.height.equalTo(@(180 * [UIScreen mainScreen].bounds.size.height / 568));
 //        make.top.and.bottom.equalTo(self.view);
     }];

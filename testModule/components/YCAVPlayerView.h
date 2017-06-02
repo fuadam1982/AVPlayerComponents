@@ -93,17 +93,6 @@
  */
 - (void)player:(YCViewComponent *)player onReadVideoDuration:(float)videoDuration;
 
-
-// TODO: delete
-///**
-// 视频可以播放
-// 调用者可以在未收到该回调时处理默认视频图、显示loading等逻辑
-//
-// @param player player
-// */
-//- (void)playerOnReadyToPlay:(YCAVPlayerView *)player;
-
-
 /**
  视频播放完成
 

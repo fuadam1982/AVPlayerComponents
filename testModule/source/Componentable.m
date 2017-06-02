@@ -33,11 +33,6 @@
     return self;
 }
 
-- (UIView *)addSubComponent:(id<YCComponent>)subComponent {
-    [self.children addObject:subComponent];
-    return [subComponent getView];
-}
-
 @end
 
 //////////////////////////////////////////////////////////////
@@ -65,11 +60,6 @@
 
 - (UIView *)getView {
     return self.view;
-}
-
-- (UIView *)addSubComponent:(id<YCComponent>)subComponent {
-    [self.children addObject:subComponent];
-    return [subComponent getView];
 }
 
 @end
