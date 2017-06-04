@@ -49,7 +49,7 @@ static NSTimeInterval kRefreshInterval = 0.5f;
 
 // MARK: private
 /** 用于delegate传出player实例 */
-@property (nonatomic, weak) YCAVPlayerView *player;
+@property (nonatomic, weak) UIView *player;
 /** 已加载的最大时间点 */
 @property (nonatomic, assign) float loadedTimePoint;
 /** 暂停preload，例如3G网络下不需要下载, 同时不需要loading */
@@ -101,7 +101,7 @@ static NSTimeInterval kRefreshInterval = 0.5f;
      }];
 }
 
-- (void)setPlayer:(YCAVPlayerView *)player {
+- (void)setPlayer:(UIView *)player {
     _player = player;
 }
 

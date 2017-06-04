@@ -14,10 +14,11 @@
 #pragma mark - utils
 #import "Masonry.h"
 
-@interface YCPortraitPlayerView ()
+@interface YCPortraitPlayerView: YCViewTemplate
 
 @property (nonatomic, strong) YCPortraitPlayerVM *viewModel;
-@property (nonatomic, strong) YCAVPlayerView *playerView;
+@property (nonatomic, strong) YCAVPlayerComponent *playerComponent;
+@property (nonatomic, strong) UIView *playerView;
 
 @end
 
@@ -27,20 +28,29 @@
     return [self getStates];
 }
 
-- (instancetype)initWithProps:(id<YCAVPlayerProps>)props callbacks:(id<YCAVPlayerCallbacks>)callbacks {
-    if (self = [super initWithStates:nil]) {
-        self.playerView = [[YCAVPlayerView alloc] initWithProps:props callbacks:callbacks];
-        [self addSubview:self.playerView];
-        
-        [self layout];
-    }
-    return self;
+- (void)render {
+    self.playerComponent = [[YCAVPlayerComponent alloc] initWithProps:self.viewModel.props
+                                                            callbacks:self.viewModel.callbacks];
+    self.playerView = [self.playerComponent getView];
+    [self addSubview:self.playerView];
 }
 
 - (void)layout {
     [self.playerView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.left.and.right.equalTo(self);
     }];
+}
+
+@end
+
+//////////////////////////////////////////////////////////////
+
+@implementation YCPortraitPlayerComponent
+
+- (instancetype)initWithProps:(id<YCAVPlayerProps>)props callbacks:(id<YCAVPlayerCallbacks>)callbacks {
+    YCPortraitPlayerVM *states = [[YCPortraitPlayerVM alloc] initWithProps:props callbacks:callbacks];
+    YCPortraitPlayerView *template = [[YCPortraitPlayerView alloc] init];
+    return [super initWithStates:states template:template];
 }
 
 @end

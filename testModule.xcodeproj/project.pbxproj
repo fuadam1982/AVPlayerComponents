@@ -24,6 +24,7 @@
 		4B5FFD391ECAF5E400940B9F /* Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B5FFD381ECAF5E400940B9F /* Tools.m */; };
 		4B5FFD3F1ECB0F1E00940B9F /* ComponentPropsWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B5FFD3E1ECB0F1E00940B9F /* ComponentPropsWrapper.m */; };
 		4B5FFD481ECC230F00940B9F /* ComponentPropsBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B5FFD471ECC230F00940B9F /* ComponentPropsBuilder.m */; };
+		4B6FBC5F1EE3F34700325867 /* YCAVPlayerComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B6FBC5E1EE3F34700325867 /* YCAVPlayerComponent.m */; };
 		4BBD8DC71ECC668100AD6234 /* StateStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BBD8DC61ECC668100AD6234 /* StateStore.m */; };
 		4BBD8DCA1ECC66D200AD6234 /* StoreStatesWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BBD8DC91ECC66D200AD6234 /* StoreStatesWrapper.m */; };
 		4BBD8DCD1ECC671D00AD6234 /* StoreAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BBD8DCC1ECC671D00AD6234 /* StoreAction.m */; };
@@ -75,6 +76,8 @@
 		4B5FFD3E1ECB0F1E00940B9F /* ComponentPropsWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ComponentPropsWrapper.m; path = source/ComponentPropsWrapper.m; sourceTree = "<group>"; };
 		4B5FFD461ECC230F00940B9F /* ComponentPropsBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ComponentPropsBuilder.h; path = source/ComponentPropsBuilder.h; sourceTree = "<group>"; };
 		4B5FFD471ECC230F00940B9F /* ComponentPropsBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ComponentPropsBuilder.m; path = source/ComponentPropsBuilder.m; sourceTree = "<group>"; };
+		4B6FBC5D1EE3F34700325867 /* YCAVPlayerComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YCAVPlayerComponent.h; path = components/YCAVPlayerComponent.h; sourceTree = "<group>"; };
+		4B6FBC5E1EE3F34700325867 /* YCAVPlayerComponent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YCAVPlayerComponent.m; path = components/YCAVPlayerComponent.m; sourceTree = "<group>"; };
 		4BBD8DC51ECC668100AD6234 /* StateStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StateStore.h; path = source/StateStore.h; sourceTree = "<group>"; };
 		4BBD8DC61ECC668100AD6234 /* StateStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StateStore.m; path = source/StateStore.m; sourceTree = "<group>"; };
 		4BBD8DC81ECC66D200AD6234 /* StoreStatesWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StoreStatesWrapper.h; path = source/StoreStatesWrapper.h; sourceTree = "<group>"; };
@@ -119,6 +122,7 @@
 		4B18889B1ECE9F6C00E339AA /* YCVideoPlayer */ = {
 			isa = PBXGroup;
 			children = (
+				4B6FBC5C1EE3DEEF00325867 /* components */,
 				4B18889E1ECE9F8B00E339AA /* viewmodels */,
 				4B18889D1ECE9F8500E339AA /* views */,
 			);
@@ -188,6 +192,15 @@
 				4B5FFD341ECAED1100940B9F /* ReadonlyObjWrapper.m */,
 			);
 			name = Utils;
+			sourceTree = "<group>";
+		};
+		4B6FBC5C1EE3DEEF00325867 /* components */ = {
+			isa = PBXGroup;
+			children = (
+				4B6FBC5D1EE3F34700325867 /* YCAVPlayerComponent.h */,
+				4B6FBC5E1EE3F34700325867 /* YCAVPlayerComponent.m */,
+			);
+			name = components;
 			sourceTree = "<group>";
 		};
 		4BF7D2DF1EC9AA9800A9E5F4 = {
@@ -418,6 +431,7 @@
 			files = (
 				4B2462871ED2C702000D1363 /* YCAVPlayerVM.m in Sources */,
 				4BBD8DD31ECC674B00AD6234 /* StoreReducer.m in Sources */,
+				4B6FBC5F1EE3F34700325867 /* YCAVPlayerComponent.m in Sources */,
 				4B52326E1EE11A9C004D1522 /* YCGestureFloatView.m in Sources */,
 				4B1888AE1ECEA8D600E339AA /* YCSimpleMoviePlayerView.m in Sources */,
 				4B5FFD481ECC230F00940B9F /* ComponentPropsBuilder.m in Sources */,

@@ -7,7 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Componentable.h"
+#import "YCAVPlayerComponent.h"
 
-@interface YCPortraitPlayerVM : NSObject
+@interface YCPortraitPlayerVM : NSObject<YCStates>
+
+@property (nonatomic, strong, readonly) id<YCAVPlayerProps> props;
+@property (nonatomic, weak, readonly) id<YCAVPlayerCallbacks> callbacks;
 
 @end

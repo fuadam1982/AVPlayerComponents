@@ -15,7 +15,7 @@
 @property (nonatomic, strong, readonly) id<YCGestureFloatProps> props;
 
 - (instancetype)initWithProps:(id<YCGestureFloatProps>)props callbacks:(id<YCGestureFloatCallbacks>)callbacks;
-- (void)setGesturer:(YCGestureFloatView *)gesturer;
+- (void)setGesturer:(UIView *)gesturer;
 - (void)onDoubleTap;
 - (void)onTap;
 - (void)onLongPress;

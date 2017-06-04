@@ -18,10 +18,10 @@
 @implementation YCSimpleMoviePlayerView
 
 - (instancetype)initWithProps:(id<YCProps>)props callbacks:(id<YCCallbacks>)callbacks {
-    YCSimpleMoviePlayerVM *states = [[YCSimpleMoviePlayerVM alloc] initWithProps:props callbacks:callbacks];
-    if (self = [super initWithStates:states]) {
-        [self layout];
-    }
+//    YCSimpleMoviePlayerVM *states = [[YCSimpleMoviePlayerVM alloc] initWithProps:props callbacks:callbacks];
+//    if (self = [super initWithStates:states]) {
+//        [self layout];
+//    }
     return self;
 }
 

@@ -7,6 +7,11 @@
 //
 
 #import "YCAVPlayerView.h"
+
+#pragma mark - component
+#import "YCAVPlayerComponent.h"
+
+#pragma mark - viewmodel
 #import "YCAVPlayerVM.h"
 
 #pragma mark - utils
@@ -25,33 +30,16 @@ static NSArray *AssetKeys = nil;
 @property (nonatomic, strong) AVPlayerItem *playerItem;
 @property (nonatomic, strong) AVPlayer *player;
 
-/*
- player
-    avplayer
-    playerItem
- 
- object <player>
- 
- 播放器
- 1,播放
- 2.暂停
- 3。结束
- */
-
 @end
 
 @implementation YCAVPlayerView
 
-- (instancetype)initWithProps:(id<YCAVPlayerProps>)props callbacks:(id<YCAVPlayerCallbacks>)callbacks {
+- (instancetype)init {
     if (AssetKeys == nil) {
         AssetKeys = @[@"tracks", @"playable", @"duration", @"commonMetadata"];
     }
-    YCAVPlayerVM *states = [[YCAVPlayerVM alloc] initWithProps:props callbacks:callbacks];
-    if (self = [super initWithStates:states]) {
+    if (self = [super init]) {
         self.queue = dispatch_queue_create("CUSTOM_AVPLAYER_QUEUE", DISPATCH_QUEUE_SERIAL);
-        // 设置player，用于callbacks
-        [self.viewModel setPlayer:self];
-        [self buildPlayer];
     }
     return self;
 }
@@ -59,6 +47,12 @@ static NSArray *AssetKeys = nil;
 /** 包装下，用于属性访问 */
 - (id<YCStates>)viewModel {
     return [self getStates];
+}
+
+- (void)render {
+    // 设置player，用于callbacks
+    [self.viewModel setPlayer:self];
+    [self buildPlayer];
 }
 
 #pragma mark - build player
@@ -181,29 +175,6 @@ static NSArray *AssetKeys = nil;
          }
      }];
     
-    // TODO: how to use
-//    // 无buffer
-//    [[RACObserve(self.playerItem, playbackBufferEmpty)
-//      takeUntilBlock:^BOOL(id x) {
-//          @strongify(self);
-//          return self.playerItem == nil;
-//      }]
-//     subscribeNext:^(id x) {
-//         @strongify(self);
-//         NSLog(@"");
-//     }];
-//    // 可以恢复播放
-//    [[RACObserve(self.playerItem, playbackLikelyToKeepUp)
-//      takeUntilBlock:^BOOL(id x) {
-//          @strongify(self);
-//          return self.playerItem == nil;
-//      }]
-//     subscribeNext:^(id x) {
-//         @strongify(self);
-//         NSLog(@"");
-//     }];
-    
-    // TODO: 精确度，loadedcomplete delegate，netspeed = 0 delegate
     [[[RACSignal interval:kPlayerRefreshInterval
              onScheduler:[RACScheduler scheduler]]
       takeUntilBlock:^BOOL(id x) {

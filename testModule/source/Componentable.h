@@ -18,13 +18,22 @@
 
 @end
 
-/** 用于存储state，一般用viewmodel实现 */
+/** 用于实现组件的state管理部分，一般用viewmodel实现 */
 @protocol YCStates <NSObject>
 
 - (instancetype)initWithProps:(id<YCProps>)props callbacks:(id<YCCallbacks>)callbacks;
 
-@optional
-- (id<YCProps>)toProps;
+@end
+
+/** 用于实现组件的视图部分 */
+@protocol YCTemplate <NSObject>
+
+- (void)setStates:(id<YCStates>)states;
+/** 用于获取states实例，在子类中定义viewmodel属性时通过getter注入 */
+- (id<YCStates>)getStates;
+- (UIView *)getView;
+/** 一切就绪可以初始化视图了 */
+- (void)render;
 
 @end
 
@@ -33,24 +42,24 @@
 /** 需要子类实现 */
 - (instancetype)initWithProps:(id<YCProps>)props callbacks:(id<YCCallbacks>)callbacks;
 - (UIView *)getView;
-
-@end
-
-@protocol YCTemplate <NSObject>
-
-- (instancetype)initWithStates:(id<YCStates>)states;
-/** 用于获取states实例，在子类中定义viewmodel属性时通过getter注入. 由于语法问题不应该在子类以外使用 */
-- (id<YCStates>)getStates;
-- (UIView *)getView;
+- (id<YCProps>)toProps:(id<YCProps> (^) (id<YCStates> states))block;
 
 @end
 
 //////////////////////////////////////////////////////////////
 
-@interface YCViewComponent<T> : UIView<YCTemplate>
+@interface YCViewTemplate : UIView<YCTemplate>
 
 @end
 
-@interface YCViewControllerComponent : UIViewController<YCTemplate>
+@interface YCViewControllerTemplate : UIViewController<YCTemplate>
+
+@end
+
+//////////////////////////////////////////////////////////////
+
+@interface YCComponent : NSObject<YCComponent>
+
+- (instancetype)initWithStates:(id<YCStates>)states template:(id<YCTemplate>)template;
 
 @end

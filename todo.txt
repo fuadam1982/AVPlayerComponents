@@ -1,3 +1,5 @@
+遵循属性下行，事件上行这个约束后必然带来的问题是：同级数据访问（属性与事件）和间隔组件传递数据
+
 0. 进度条拖动70%即为老用户
 [ok] 1. isnan, 从avplayer拿到的数据都要检测
 [ok] 2. 计算网速,netSpeedUpdate, 以后使用本地代理会计算的更准确些
@@ -17,7 +19,7 @@
 15. player -> footer -> progress, playbtn, timer。这种中间隔离情况如何传递props, callbacks. view addSubView,但实际组件关系式平级的就可以解决。另外，footer是要监听浮动层的消息。虽然可以使用redux实现。但是怎么才能不侵入？
 16. 旋转屏幕avplayer需要支持，其它由父控件处理
 17. avplayer有业务无关的埋点子插件，其它由父控件处理业务相关埋点插件
-18.component可以注入store用来dispatch，但缺乏协议限制（YCStates?）
+18.component可以注入store用来dispatch，但缺乏协议限制（YCStates -> Enum）。或者在具体使用的component中使用redux
 
 1. 本地视频，解密在avplayercomponent之前。如果没有网络是否提示，展示header,tailer视频
 2. asset.playable 可用之前需要显示loading，已确认。目前的做法playable后才创建playerItem，然后根据playerItem的status判断是否可以播放。并且清除以前的playerItem的KVO
@@ -45,3 +47,27 @@
 24. UIApplicationWillResignActiveNotification 使用系统事件
 25. 限速测试
 26. 通过AVAssetImageGenerator获取最后一frame图片，切换时可以效果更好
+
+==============================================
+
+    // TODO: how to use
+    // 无buffer
+    [[RACObserve(self.playerItem, playbackBufferEmpty)
+      takeUntilBlock:^BOOL(id x) {
+          @strongify(self);
+          return self.playerItem == nil;
+      }]
+     subscribeNext:^(id x) {
+         @strongify(self);
+         NSLog(@"");
+     }];
+    // 可以恢复播放
+    [[RACObserve(self.playerItem, playbackLikelyToKeepUp)
+      takeUntilBlock:^BOOL(id x) {
+          @strongify(self);
+          return self.playerItem == nil;
+      }]
+     subscribeNext:^(id x) {
+         @strongify(self);
+         NSLog(@"");
+     }];

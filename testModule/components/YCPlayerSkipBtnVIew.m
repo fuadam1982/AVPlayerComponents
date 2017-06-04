@@ -20,10 +20,10 @@
 @implementation YCPlayerSkipBtnView
 
 - (instancetype)initWithProps:(id<YCProps>)props callbacks:(id<YCCallbacks>)callbacks {
-    YCPlayerSkipBtnVM *states = [[YCPlayerSkipBtnVM alloc] initWithProps:props callbacks:callbacks];
-    if (self = [super initWithStates:states]) {
-        [self layout];
-    }
+//    YCPlayerSkipBtnVM *states = [[YCPlayerSkipBtnVM alloc] initWithProps:props callbacks:callbacks];
+//    if (self = [super initWithStates:states]) {
+//        [self layout];
+//    }
     return self;
 }
 

@@ -9,7 +9,7 @@
 #import "ViewModel.h"
 #import "Componentable.h"
 #import "ComponentPropsBuilder.h"
-#import "YCAVPlayerView.h"
+#import "YCAVPlayerComponent.h"
 
 @interface YCMoviePlayerVM2 () <YCStates>
 

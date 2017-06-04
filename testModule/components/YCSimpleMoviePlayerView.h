@@ -24,6 +24,6 @@
 /*!
  *  简单视频播放组件
  */
-@interface YCSimpleMoviePlayerView : YCViewComponent<YCComponent>
+@interface YCSimpleMoviePlayerView : UIView
 
 @end

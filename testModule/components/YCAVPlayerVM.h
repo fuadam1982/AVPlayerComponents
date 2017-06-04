@@ -7,17 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Componentable.h"
-#import "YCAVPlayerView.h"
+#import "YCAVPlayerComponent.h"
 
-@class YCAVPlayerView;
 @interface YCAVPlayerVM : NSObject<YCAVPlayerStates>
 
 @property (nonatomic, strong, readonly) id<YCAVPlayerProps> props;
 /** 是否已经加载完毕 */
 @property (nonatomic, assign, readonly) NSTimeInterval isLoadCompleted;
 
-- (void)setPlayer:(YCAVPlayerView *)player;
+- (void)setPlayer:(UIView *)player;
 - (void)setPlayerError:(NSError *)error;
 - (void)setCachedVideoFolder:(NSString *)cachedVideoFolder;
 - (void)setVideoDuration:(NSTimeInterval)videoDuration;

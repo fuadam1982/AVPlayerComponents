@@ -6,7 +6,7 @@
 //  Copyright © 2017年 fuhan. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import "Componentable.h"
 
 /** 手势方向枚举 */
@@ -41,11 +41,11 @@ typedef NS_OPTIONS(int, YCGestureFloatDirectionType) {
 
 @optional
 
-- (void)gesturerOnTap:(YCViewComponent *)gesturer;
-- (void)gesturerOnDoubleTap:(YCViewComponent *)gesturer;
-- (void)gesturerOnLongPress:(YCViewComponent *)gesturer;
-- (void)gesturer:(YCViewComponent *)gesture onSwipeWithDirection:(YCGestureFloatDirectionType)direction;
-- (void)gesturer:(YCViewComponent *)gesture onPanWithDirection:(YCGestureFloatDirectionType)direction;
+- (void)gesturerOnTap:(UIView *)gesturer;
+- (void)gesturerOnDoubleTap:(UIView *)gesturer;
+- (void)gesturerOnLongPress:(UIView *)gesturer;
+- (void)gesturer:(UIView *)gesture onSwipeWithDirection:(YCGestureFloatDirectionType)direction;
+- (void)gesturer:(UIView *)gesture onPanWithDirection:(YCGestureFloatDirectionType)direction;
 
 @end
 
@@ -55,7 +55,7 @@ typedef NS_OPTIONS(int, YCGestureFloatDirectionType) {
  *  手势操作浮动层
  *  提供单击、长按、上下左右滑动等手势回调
  */
-@interface YCGestureFloatView : YCViewComponent<YCComponent>
+@interface YCGestureFloatComponet: YCComponent
 
 - (instancetype)initWithProps:(id<YCGestureFloatProps>)props callbacks:(id<YCGestureFloatCallbacks>)callbacks;
 

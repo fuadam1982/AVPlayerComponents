@@ -7,6 +7,11 @@
 //
 
 #import "ViewController.h"
+
+#pragma mark - component
+#import "YCAVPlayerComponent.h"
+
+#pragma mark - viewmodel
 #import "ViewModel.h"
 
 #pragma mark - views
@@ -18,7 +23,8 @@
 @interface YCMoviePlayerVC2 () <YCAVPlayerCallbacks>
 
 @property (nonatomic, strong) YCMoviePlayerVM2 *viewModel;
-@property (nonatomic, strong) YCAVPlayerView *playerView;
+@property (nonatomic, strong) YCAVPlayerComponent *playerComponent;
+@property (nonatomic, strong) UIView *playerView;
 
 @end
 
@@ -34,8 +40,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor grayColor];
-    self.playerView = [[YCAVPlayerView alloc] initWithProps:[self.viewModel toProps]
-                                                  callbacks:self];
+    self.playerComponent = [[YCAVPlayerComponent alloc] initWithProps:[self.viewModel toProps]
+                                                            callbacks:self];
+    self.playerView = [self.playerComponent getView];
     self.playerView.backgroundColor = [UIColor blackColor];
     [self.view addSubview:self.playerView];
     
@@ -57,20 +64,20 @@
 //    NSLog(@">>> readyToPlay ...");
 //}
 
-- (void)player:(YCViewComponent *)player onLoadedDurations:(NSDictionary<NSNumber *,NSNumber *> *)loadedDurations {
+- (void)player:(UIView *)player onLoadedDurations:(NSDictionary<NSNumber *,NSNumber *> *)loadedDurations {
     NSLog(@">>> loaded: %@", loadedDurations);
 }
 
 // TODO: ignore isLagged = NO
-- (void)player:(YCViewComponent *)player onLagged:(BOOL)isLagging loadSpeed:(CGFloat)loadSpeed {
+- (void)player:(UIView *)player onLagged:(BOOL)isLagging loadSpeed:(CGFloat)loadSpeed {
     NSLog(@">>> isLagged: %d, loadSpeed:%0.2f ...", isLagging, loadSpeed);
 }
 
-- (void)player:(YCViewComponent *)player onPlayingCurrTime:(NSTimeInterval)currTime isPause:(BOOL)isPause {
+- (void)player:(UIView *)player onPlayingCurrTime:(NSTimeInterval)currTime isPause:(BOOL)isPause {
     NSLog(@">>> currTime: %0.2f, isPause: %d", currTime, isPause);
 }
 
-- (void)player:(YCViewComponent *)player onFinishedByInterrupt:(BOOL)isInterrupt watchedDuration:(NSTimeInterval)watchedDuration stayDuration:(NSTimeInterval)stayDuration {
+- (void)player:(UIView *)player onFinishedByInterrupt:(BOOL)isInterrupt watchedDuration:(NSTimeInterval)watchedDuration stayDuration:(NSTimeInterval)stayDuration {
     NSLog(@">>> interrupt: %d, watch: %0.2f, stay: %0.2f", isInterrupt, watchedDuration, stayDuration);
 }
 

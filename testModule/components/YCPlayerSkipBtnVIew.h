@@ -27,6 +27,6 @@
 /*!
  *  播放器跳过组件
  */
-@interface YCPlayerSkipBtnView : YCViewComponent<YCComponent>
+@interface YCPlayerSkipBtnView : UIView
 
 @end

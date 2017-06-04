@@ -8,21 +8,16 @@
 
 #import "Componentable.h"
 
-@interface YCViewComponent ()
+@interface YCViewTemplate ()
 
 @property (nonatomic, strong) id<YCStates> states;
-@property (nonatomic, strong) NSMutableArray<id<YCComponent>> *children;
 
 @end
 
-@implementation YCViewComponent
+@implementation YCViewTemplate
 
-- (instancetype)initWithStates:(id<YCStates>)states {
-    if (self = [super init]) {
-        self.states = states;
-        self.children = [[NSMutableArray alloc] initWithCapacity:32];
-    }
-    return self;
+- (void)setStates:(id<YCStates>)states {
+    _states = states;
 }
 
 - (id<YCStates>)getStates {
@@ -33,25 +28,24 @@
     return self;
 }
 
+- (void)render {
+    // 需由子类实现
+}
+
 @end
 
 //////////////////////////////////////////////////////////////
 
-@interface YCViewControllerComponent ()
+@interface YCViewControllerTemplate ()
 
 @property (nonatomic, strong) id<YCStates> states;
-@property (nonatomic, strong) NSMutableArray<id<YCComponent>> *children;
 
 @end
 
-@implementation YCViewControllerComponent
+@implementation YCViewControllerTemplate
 
-- (instancetype)initWithStates:(id<YCStates>)states {
-    if (self = [super init]) {
-        self.states = states;
-        self.children = [[NSMutableArray alloc] initWithCapacity:32];
-    }
-    return self;
+- (void)setStates:(id<YCStates>)states {
+    _states = states;
 }
 
 - (id<YCStates>)getStates {
@@ -62,4 +56,47 @@
     return self.view;
 }
 
+- (void)render {
+    // 需由子类实现
+}
+
 @end
+
+//////////////////////////////////////////////////////////////
+
+@interface YCComponent ()
+
+@property (nonatomic, strong) id<YCStates> states;
+@property (nonatomic, strong) id<YCTemplate> template;
+
+@end
+
+@implementation YCComponent
+
+- (instancetype)initWithProps:(id<YCProps>)props callbacks:(id<YCCallbacks>)callbacks {
+    // 需由子类实现
+    return nil;
+}
+
+- (instancetype)initWithStates:(id<YCStates>)states template:(id<YCTemplate>)template {
+    if (self = [super init]) {
+        self.states = states;
+        self.template = template;
+        [self.template setStates:states];
+        [self.template render];
+    }
+    return self;
+}
+
+- (UIView *)getView {
+    return [self.template getView];
+}
+
+- (id<YCProps>)toProps:(id<YCProps> (^)(id<YCStates>))block {
+    return block(self.states);
+}
+
+@end
+
+//////////////////////////////////////////////////////////////
+

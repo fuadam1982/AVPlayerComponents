@@ -14,7 +14,7 @@
 @property (nonatomic, weak) id<YCGestureFloatCallbacks> callbacks;
 
 // MARK: private
-@property (nonatomic, weak) YCGestureFloatView *gesturer;
+@property (nonatomic, weak) UIView *gesturer;
 
 @end
 
@@ -28,7 +28,7 @@
     return self;
 }
 
-- (void)setGesturer:(YCGestureFloatView *)gesturer {
+- (void)setGesturer:(UIView *)gesturer {
     self.gesturer = gesturer;
 }
 
