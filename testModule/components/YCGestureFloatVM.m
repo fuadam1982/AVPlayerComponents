@@ -7,12 +7,14 @@
 //
 
 #import "YCGestureFloatVM.h"
-#import "YCGestureFloatView.h"
 
 @interface YCGestureFloatVM ()
 
 @property (nonatomic, strong) id<YCGestureFloatProps> props;
 @property (nonatomic, weak) id<YCGestureFloatCallbacks> callbacks;
+
+// MARK: private
+@property (nonatomic, weak) YCGestureFloatView *gesturer;
 
 @end
 
@@ -24,6 +26,40 @@
         self.callbacks = callbacks;
     }
     return self;
+}
+
+- (void)setGesturer:(YCGestureFloatView *)gesturer {
+    self.gesturer = gesturer;
+}
+
+- (void)onDoubleTap {
+    if ([self.callbacks respondsToSelector:@selector(gesturerOnDoubleTap:)]) {
+        [self.callbacks gesturerOnDoubleTap:self.gesturer];
+    }
+}
+
+- (void)onTap {
+    if ([self.callbacks respondsToSelector:@selector(gesturerOnTap:)]) {
+        [self.callbacks gesturerOnTap:self.gesturer];
+    }
+}
+
+- (void)onLongPress {
+    if ([self.callbacks respondsToSelector:@selector(gesturerOnLongPress:)]) {
+        [self.callbacks gesturerOnLongPress:self.gesturer];
+    }
+}
+
+- (void)onSwipWithDirection:(YCGestureFloatDirectionType)direction {
+    if ([self.callbacks respondsToSelector:@selector(gesturer:onSwipeWithDirection:)]) {
+        [self.callbacks gesturer:self.gesturer onSwipeWithDirection:direction];
+    }
+}
+
+- (void)onPanWithDirection:(YCGestureFloatDirectionType)direction {
+    if ([self.callbacks respondsToSelector:@selector(gesturer:onPanWithDirection:)]) {
+        [self.callbacks gesturer:self.gesturer onPanWithDirection:direction];
+    }
 }
 
 @end

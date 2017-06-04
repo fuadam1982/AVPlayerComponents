@@ -43,9 +43,9 @@ typedef NS_OPTIONS(int, YCGestureFloatDirectionType) {
 
 - (void)gesturerOnTap:(YCViewComponent *)gesturer;
 - (void)gesturerOnDoubleTap:(YCViewComponent *)gesturer;
+- (void)gesturerOnLongPress:(YCViewComponent *)gesturer;
 - (void)gesturer:(YCViewComponent *)gesture onSwipeWithDirection:(YCGestureFloatDirectionType)direction;
 - (void)gesturer:(YCViewComponent *)gesture onPanWithDirection:(YCGestureFloatDirectionType)direction;
-- (void)gesturerOnLongPress:(YCViewComponent *)gesturer;
 
 @end
 
