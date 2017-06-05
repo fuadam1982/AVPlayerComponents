@@ -10,19 +10,40 @@
 
 @interface YCPortraitPlayerVM ()
 
+#pragma mark - YCStates
 @property (nonatomic, strong) id<YCAVPlayerProps> props;
-@property (nonatomic, weak) id<YCAVPlayerCallbacks> callbacks;
+@property (nonatomic, weak) id<YCPortraitPlayerCallbacks> callbacks;
+
+#pragma mark - YCPortraitPlayerStates
+/** 视频播放地址，如果发生变化即切换清晰度 */
+@property (nonatomic, strong) NSString *currVideoURL;
+/** 是否手动取消播放 */
+@property (nonatomic, assign) BOOL isCancelPlay;
+/** 是否暂停，默认加载好立即播放 */
+@property (nonatomic, assign) BOOL isPause;
+/** 从指定时间点开始播放 */
+@property (nonatomic, assign) NSTimeInterval seekTimePoint;
+/** 是否显示播放状态栏 */
+@property (nonatomic, assign) BOOL showStatusBar;
 
 @end
 
 @implementation YCPortraitPlayerVM
 
-- (instancetype)initWithProps:(id<YCAVPlayerProps>)props callbacks:(id<YCAVPlayerCallbacks>)callbacks {
+- (instancetype)initWithProps:(id<YCAVPlayerProps>)props callbacks:(id<YCPortraitPlayerCallbacks>)callbacks {
     if (self = [super init]) {
         self.props = props;
         self.callbacks = callbacks;
+        // 设置初始值
+        self.currVideoURL = self.props.currVideoURL;
+        self.isPause = self.props.isPause;
+        self.seekTimePoint = self.props.seekTimePoint;
     }
     return self;
+}
+
+- (void)switchPlayerState {
+    self.isPause = !self.isPause;
 }
 
 @end

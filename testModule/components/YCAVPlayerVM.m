@@ -13,11 +13,11 @@ static NSTimeInterval kRefreshInterval = 0.5f;
 
 @interface YCAVPlayerVM ()
 
-// MARK: YCStates
+#pragma mark - YCStates
 @property (nonatomic, strong) id<YCAVPlayerProps> props;
 @property (nonatomic, weak) id<YCAVPlayerCallbacks> callbacks;
 
-// MARK: YCAVPlayerStates
+#pragma mark - YCAVPlayerStates
 /** 播放中出现错误 */
 @property (nonatomic, strong) NSError *error;
 /** 视频的总时长(秒) */
@@ -47,13 +47,11 @@ static NSTimeInterval kRefreshInterval = 0.5f;
 /** 当前的交互点, -1表示没有 */
 @property (nonatomic, assign) NSTimeInterval currinteractionTimePoint;
 
-// MARK: private
+#pragma mark - private
 /** 用于delegate传出player实例 */
 @property (nonatomic, weak) UIView *player;
-/** 已加载的最大时间点 */
-@property (nonatomic, assign) float loadedTimePoint;
-/** 暂停preload，例如3G网络下不需要下载, 同时不需要loading */
-@property (nonatomic, assign) BOOL isPausePreloading;
+
+@property (nonatomic, assign) BOOL isInitPlayingState;
 /** seekToTime后是否可以播放 */
 @property (nonatomic, assign) BOOL isCanPlay;
 /** 最近加载的时间点 */
@@ -132,10 +130,10 @@ static NSTimeInterval kRefreshInterval = 0.5f;
 }
 
 - (void)seekToTime:(NSTimeInterval)timePoint {
-    self.isCanPlay = NO;
-    self.isPlaying = NO;
-    self.currTimePoint = timePoint;
     dispatch_async(dispatch_get_main_queue(), ^{
+        self.isCanPlay = NO;
+        self.isPlaying = NO;
+        self.currTimePoint = timePoint;
         [self setVideoCurrTimePoint:timePoint];
     });
 }
@@ -307,6 +305,14 @@ static NSTimeInterval kRefreshInterval = 0.5f;
          loadedDuration:self.lastLoadedDuration
           currTimePoint:self.currTimePoint
           videoDuration:self.videoDuration];
+}
+
+- (void)switchPlayerState:(BOOL)isPause {
+    if (self.isInitPlayingState && self.isPlaying == isPause) {
+        self.isPlaying = !self.isPlaying;
+    } else {
+        self.isInitPlayingState = YES;
+    }
 }
 
 @end

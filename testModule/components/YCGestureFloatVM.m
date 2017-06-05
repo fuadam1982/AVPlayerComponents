@@ -10,10 +10,11 @@
 
 @interface YCGestureFloatVM ()
 
+#pragma mark - YCStates
 @property (nonatomic, strong) id<YCGestureFloatProps> props;
 @property (nonatomic, weak) id<YCGestureFloatCallbacks> callbacks;
 
-// MARK: private
+#pragma mark - private
 @property (nonatomic, weak) UIView *gesturer;
 
 @end

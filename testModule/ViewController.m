@@ -10,12 +10,10 @@
 
 #pragma mark - component
 #import "YCAVPlayerComponent.h"
+#import "YCPortraitPlayerComponent.h"
 
 #pragma mark - viewmodel
 #import "ViewModel.h"
-
-#pragma mark - views
-#import "YCAVPlayerView.h"
 
 #pragma mark - utils
 #import "Masonry.h"
@@ -23,8 +21,7 @@
 @interface YCMoviePlayerVC2 () <YCAVPlayerCallbacks>
 
 @property (nonatomic, strong) YCMoviePlayerVM2 *viewModel;
-@property (nonatomic, strong) YCAVPlayerComponent *playerComponent;
-@property (nonatomic, strong) UIView *playerView;
+@property (nonatomic, strong) YCPortraitPlayerComponent *portraitPlayerComponent;
 
 @end
 
@@ -40,13 +37,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor grayColor];
-    self.playerComponent = [[YCAVPlayerComponent alloc] initWithProps:[self.viewModel toProps]
-                                                            callbacks:self];
-    self.playerView = [self.playerComponent getView];
-    self.playerView.backgroundColor = [UIColor blackColor];
-    [self.view addSubview:self.playerView];
+    self.portraitPlayerComponent = [[YCPortraitPlayerComponent alloc] initWithProps:[self.viewModel toProps]
+                                                                        callbacks:self];
+    self.portraitPlayerComponent.view.backgroundColor = [UIColor blackColor];
+    [self.view addSubview:self.portraitPlayerComponent.view];
     
-    [self.playerView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.portraitPlayerComponent.view mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.and.right.equalTo(self.view);
         make.top.equalTo(@0);
         make.height.equalTo(@(180 * [UIScreen mainScreen].bounds.size.height / 568));
@@ -60,15 +56,10 @@
 
 #pragma mark - YCAVPlayerCallbacks
 
-//- (void)playerOnReadyToPlay:(YCAVPlayerView *)player {
-//    NSLog(@">>> readyToPlay ...");
-//}
-
 - (void)player:(UIView *)player onLoadedDurations:(NSDictionary<NSNumber *,NSNumber *> *)loadedDurations {
     NSLog(@">>> loaded: %@", loadedDurations);
 }
 
-// TODO: ignore isLagged = NO
 - (void)player:(UIView *)player onLagged:(BOOL)isLagging loadSpeed:(CGFloat)loadSpeed {
     NSLog(@">>> isLagged: %d, loadSpeed:%0.2f ...", isLagging, loadSpeed);
 }

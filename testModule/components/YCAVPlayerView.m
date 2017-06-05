@@ -61,7 +61,7 @@ static NSArray *AssetKeys = nil;
     @weakify(self);
     return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
         @strongify(self);
-        AVURLAsset *asset = [AVURLAsset URLAssetWithURL:[NSURL URLWithString:self.viewModel.props.videoURL]
+        AVURLAsset *asset = [AVURLAsset URLAssetWithURL:[NSURL URLWithString:self.viewModel.props.currVideoURL]
                                                 options:nil];
         [asset loadValuesAsynchronouslyForKeys:AssetKeys completionHandler:^{
             // 检查资源是否正常
@@ -210,7 +210,7 @@ static NSArray *AssetKeys = nil;
         [self.player addBoundaryTimeObserverForTimes:self.viewModel.props.interactionTimes
                                                queue:self.queue
                                           usingBlock:^{
-                                            // TODO: 
+                                            // TODO: 实现交互点
                                           }];
     }
     
@@ -243,7 +243,7 @@ static NSArray *AssetKeys = nil;
          [self.viewModel videoPlayFinishedByInterrupt:YES];
      }];
     // 外部切换数据源
-    [[[RACObserve(self.viewModel.props, videoURL) skip:1] distinctUntilChanged]
+    [[[RACObserve(self.viewModel.props, currVideoURL) skip:1] distinctUntilChanged]
      subscribeNext:^(id x) {
          @strongify(self);
          [self stopPlayerItem];
@@ -257,7 +257,7 @@ static NSArray *AssetKeys = nil;
       }]
      subscribeNext:^(id isPause) {
         @strongify(self);
-        [self videoPlayControl];
+         [self.viewModel switchPlayerState:[isPause boolValue]];
      }];
     // 内部播放状态
     [[[RACObserve(self.viewModel, isPlaying) distinctUntilChanged]

@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "Componentable.h"
-#import "YCGestureFloatView.h"
+#import "YCGestureFloatComponet.h"
 
 @interface YCGestureFloatVM : NSObject<YCStates>
 

@@ -19,22 +19,22 @@
 @property (nonatomic, assign, readonly) BOOL isWIFINetworking;
 /** 是否在非WIFI网络下继续预加载, 不需要联动*/
 @property (nonatomic, assign, readonly) BOOL isWANNetworkingStopPreload;
-/** 是否手动取消播放 */
-@property (nonatomic, assign, readonly) BOOL isCancelPlay;
 /** 是否播放本地视频，不需要联动 */
 @property (nonatomic, assign, readonly) BOOL isLocalVideo;
 /** 是否缓存视频到本地 */
 @property (nonatomic, assign, readonly) BOOL isCachedRemoteVideo;
-/** 视频播放地址，如果发生变化即切换清晰度 */
-@property (nonatomic, strong, readonly) NSString *videoURL;
 /** 最小可播放时间，如果buffer时间小于该值则属于卡顿。不需要联动 */
 @property (nonatomic, assign, readonly) NSTimeInterval minPlayTime;
+/** 交互时间点数组, 值为float。不需要联动 */
+@property (nonatomic, strong, readonly) NSArray<NSNumber *> *interactionTimes;
+/** 当前的视频播放地址，如果发生变化即切换清晰度 */
+@property (nonatomic, strong, readonly) NSString *currVideoURL;
+/** 是否手动取消播放 */
+@property (nonatomic, assign, readonly) BOOL isCancelPlay;
 /** 是否暂停，默认加载好立即播放 */
 @property (nonatomic, assign, readonly) BOOL isPause;
 /** 从指定时间点开始播放 */
 @property (nonatomic, assign, readonly) NSTimeInterval seekTimePoint;
-/** 交互时间点数组, 值为float。不需要联动 */
-@property (nonatomic, strong, readonly) NSArray<NSNumber *> *interactionTimes;
 // TODO: 亮度、音量、
 
 @end
@@ -86,14 +86,6 @@
 - (void)player:(UIView *)player onError:(NSError *)error;
 
 /**
- 获取到视频总时长
- 
- @param player player
- @param videoDuration 时长
- */
-- (void)player:(UIView *)player onReadVideoDuration:(float)videoDuration;
-
-/**
  视频播放完成
  
  @param player player
@@ -102,6 +94,14 @@
  @param stayDuration 观看视频停留时长
  */
 - (void)player:(UIView *)player onFinishedByInterrupt:(BOOL)isInterrupt watchedDuration:(NSTimeInterval)watchedDuration stayDuration:(NSTimeInterval)stayDuration;
+
+/**
+ 获取到视频总时长
+ 
+ @param player player
+ @param videoDuration 时长
+ */
+- (void)player:(UIView *)player onReadVideoDuration:(float)videoDuration;
 
 /**
  视频播放
@@ -150,8 +150,11 @@
 
 @end
 
-@interface YCAVPlayerComponent : YCComponent
+//////////////////////////////////////////////////////////////
 
-- (instancetype)initWithProps:(id<YCAVPlayerProps>)props callbacks:(id<YCAVPlayerCallbacks>)callbacks;
+/*!
+ *  基础播放器，不包含业务逻辑
+ */
+@interface YCAVPlayerComponent : YCComponent
 
 @end

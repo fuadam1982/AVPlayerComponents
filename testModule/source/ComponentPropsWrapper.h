@@ -23,5 +23,9 @@
                                states:(id<YCStates>)states
                           nameMapping:(NSDictionary *)nameMapping
                             constVars:(NSDictionary *)constVars;
+- (instancetype)initWithPropsProtocol:(Protocol *)propsProtocol
+                               states:(id<YCStates>)states
+                     nameMappingBlock:(NSString * (^)(NSString *))nameMappingBlock
+                            constVars:(NSDictionary *)constVars;
 
 @end

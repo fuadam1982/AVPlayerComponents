@@ -88,7 +88,7 @@
     return self;
 }
 
-- (UIView *)getView {
+- (UIView *)view {
     return [self.template getView];
 }
 

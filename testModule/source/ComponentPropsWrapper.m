@@ -15,7 +15,7 @@
 /** states对象，一般为viewmodel */
 @property (nonatomic, strong) id<YCStates> states;
 /** keyPath映射，可以用来转为plain object */
-@property (nonatomic, strong) NSDictionary *nameMapping;
+@property (nonatomic, strong) NSString * (^nameMappingBlock)(NSString *key);
 /** 不会改变的状态 */
 @property (nonatomic, strong) NSDictionary *constVars;
 /** props属性名-类型映射，用于ReadonlyObjWrapper */
@@ -31,9 +31,19 @@
                                states:(id<YCStates>)states
                           nameMapping:(NSDictionary *)nameMapping
                             constVars:(NSDictionary *)constVars {
+    return [self initWithPropsProtocol:propsProtocol
+                                states:states
+                      nameMappingBlock:^(NSString * key) { return nameMapping[key]; }
+                             constVars:constVars];
+}
+
+- (instancetype)initWithPropsProtocol:(Protocol *)propsProtocol
+                               states:(id<YCStates>)states
+                     nameMappingBlock:(NSString * (^)(NSString *))nameMappingBlock
+                            constVars:(NSDictionary *)constVars {
     self = [super initWithDataSource:self];
     self.states = states;
-    self.nameMapping = nameMapping;
+    self.nameMappingBlock = nameMappingBlock;
     self.constVars = constVars;
 
     // 缓存prop协议的属性类型信息
@@ -58,16 +68,17 @@
     self.propTypesMapping = propTypesMapping;
     
     // 获取state类型的属性类型信息
-    cacheKey = NSStringFromClass([states class]);
-    NSDictionary *stateTypesMapping = statePropTypesMappingCache[cacheKey];
-    if (!stateTypesMapping) {
-        @synchronized (statePropTypesMappingCache) {
-            stateTypesMapping = parseClassPropertiesInfo([states class]);
-            statePropTypesMappingCache[cacheKey] = stateTypesMapping;
+    if (states) {
+        cacheKey = NSStringFromClass([states class]);
+        NSDictionary *stateTypesMapping = statePropTypesMappingCache[cacheKey];
+        if (!stateTypesMapping) {
+            @synchronized (statePropTypesMappingCache) {
+                stateTypesMapping = parseClassPropertiesInfo([states class]);
+                statePropTypesMappingCache[cacheKey] = stateTypesMapping;
+            }
         }
+        self.stateTypesMapping = stateTypesMapping;
     }
-    self.stateTypesMapping = stateTypesMapping;
-    
     
     [self dataBinding];
     
@@ -89,10 +100,13 @@
             }
 
             NSString *propName = key;
-            if (self.nameMapping && self.nameMapping[key]) {
-                propName = self.nameMapping[key];
+            if (self.nameMappingBlock) {
+                NSString *mappedName = self.nameMappingBlock(key);
+                if (mappedName) {
+                    propName = mappedName;
+                }
             }
-            
+
             if (self.stateTypesMapping[propName]) {
                 [[[obj rac_valuesForKeyPath:propName
                                    observer:obj]
@@ -118,8 +132,11 @@
     if (!state && self.states) {
         NSObject *obj = self.states;
         NSString *propName = key;
-        if (self.nameMapping && self.nameMapping[key]) {
-            propName = self.nameMapping[key];
+        if (self.nameMappingBlock) {
+            NSString *mappedName = self.nameMappingBlock(key);
+            if (mappedName) {
+                propName = mappedName;
+            }
         }
         state = [obj valueForKeyPath:propName];
     }

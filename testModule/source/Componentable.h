@@ -41,7 +41,7 @@
 
 /** 需要子类实现 */
 - (instancetype)initWithProps:(id<YCProps>)props callbacks:(id<YCCallbacks>)callbacks;
-- (UIView *)getView;
+- (UIView *)view;
 - (id<YCProps>)toProps:(id<YCProps> (^) (id<YCStates> states))block;
 
 @end

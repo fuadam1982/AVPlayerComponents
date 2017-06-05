@@ -7,9 +7,14 @@
 //
 
 #import "YCGestureFloatView.h"
+
+#pragma mark - componet
+#import "YCGestureFloatComponet.h"
+
+#pragma mark - viewmodel
 #import "YCGestureFloatVM.h"
 
-@interface YCGestureFloatView: YCViewTemplate
+@interface YCGestureFloatView ()
 
 @property (nonatomic, strong) YCGestureFloatVM *viewModel;
 @property (nonatomic, strong) UITapGestureRecognizer *tapGesture;
@@ -26,11 +31,8 @@
     return [self getStates];
 }
 
-- (instancetype)init {
-    if (self = [super init]) {
-        [self buildGesture];
-    }
-    return self;
+- (void)render {
+    [self buildGesture];
 }
 
 - (void)buildGesture {
@@ -89,18 +91,6 @@
 - (void)onPan {
     // TODO: get direction
     [self.viewModel onPanWithDirection:YCGestureFloatDirectionTypeNone];
-}
-
-@end
-
-//////////////////////////////////////////////////////////////
-
-@implementation YCGestureFloatComponet
-
-- (instancetype)initWithProps:(id<YCGestureFloatProps>)props callbacks:(id<YCGestureFloatCallbacks>)callbacks {
-    YCGestureFloatVM *states = [[YCGestureFloatVM alloc] initWithProps:props callbacks:callbacks];
-    YCGestureFloatView *template = [[YCGestureFloatView alloc] init];
-    return [super initWithStates:states template:template];
 }
 
 @end

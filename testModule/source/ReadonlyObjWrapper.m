@@ -10,6 +10,7 @@
 
 @interface ReadonlyObjWrapper ()
 
+/** 属性访问数据源 */
 @property (nonatomic, assign) id<ReadonlyObjDataSource> dataSource;
 
 @end
@@ -22,7 +23,7 @@
     return self;
 }
 
-// 利用runtime捕获对prop的get方法
+/** 利用runtime捕获对prop的get方法 */
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)selector {
     NSString* key = NSStringFromSelector(selector);
     if ([key rangeOfString:@"set"].location == NSNotFound) {
@@ -36,7 +37,7 @@
     return nil;
 }
 
-// 返回真实的数据
+/** 返回真实的数据 */
 - (void)forwardInvocation:(NSInvocation *)invocation {
     NSString *key = NSStringFromSelector([invocation selector]);
     if ([key rangeOfString:@"set"].location == NSNotFound) {
@@ -69,12 +70,12 @@
     }
 }
 
-// 用于捕获KVO的属性访问
+/** 用于捕获KVO的属性访问 */
 - (id)valueForUndefinedKey:(NSString *)key {
     return [self.dataSource stateForKey:key];
 }
 
-// 用于实现KVO的赋值后通知
+/** 用于实现KVO的赋值后通知 */
 - (void)setValue:(nullable id)value forUndefinedKey:(NSString *)key {
     
 }

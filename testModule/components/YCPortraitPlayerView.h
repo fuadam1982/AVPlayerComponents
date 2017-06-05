@@ -7,11 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+
+#pragma mark - utils
 #import "Componentable.h"
-#import "YCAVPlayerComponent.h"
 
-@interface YCPortraitPlayerComponent: YCComponent
-
-- (instancetype)initWithProps:(id<YCAVPlayerProps>)props callbacks:(id<YCAVPlayerCallbacks>)callbacks;
+@interface YCPortraitPlayerView: YCViewTemplate
 
 @end

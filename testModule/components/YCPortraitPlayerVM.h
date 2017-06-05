@@ -9,10 +9,14 @@
 #import <Foundation/Foundation.h>
 #import "Componentable.h"
 #import "YCAVPlayerComponent.h"
+#import "YCPortraitPlayerComponent.h"
 
-@interface YCPortraitPlayerVM : NSObject<YCStates>
+@interface YCPortraitPlayerVM : NSObject<YCPortraitPlayerStates>
 
 @property (nonatomic, strong, readonly) id<YCAVPlayerProps> props;
-@property (nonatomic, weak, readonly) id<YCAVPlayerCallbacks> callbacks;
+@property (nonatomic, weak, readonly) id<YCPortraitPlayerCallbacks> callbacks;
+
+/** 切换播放器暂停/播放状态 */
+- (void)switchPlayerState;
 
 @end

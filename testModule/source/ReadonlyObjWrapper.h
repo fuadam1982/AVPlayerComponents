@@ -13,7 +13,10 @@
  */
 @protocol ReadonlyObjDataSource <NSObject>
 
+/** 根据key获取state值 */
 - (id _Nullable)stateForKey:(NSString* _Nonnull)key;
+
+/** 根据key获取属性encoding类型 */
 - (NSString* _Nonnull)propTypeForKey:(NSString* _Nonnull)key;
 
 @end
@@ -24,6 +27,7 @@
  */
 @interface ReadonlyObjWrapper : NSObject
 
+/** 使用属性维护数据源初始化 */
 - (instancetype _Nonnull)initWithDataSource:(id<ReadonlyObjDataSource> _Nonnull)dataSource;
 
 @end

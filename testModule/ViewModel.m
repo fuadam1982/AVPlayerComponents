@@ -14,7 +14,7 @@
 @interface YCMoviePlayerVM2 () <YCStates>
 
 /** 视频播放地址，如果发生变化即切换清晰度 */
-@property (nonatomic, strong) NSString *videoURL;
+@property (nonatomic, strong) NSString *currVideoURL;
 /** 是否手动取消播放 */
 @property (nonatomic, assign) BOOL isCancelPlay;
 /** 是否暂停，默认加载好立即播放 */
@@ -37,7 +37,7 @@
 - (instancetype)init {
     if (self = [super init]) {
         self.isPause = NO;
-        self.videoURL = @"https://o558dvxry.qnssl.com/mobileM/mobileM_586d9599065b7e9d7142953e.m3u8";
+        self.currVideoURL = @"https://o558dvxry.qnssl.com/mobileM/mobileM_586d9599065b7e9d7142953e.m3u8";
         self.seekTimePoint = 0;
     }
     return self;

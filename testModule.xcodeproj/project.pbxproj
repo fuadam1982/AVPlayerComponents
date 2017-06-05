@@ -7,10 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4B1888AB1ECEA69C00E339AA /* YCSimpleMoviePlayerVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B1888AA1ECEA69C00E339AA /* YCSimpleMoviePlayerVM.m */; };
-		4B1888AE1ECEA8D600E339AA /* YCSimpleMoviePlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B1888AD1ECEA8D600E339AA /* YCSimpleMoviePlayerView.m */; };
-		4B1888B41ECEAF4000E339AA /* YCPlayerSkipBtnVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B1888B31ECEAF4000E339AA /* YCPlayerSkipBtnVM.m */; };
-		4B1888B71ECEAF6600E339AA /* YCPlayerSkipBtnVIew.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B1888B61ECEAF6600E339AA /* YCPlayerSkipBtnVIew.m */; };
 		4B1AA7811EE0103E00D48741 /* YCPortraitPlayerVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B1AA7801EE0103E00D48741 /* YCPortraitPlayerVM.m */; };
 		4B1AA7841EE0109C00D48741 /* YCLandscapePlayerVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B1AA7831EE0109C00D48741 /* YCLandscapePlayerVM.m */; };
 		4B1AA7871EE0113E00D48741 /* YCLandscapePlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B1AA7861EE0113E00D48741 /* YCLandscapePlayerView.m */; };
@@ -30,6 +26,12 @@
 		4BBD8DCD1ECC671D00AD6234 /* StoreAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BBD8DCC1ECC671D00AD6234 /* StoreAction.m */; };
 		4BBD8DD01ECC673200AD6234 /* StoreDispatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BBD8DCF1ECC673200AD6234 /* StoreDispatcher.m */; };
 		4BBD8DD31ECC674B00AD6234 /* StoreReducer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BBD8DD21ECC674B00AD6234 /* StoreReducer.m */; };
+		4BF55D6B1EE4F5CC002A770B /* YCGestureFloatComponet.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BF55D6A1EE4F5CC002A770B /* YCGestureFloatComponet.m */; };
+		4BF55D6E1EE4F8AE002A770B /* YCPortraitPlayerComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BF55D6D1EE4F8AE002A770B /* YCPortraitPlayerComponent.m */; };
+		4BF55D711EE51560002A770B /* YCTeacherShowPlayerComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BF55D701EE51560002A770B /* YCTeacherShowPlayerComponent.m */; };
+		4BF55D741EE5159D002A770B /* YCLandscapePlayerComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BF55D731EE5159D002A770B /* YCLandscapePlayerComponent.m */; };
+		4BF55D771EE516C5002A770B /* YCTeacherShowPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BF55D761EE516C5002A770B /* YCTeacherShowPlayerView.m */; };
+		4BF55D7A1EE516DF002A770B /* YCTeacherShowPlayerVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BF55D791EE516DF002A770B /* YCTeacherShowPlayerVM.m */; };
 		4BF7D2ED1EC9AA9800A9E5F4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BF7D2EC1EC9AA9800A9E5F4 /* main.m */; };
 		4BF7D2F01EC9AA9800A9E5F4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BF7D2EF1EC9AA9800A9E5F4 /* AppDelegate.m */; };
 		4BF7D2F31EC9AA9800A9E5F4 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BF7D2F21EC9AA9800A9E5F4 /* ViewController.m */; };
@@ -43,14 +45,6 @@
 
 /* Begin PBXFileReference section */
 		3CBFD0DEAEC98128ABDD438E /* Pods-testModule.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-testModule.debug.xcconfig"; path = "Pods/Target Support Files/Pods-testModule/Pods-testModule.debug.xcconfig"; sourceTree = "<group>"; };
-		4B1888A91ECEA69C00E339AA /* YCSimpleMoviePlayerVM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YCSimpleMoviePlayerVM.h; path = components/YCSimpleMoviePlayerVM.h; sourceTree = "<group>"; };
-		4B1888AA1ECEA69C00E339AA /* YCSimpleMoviePlayerVM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YCSimpleMoviePlayerVM.m; path = components/YCSimpleMoviePlayerVM.m; sourceTree = "<group>"; };
-		4B1888AC1ECEA8D600E339AA /* YCSimpleMoviePlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YCSimpleMoviePlayerView.h; path = components/YCSimpleMoviePlayerView.h; sourceTree = "<group>"; };
-		4B1888AD1ECEA8D600E339AA /* YCSimpleMoviePlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YCSimpleMoviePlayerView.m; path = components/YCSimpleMoviePlayerView.m; sourceTree = "<group>"; };
-		4B1888B21ECEAF4000E339AA /* YCPlayerSkipBtnVM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YCPlayerSkipBtnVM.h; path = components/YCPlayerSkipBtnVM.h; sourceTree = "<group>"; };
-		4B1888B31ECEAF4000E339AA /* YCPlayerSkipBtnVM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YCPlayerSkipBtnVM.m; path = components/YCPlayerSkipBtnVM.m; sourceTree = "<group>"; };
-		4B1888B51ECEAF6600E339AA /* YCPlayerSkipBtnVIew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YCPlayerSkipBtnVIew.h; path = components/YCPlayerSkipBtnVIew.h; sourceTree = "<group>"; };
-		4B1888B61ECEAF6600E339AA /* YCPlayerSkipBtnVIew.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YCPlayerSkipBtnVIew.m; path = components/YCPlayerSkipBtnVIew.m; sourceTree = "<group>"; };
 		4B1AA77F1EE0103E00D48741 /* YCPortraitPlayerVM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YCPortraitPlayerVM.h; path = components/YCPortraitPlayerVM.h; sourceTree = "<group>"; };
 		4B1AA7801EE0103E00D48741 /* YCPortraitPlayerVM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YCPortraitPlayerVM.m; path = components/YCPortraitPlayerVM.m; sourceTree = "<group>"; };
 		4B1AA7821EE0109C00D48741 /* YCLandscapePlayerVM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YCLandscapePlayerVM.h; path = components/YCLandscapePlayerVM.h; sourceTree = "<group>"; };
@@ -88,6 +82,18 @@
 		4BBD8DCF1ECC673200AD6234 /* StoreDispatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StoreDispatcher.m; path = source/StoreDispatcher.m; sourceTree = "<group>"; };
 		4BBD8DD11ECC674B00AD6234 /* StoreReducer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StoreReducer.h; path = source/StoreReducer.h; sourceTree = "<group>"; };
 		4BBD8DD21ECC674B00AD6234 /* StoreReducer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StoreReducer.m; path = source/StoreReducer.m; sourceTree = "<group>"; };
+		4BF55D691EE4F5CC002A770B /* YCGestureFloatComponet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YCGestureFloatComponet.h; path = components/YCGestureFloatComponet.h; sourceTree = "<group>"; };
+		4BF55D6A1EE4F5CC002A770B /* YCGestureFloatComponet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YCGestureFloatComponet.m; path = components/YCGestureFloatComponet.m; sourceTree = "<group>"; };
+		4BF55D6C1EE4F8AE002A770B /* YCPortraitPlayerComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YCPortraitPlayerComponent.h; path = components/YCPortraitPlayerComponent.h; sourceTree = "<group>"; };
+		4BF55D6D1EE4F8AE002A770B /* YCPortraitPlayerComponent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YCPortraitPlayerComponent.m; path = components/YCPortraitPlayerComponent.m; sourceTree = "<group>"; };
+		4BF55D6F1EE51560002A770B /* YCTeacherShowPlayerComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YCTeacherShowPlayerComponent.h; path = components/YCTeacherShowPlayerComponent.h; sourceTree = "<group>"; };
+		4BF55D701EE51560002A770B /* YCTeacherShowPlayerComponent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YCTeacherShowPlayerComponent.m; path = components/YCTeacherShowPlayerComponent.m; sourceTree = "<group>"; };
+		4BF55D721EE5159D002A770B /* YCLandscapePlayerComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YCLandscapePlayerComponent.h; path = components/YCLandscapePlayerComponent.h; sourceTree = "<group>"; };
+		4BF55D731EE5159D002A770B /* YCLandscapePlayerComponent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YCLandscapePlayerComponent.m; path = components/YCLandscapePlayerComponent.m; sourceTree = "<group>"; };
+		4BF55D751EE516C5002A770B /* YCTeacherShowPlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YCTeacherShowPlayerView.h; path = components/YCTeacherShowPlayerView.h; sourceTree = "<group>"; };
+		4BF55D761EE516C5002A770B /* YCTeacherShowPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YCTeacherShowPlayerView.m; path = components/YCTeacherShowPlayerView.m; sourceTree = "<group>"; };
+		4BF55D781EE516DF002A770B /* YCTeacherShowPlayerVM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YCTeacherShowPlayerVM.h; path = components/YCTeacherShowPlayerVM.h; sourceTree = "<group>"; };
+		4BF55D791EE516DF002A770B /* YCTeacherShowPlayerVM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YCTeacherShowPlayerVM.m; path = components/YCTeacherShowPlayerVM.m; sourceTree = "<group>"; };
 		4BF7D2E81EC9AA9800A9E5F4 /* testModule.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = testModule.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BF7D2EC1EC9AA9800A9E5F4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		4BF7D2EE1EC9AA9800A9E5F4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -133,14 +139,8 @@
 			isa = PBXGroup;
 			children = (
 				4B52326B1EE114E5004D1522 /* common */,
-				4B1AA7881EE0116900D48741 /* YCPortraitPlayerView.h */,
-				4B1AA7891EE0116900D48741 /* YCPortraitPlayerView.m */,
-				4B1AA7851EE0113E00D48741 /* YCLandscapePlayerView.h */,
-				4B1AA7861EE0113E00D48741 /* YCLandscapePlayerView.m */,
-				4B1888B51ECEAF6600E339AA /* YCPlayerSkipBtnVIew.h */,
-				4B1888B61ECEAF6600E339AA /* YCPlayerSkipBtnVIew.m */,
-				4B1888AC1ECEA8D600E339AA /* YCSimpleMoviePlayerView.h */,
-				4B1888AD1ECEA8D600E339AA /* YCSimpleMoviePlayerView.m */,
+				4BF55D751EE516C5002A770B /* YCTeacherShowPlayerView.h */,
+				4BF55D761EE516C5002A770B /* YCTeacherShowPlayerView.m */,
 			);
 			name = views;
 			sourceTree = "<group>";
@@ -149,14 +149,8 @@
 			isa = PBXGroup;
 			children = (
 				4B52326F1EE13A7D004D1522 /* common */,
-				4B1AA77F1EE0103E00D48741 /* YCPortraitPlayerVM.h */,
-				4B1AA7801EE0103E00D48741 /* YCPortraitPlayerVM.m */,
-				4B1AA7821EE0109C00D48741 /* YCLandscapePlayerVM.h */,
-				4B1AA7831EE0109C00D48741 /* YCLandscapePlayerVM.m */,
-				4B1888B21ECEAF4000E339AA /* YCPlayerSkipBtnVM.h */,
-				4B1888B31ECEAF4000E339AA /* YCPlayerSkipBtnVM.m */,
-				4B1888A91ECEA69C00E339AA /* YCSimpleMoviePlayerVM.h */,
-				4B1888AA1ECEA69C00E339AA /* YCSimpleMoviePlayerVM.m */,
+				4BF55D781EE516DF002A770B /* YCTeacherShowPlayerVM.h */,
+				4BF55D791EE516DF002A770B /* YCTeacherShowPlayerVM.m */,
 			);
 			name = viewmodels;
 			sourceTree = "<group>";
@@ -168,6 +162,10 @@
 				4B2462831ED2B726000D1363 /* YCAVPlayerView.m */,
 				4B52326C1EE11A9C004D1522 /* YCGestureFloatView.h */,
 				4B52326D1EE11A9C004D1522 /* YCGestureFloatView.m */,
+				4B1AA7881EE0116900D48741 /* YCPortraitPlayerView.h */,
+				4B1AA7891EE0116900D48741 /* YCPortraitPlayerView.m */,
+				4B1AA7851EE0113E00D48741 /* YCLandscapePlayerView.h */,
+				4B1AA7861EE0113E00D48741 /* YCLandscapePlayerView.m */,
 			);
 			name = common;
 			sourceTree = "<group>";
@@ -179,6 +177,10 @@
 				4B2462861ED2C702000D1363 /* YCAVPlayerVM.m */,
 				4B5232701EE13B11004D1522 /* YCGestureFloatVM.h */,
 				4B5232711EE13B11004D1522 /* YCGestureFloatVM.m */,
+				4B1AA77F1EE0103E00D48741 /* YCPortraitPlayerVM.h */,
+				4B1AA7801EE0103E00D48741 /* YCPortraitPlayerVM.m */,
+				4B1AA7821EE0109C00D48741 /* YCLandscapePlayerVM.h */,
+				4B1AA7831EE0109C00D48741 /* YCLandscapePlayerVM.m */,
 			);
 			name = common;
 			sourceTree = "<group>";
@@ -197,10 +199,26 @@
 		4B6FBC5C1EE3DEEF00325867 /* components */ = {
 			isa = PBXGroup;
 			children = (
-				4B6FBC5D1EE3F34700325867 /* YCAVPlayerComponent.h */,
-				4B6FBC5E1EE3F34700325867 /* YCAVPlayerComponent.m */,
+				4BF55D681EE4F597002A770B /* common */,
+				4BF55D6F1EE51560002A770B /* YCTeacherShowPlayerComponent.h */,
+				4BF55D701EE51560002A770B /* YCTeacherShowPlayerComponent.m */,
 			);
 			name = components;
+			sourceTree = "<group>";
+		};
+		4BF55D681EE4F597002A770B /* common */ = {
+			isa = PBXGroup;
+			children = (
+				4B6FBC5D1EE3F34700325867 /* YCAVPlayerComponent.h */,
+				4B6FBC5E1EE3F34700325867 /* YCAVPlayerComponent.m */,
+				4BF55D691EE4F5CC002A770B /* YCGestureFloatComponet.h */,
+				4BF55D6A1EE4F5CC002A770B /* YCGestureFloatComponet.m */,
+				4BF55D6C1EE4F8AE002A770B /* YCPortraitPlayerComponent.h */,
+				4BF55D6D1EE4F8AE002A770B /* YCPortraitPlayerComponent.m */,
+				4BF55D721EE5159D002A770B /* YCLandscapePlayerComponent.h */,
+				4BF55D731EE5159D002A770B /* YCLandscapePlayerComponent.m */,
+			);
+			name = common;
 			sourceTree = "<group>";
 		};
 		4BF7D2DF1EC9AA9800A9E5F4 = {
@@ -433,7 +451,7 @@
 				4BBD8DD31ECC674B00AD6234 /* StoreReducer.m in Sources */,
 				4B6FBC5F1EE3F34700325867 /* YCAVPlayerComponent.m in Sources */,
 				4B52326E1EE11A9C004D1522 /* YCGestureFloatView.m in Sources */,
-				4B1888AE1ECEA8D600E339AA /* YCSimpleMoviePlayerView.m in Sources */,
+				4BF55D6E1EE4F8AE002A770B /* YCPortraitPlayerComponent.m in Sources */,
 				4B5FFD481ECC230F00940B9F /* ComponentPropsBuilder.m in Sources */,
 				4B5FFD391ECAF5E400940B9F /* Tools.m in Sources */,
 				4BF7D2F31EC9AA9800A9E5F4 /* ViewController.m in Sources */,
@@ -442,18 +460,20 @@
 				4BF7D30C1ECAA13200A9E5F4 /* ViewModel.m in Sources */,
 				4BBD8DC71ECC668100AD6234 /* StateStore.m in Sources */,
 				4BF7D2F01EC9AA9800A9E5F4 /* AppDelegate.m in Sources */,
-				4B1888B71ECEAF6600E339AA /* YCPlayerSkipBtnVIew.m in Sources */,
-				4B1888B41ECEAF4000E339AA /* YCPlayerSkipBtnVM.m in Sources */,
+				4BF55D711EE51560002A770B /* YCTeacherShowPlayerComponent.m in Sources */,
 				4BF7D2ED1EC9AA9800A9E5F4 /* main.m in Sources */,
 				4B2462841ED2B726000D1363 /* YCAVPlayerView.m in Sources */,
 				4B1AA7841EE0109C00D48741 /* YCLandscapePlayerVM.m in Sources */,
 				4B1AA7871EE0113E00D48741 /* YCLandscapePlayerView.m in Sources */,
+				4BF55D771EE516C5002A770B /* YCTeacherShowPlayerView.m in Sources */,
 				4B1AA7811EE0103E00D48741 /* YCPortraitPlayerVM.m in Sources */,
 				4B5FFD351ECAED1100940B9F /* ReadonlyObjWrapper.m in Sources */,
-				4B1888AB1ECEA69C00E339AA /* YCSimpleMoviePlayerVM.m in Sources */,
+				4BF55D741EE5159D002A770B /* YCLandscapePlayerComponent.m in Sources */,
+				4BF55D7A1EE516DF002A770B /* YCTeacherShowPlayerVM.m in Sources */,
 				4B5FFD3F1ECB0F1E00940B9F /* ComponentPropsWrapper.m in Sources */,
 				4B5232721EE13B11004D1522 /* YCGestureFloatVM.m in Sources */,
 				4B1AA78A1EE0116900D48741 /* YCPortraitPlayerView.m in Sources */,
+				4BF55D6B1EE4F5CC002A770B /* YCGestureFloatComponet.m in Sources */,
 				4BBD8DCD1ECC671D00AD6234 /* StoreAction.m in Sources */,
 				4BBD8DD01ECC673200AD6234 /* StoreDispatcher.m in Sources */,
 			);

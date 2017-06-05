@@ -27,5 +27,7 @@
 - (void)videoPlayFinishedByInterrupt:(BOOL)interrupt;
 /** 接收到系统发来的卡顿通知 */
 - (void)receiveSystemStallNotify;
+/** 切换播放器暂停/播放状态 */
+- (void)switchPlayerState:(BOOL)isPause;
 
 @end

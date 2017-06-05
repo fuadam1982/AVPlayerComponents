@@ -12,6 +12,10 @@ ComponentPropsBuilder * toProps(Protocol *propsProtocol) {
     return [[ComponentPropsBuilder alloc] initWithPropsProtocol:propsProtocol];
 }
 
+NSString *toKeyPath(NSString *rootPath, NSString *key) {
+    return [NSString stringWithFormat:@"%@.%@", rootPath, key];
+}
+
 //////////////////////////////////////////////////////
 
 @interface ComponentPropsBuilder ()
@@ -22,6 +26,8 @@ ComponentPropsBuilder * toProps(Protocol *propsProtocol) {
 @property (nonatomic, strong) id<YCStates> pStates;
 /** keyPath映射，可以用来转为plain object */
 @property (nonatomic, strong) NSDictionary *pNameMapping;
+/** 目前nameMapping与nameMappingBlock只需处理一个 */
+@property (nonatomic, strong) NSString * (^pNameMappingBlock)(NSString *key);
 /** 不会改变的状态 */
 @property (nonatomic, strong) NSDictionary *pConstVars;
 
@@ -37,10 +43,17 @@ ComponentPropsBuilder * toProps(Protocol *propsProtocol) {
 }
 
 - (ComponentPropsWrapper *)buildWrapper {
-    return [[ComponentPropsWrapper alloc] initWithPropsProtocol:self.propsProtocol
-                                                         states:self.pStates
-                                                    nameMapping:self.pNameMapping
-                                                      constVars:self.pConstVars];
+    if (self.pNameMappingBlock) {
+        return [[ComponentPropsWrapper alloc] initWithPropsProtocol:self.propsProtocol
+                                                             states:self.pStates
+                                                   nameMappingBlock:self.pNameMappingBlock
+                                                          constVars:self.pConstVars];
+    } else {
+        return [[ComponentPropsWrapper alloc] initWithPropsProtocol:self.propsProtocol
+                                                             states:self.pStates
+                                                        nameMapping:self.pNameMapping
+                                                          constVars:self.pConstVars];
+    }
 }
 
 - (ComponentPropsBuilder * (^) (id<YCStates> states))states {
@@ -53,6 +66,13 @@ ComponentPropsBuilder * toProps(Protocol *propsProtocol) {
 - (ComponentPropsBuilder * (^) (NSDictionary *))nameMapping {
     return ^ComponentPropsBuilder *(NSDictionary *nameMapping) {
         self.pNameMapping = nameMapping;
+        return self;
+    };
+}
+
+- (ComponentPropsBuilder * (^) (NSString * (^)(NSString *)))nameMappingBlock {
+    return ^ComponentPropsBuilder *(id nameMappingBlock) {
+        self.pNameMappingBlock = nameMappingBlock;
         return self;
     };
 }
