@@ -42,7 +42,7 @@
          return self.viewModel.isInited;
      }] deliverOnMainThread]
      subscribeNext:^(id x) {
-//         [self popUpAnimation:!self.viewModel.isShow];
+         [self popUpAnimation:!self.viewModel.isShow];
      }];
     
     [[[RACObserve(self.viewModel.props, startInit)
@@ -50,22 +50,22 @@
      subscribeNext:^(id x) {
          @strongify(self);
          if (self.viewModel.props.initShowState) {
-//             [self show];
+             [self show];
          } else {
-//             [self hide];
+             [self hide];
          }
          [self.viewModel initCompleted];
      }];
 }
 
 - (void)show {
-    [self mas_updateConstraints:^(MASConstraintMaker *make) {
+    [self mas_makeConstraints:^(MASConstraintMaker *make) {
         self.popUpConstraint = make.bottom.equalTo(self.superview);
     }];
 }
 
 - (void)hide {
-    [self mas_updateConstraints:^(MASConstraintMaker *make) {
+    [self mas_makeConstraints:^(MASConstraintMaker *make) {
         self.popUpConstraint = make.top.equalTo(self.superview.mas_bottom);
     }];
 }
@@ -78,28 +78,13 @@
         [self show];
     }
     
-//    [self setNeedsUpdateConstraints];
-//    [self updateConstraintsIfNeeded];
     [UIView animateWithDuration:1 animations:^{
 //        self.isAnimating = YES;
-        [self layoutIfNeeded];
+        [self.superview layoutIfNeeded];
     } completion:^(BOOL finished) {
 //        self.isAnimating = NO;
         [self.viewModel switchState];
     }];
-//    [self setNeedsUpdateConstraints];
 }
-
-//- (void)updateConstraints {
-//    if (self.viewModel.isInited && self.isAnimating) {
-//        [self.popUpConstraint uninstall];
-//        if (self.viewModel.isShow) {
-//            [self hide];
-//        } else {
-//            [self show];
-//        }
-//    }
-//    [super updateConstraints];
-//}
 
 @end
