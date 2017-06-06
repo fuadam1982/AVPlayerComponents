@@ -12,6 +12,7 @@
 #import "YCAVPlayerComponent.h"
 #import "YCGestureFloatComponet.h"
 #import "YCSwitchPlayerStateComponent.h"
+#import "YCPopUpFloatComponent.h"
 
 #pragma mark - viewmodel
 #import "YCPortraitPlayerVM.h"
@@ -32,6 +33,8 @@
 @property (nonatomic, strong) YCGestureFloatComponet *gestureFloatComponent;
 /** 切换播放状态按钮组件 */
 @property (nonatomic, strong) YCSwitchPlayerStateComponent *switchStateComponent;
+/** 视频状态控制条 */
+@property (nonatomic, strong) YCPopUpFloatComponent *statusBarComponent;
 
 @end
 
@@ -39,6 +42,13 @@
 
 - (id<YCStates>)viewModel {
     return [self getStates];
+}
+
+- (instancetype)init {
+    if (self = [super init]) {
+//        self.clipsToBounds = YES;
+    }
+    return self;
 }
 
 - (void)render {
@@ -63,12 +73,12 @@
     id gestureProps = toProps(@protocol(YCGestureFloatProps))
                         .constVars(@{
                                      @"useTap": @YES,
-                                     @"useDoubleTap": @YES,
+                                     @"useDoubleTap": @YES
                                      })
                         .build();
     self.gestureFloatComponent = [[YCGestureFloatComponet alloc] initWithProps:gestureProps
                                                                      callbacks:self];
-    [self.playerComponent.view addSubview:self.gestureFloatComponent.view];
+    [self addSubview:self.gestureFloatComponent.view];
     
     // 播放按钮，在手势浮动层上
     id switchStateProps = toProps(@protocol(YCSwitchPlayerStateProps))
@@ -79,6 +89,24 @@
                                                                           callbacks:self];
     [self.gestureFloatComponent.view addSubview:self.switchStateComponent.view];
     
+    // 视频状态控制条
+    id popUpProps = toProps(@protocol(YCPopUpFloatProps))
+                        .states(self.viewModel)
+                        .nameMapping(@{
+                                       @"startInit": @"statusBarInitState",
+                                       @"changeState": @"statusBarChangeState"
+                                       })
+                        .constVars(@{
+                                     @"direction": @(YCPopUpFloatDirectionTypeUp),
+                                     // TODO: check
+                                     @"animationDuration": @(0.3),
+                                     @"autoHiddenDuration": @5,
+                                     @"initShowState": @YES
+                                     })
+                        .build();
+    self.statusBarComponent = [[YCPopUpFloatComponent alloc] initWithProps:popUpProps callbacks:nil];
+    [self addSubview:self.statusBarComponent.view];
+    
     [self layout];
 }
 
@@ -86,27 +114,37 @@
     [self.playerComponent.view mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.left.and.right.equalTo(self);
     }];
+    
     [self.gestureFloatComponent.view mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.left.and.right.equalTo(self);
     }];
+    
     [self.switchStateComponent.view mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self).offset(102.5);
         make.right.equalTo(self).offset(-20);
         make.width.and.height.equalTo(@50);
     }];
     self.switchStateComponent.view.backgroundColor = [UIColor blueColor];
+    
+    [self.statusBarComponent.view mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.and.width.equalTo(self);
+        make.height.equalTo(@61);
+//        make.bottom.equalTo(self);
+    }];
+    [self.viewModel initStatusBarState];
+    self.statusBarComponent.view.backgroundColor = [UIColor colorWithWhite:1 alpha:0.8];
 }
 
 #pragma mark - YCAVPlayerCallbacks
 
 - (void)player:(UIView *)player onPlayingCurrTime:(NSTimeInterval)currTime isPause:(BOOL)isPause {
-    NSLog(@">>> currTime: %0.2f, isPause: %d", currTime, isPause);
+
 }
 
 #pragma mark - YCGestureFloatCallbacks
 
 - (void)gesturerOnTap:(UIView *)gesturer {
-
+    [self.viewModel switchStatusBarState];
 }
 
 - (void)gesturerOnDoubleTap:(UIView *)gesturer {

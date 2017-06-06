@@ -32,6 +32,9 @@
 #pragma mark - private
 /** 控制浮动层上的播放按钮是否隐藏 */
 @property (nonatomic, assign) BOOL isHiddenForSwitchPlayerButton;
+@property (nonatomic, assign) BOOL statusBarInitState;
+/** 控制播放状态栏弹出/隐藏 */
+@property (nonatomic, assign) BOOL statusBarChangeState;
 
 @end
 
@@ -61,6 +64,14 @@
 
 - (void)switchPlayerState {
     self.isPause = !self.isPause;
+}
+
+- (void)initStatusBarState {
+    self.statusBarInitState = YES;
+}
+
+- (void)switchStatusBarState {
+    self.statusBarChangeState = !self.statusBarChangeState;
 }
 
 @end

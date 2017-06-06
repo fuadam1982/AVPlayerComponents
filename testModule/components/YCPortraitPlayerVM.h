@@ -19,4 +19,10 @@
 /** 切换播放器暂停/播放状态 */
 - (void)switchPlayerState;
 
+/** 初始化播放状态栏状态 */
+- (void)initStatusBarState;
+
+/** 切换播放状态栏弹出/收起状态 */
+- (void)switchStatusBarState;
+
 @end

@@ -35,6 +35,9 @@
 		4BF55D7D1EE6459A002A770B /* YCSwitchPlayerStateComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BF55D7C1EE6459A002A770B /* YCSwitchPlayerStateComponent.m */; };
 		4BF55D801EE64C30002A770B /* YCSwitchPlayerStateVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BF55D7F1EE64C30002A770B /* YCSwitchPlayerStateVM.m */; };
 		4BF55D831EE64DA1002A770B /* YCSwitchPlayerStateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BF55D821EE64DA1002A770B /* YCSwitchPlayerStateView.m */; };
+		4BF55D861EE68C9A002A770B /* YCPopUpFloatComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BF55D851EE68C9A002A770B /* YCPopUpFloatComponent.m */; };
+		4BF55D891EE6902C002A770B /* YCPopUpFloatVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BF55D881EE6902C002A770B /* YCPopUpFloatVM.m */; };
+		4BF55D8C1EE6903F002A770B /* YCPopUpFloatView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BF55D8B1EE6903F002A770B /* YCPopUpFloatView.m */; };
 		4BF7D2ED1EC9AA9800A9E5F4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BF7D2EC1EC9AA9800A9E5F4 /* main.m */; };
 		4BF7D2F01EC9AA9800A9E5F4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BF7D2EF1EC9AA9800A9E5F4 /* AppDelegate.m */; };
 		4BF7D2F31EC9AA9800A9E5F4 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BF7D2F21EC9AA9800A9E5F4 /* ViewController.m */; };
@@ -103,6 +106,12 @@
 		4BF55D7F1EE64C30002A770B /* YCSwitchPlayerStateVM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YCSwitchPlayerStateVM.m; path = components/YCSwitchPlayerStateVM.m; sourceTree = "<group>"; };
 		4BF55D811EE64DA1002A770B /* YCSwitchPlayerStateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YCSwitchPlayerStateView.h; path = components/YCSwitchPlayerStateView.h; sourceTree = "<group>"; };
 		4BF55D821EE64DA1002A770B /* YCSwitchPlayerStateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YCSwitchPlayerStateView.m; path = components/YCSwitchPlayerStateView.m; sourceTree = "<group>"; };
+		4BF55D841EE68C9A002A770B /* YCPopUpFloatComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YCPopUpFloatComponent.h; path = components/YCPopUpFloatComponent.h; sourceTree = "<group>"; };
+		4BF55D851EE68C9A002A770B /* YCPopUpFloatComponent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YCPopUpFloatComponent.m; path = components/YCPopUpFloatComponent.m; sourceTree = "<group>"; };
+		4BF55D871EE6902C002A770B /* YCPopUpFloatVM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YCPopUpFloatVM.h; path = components/YCPopUpFloatVM.h; sourceTree = "<group>"; };
+		4BF55D881EE6902C002A770B /* YCPopUpFloatVM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YCPopUpFloatVM.m; path = components/YCPopUpFloatVM.m; sourceTree = "<group>"; };
+		4BF55D8A1EE6903F002A770B /* YCPopUpFloatView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YCPopUpFloatView.h; path = components/YCPopUpFloatView.h; sourceTree = "<group>"; };
+		4BF55D8B1EE6903F002A770B /* YCPopUpFloatView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YCPopUpFloatView.m; path = components/YCPopUpFloatView.m; sourceTree = "<group>"; };
 		4BF7D2E81EC9AA9800A9E5F4 /* testModule.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = testModule.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BF7D2EC1EC9AA9800A9E5F4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		4BF7D2EE1EC9AA9800A9E5F4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -171,6 +180,8 @@
 				4B2462831ED2B726000D1363 /* YCAVPlayerView.m */,
 				4B52326C1EE11A9C004D1522 /* YCGestureFloatView.h */,
 				4B52326D1EE11A9C004D1522 /* YCGestureFloatView.m */,
+				4BF55D8A1EE6903F002A770B /* YCPopUpFloatView.h */,
+				4BF55D8B1EE6903F002A770B /* YCPopUpFloatView.m */,
 				4BF55D811EE64DA1002A770B /* YCSwitchPlayerStateView.h */,
 				4BF55D821EE64DA1002A770B /* YCSwitchPlayerStateView.m */,
 				4B1AA7881EE0116900D48741 /* YCPortraitPlayerView.h */,
@@ -188,6 +199,8 @@
 				4B2462861ED2C702000D1363 /* YCAVPlayerVM.m */,
 				4B5232701EE13B11004D1522 /* YCGestureFloatVM.h */,
 				4B5232711EE13B11004D1522 /* YCGestureFloatVM.m */,
+				4BF55D871EE6902C002A770B /* YCPopUpFloatVM.h */,
+				4BF55D881EE6902C002A770B /* YCPopUpFloatVM.m */,
 				4BF55D7E1EE64C30002A770B /* YCSwitchPlayerStateVM.h */,
 				4BF55D7F1EE64C30002A770B /* YCSwitchPlayerStateVM.m */,
 				4B1AA77F1EE0103E00D48741 /* YCPortraitPlayerVM.h */,
@@ -226,6 +239,8 @@
 				4B6FBC5E1EE3F34700325867 /* YCAVPlayerComponent.m */,
 				4BF55D691EE4F5CC002A770B /* YCGestureFloatComponet.h */,
 				4BF55D6A1EE4F5CC002A770B /* YCGestureFloatComponet.m */,
+				4BF55D841EE68C9A002A770B /* YCPopUpFloatComponent.h */,
+				4BF55D851EE68C9A002A770B /* YCPopUpFloatComponent.m */,
 				4BF55D7B1EE6459A002A770B /* YCSwitchPlayerStateComponent.h */,
 				4BF55D7C1EE6459A002A770B /* YCSwitchPlayerStateComponent.m */,
 				4BF55D6C1EE4F8AE002A770B /* YCPortraitPlayerComponent.h */,
@@ -474,6 +489,7 @@
 				4BF7D3091ECAA0E000A9E5F4 /* Componentable.m in Sources */,
 				4BBD8DCA1ECC66D200AD6234 /* StoreStatesWrapper.m in Sources */,
 				4BF55D831EE64DA1002A770B /* YCSwitchPlayerStateView.m in Sources */,
+				4BF55D891EE6902C002A770B /* YCPopUpFloatVM.m in Sources */,
 				4BF7D30C1ECAA13200A9E5F4 /* ViewModel.m in Sources */,
 				4BBD8DC71ECC668100AD6234 /* StateStore.m in Sources */,
 				4BF7D2F01EC9AA9800A9E5F4 /* AppDelegate.m in Sources */,
@@ -487,6 +503,8 @@
 				4B5FFD351ECAED1100940B9F /* ReadonlyObjWrapper.m in Sources */,
 				4BF55D741EE5159D002A770B /* YCLandscapePlayerComponent.m in Sources */,
 				4BF55D7A1EE516DF002A770B /* YCTeacherShowPlayerVM.m in Sources */,
+				4BF55D8C1EE6903F002A770B /* YCPopUpFloatView.m in Sources */,
+				4BF55D861EE68C9A002A770B /* YCPopUpFloatComponent.m in Sources */,
 				4B5FFD3F1ECB0F1E00940B9F /* ComponentPropsWrapper.m in Sources */,
 				4B5232721EE13B11004D1522 /* YCGestureFloatVM.m in Sources */,
 				4B1AA78A1EE0116900D48741 /* YCPortraitPlayerView.m in Sources */,

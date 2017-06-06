@@ -19,7 +19,7 @@
 @property (nonatomic, strong) YCGestureFloatVM *viewModel;
 @property (nonatomic, strong) UITapGestureRecognizer *tapGesture;
 @property (nonatomic, strong) UITapGestureRecognizer *doubleTapGesture;
-@property (nonatomic, strong) UISwipeGestureRecognizer *swipeGesutre;
+@property (nonatomic, strong) NSMutableArray<UISwipeGestureRecognizer *> *swipeGesutreList;
 @property (nonatomic, strong) UIPanGestureRecognizer *panGesture;
 @property (nonatomic, strong) UILongPressGestureRecognizer *longPressGesture;
 
@@ -37,13 +37,13 @@
 
 - (void)buildGesture {
     if (self.viewModel.props.useDoubleTap) {
-        self.doubleTapGesture = [UITapGestureRecognizer new];
+        self.doubleTapGesture = [[UITapGestureRecognizer alloc] init];
         [self.doubleTapGesture setNumberOfTapsRequired:2];
         [self addGestureRecognizer:self.doubleTapGesture];
         [self.doubleTapGesture addTarget:self action:@selector(onDoubleTap)];
     }
     if (self.viewModel.props.useTap) {
-        self.tapGesture = [UITapGestureRecognizer new];
+        self.tapGesture = [[UITapGestureRecognizer alloc] init];
         [self.tapGesture setNumberOfTapsRequired:1];
         [self addGestureRecognizer:self.tapGesture];
         [self.tapGesture addTarget:self action:@selector(onTap)];
@@ -53,20 +53,49 @@
         }
     }
     if (self.viewModel.props.useLongPress) {
-        self.longPressGesture = [UILongPressGestureRecognizer new];
+        self.longPressGesture = [[UILongPressGestureRecognizer alloc] init];
         [self addGestureRecognizer:self.longPressGesture];
         [self.longPressGesture addTarget:self action:@selector(onLongPress)];
-    }
-    if (self.viewModel.props.useSwipe) {
-        self.swipeGesutre = [UISwipeGestureRecognizer new];
-        [self addGestureRecognizer:self.swipeGesutre];
     }
     if (self.viewModel.props.usePan) {
         self.panGesture = [UIPanGestureRecognizer new];
         [self addGestureRecognizer:self.panGesture];
-        
-        if (self.swipeGesutre) {
-            [self.panGesture requireGestureRecognizerToFail:self.swipeGesutre];
+    }
+    if (self.viewModel.props.useSwipe) {
+        self.swipeGesutreList = [[NSMutableArray alloc] initWithCapacity:4];
+        if ((self.viewModel.props.swipeDirection & YCGestureFloatDirectionTypeLeft) == YCGestureFloatDirectionTypeLeft) {
+            UISwipeGestureRecognizer *swipe = [UISwipeGestureRecognizer new];
+            swipe.direction = UISwipeGestureRecognizerDirectionLeft;
+            [swipe addTarget:self action:@selector(onSwip:)];
+            [self addGestureRecognizer:swipe];
+            [self.swipeGesutreList addObject:swipe];
+        }
+        if ((self.viewModel.props.swipeDirection & YCGestureFloatDirectionTypeRight) == YCGestureFloatDirectionTypeRight) {
+            UISwipeGestureRecognizer *swipe = [UISwipeGestureRecognizer new];
+            swipe.direction = UISwipeGestureRecognizerDirectionRight;
+            [swipe addTarget:self action:@selector(onSwip:)];
+            [self addGestureRecognizer:swipe];
+            [self.swipeGesutreList addObject:swipe];
+        }
+        if ((self.viewModel.props.swipeDirection & YCGestureFloatDirectionTypeUp) == YCGestureFloatDirectionTypeUp) {
+            UISwipeGestureRecognizer *swipe = [UISwipeGestureRecognizer new];
+            swipe.direction = UISwipeGestureRecognizerDirectionUp;
+            [swipe addTarget:self action:@selector(onSwip:)];
+            [self addGestureRecognizer:swipe];
+            [self.swipeGesutreList addObject:swipe];
+        }
+        if ((self.viewModel.props.swipeDirection & YCGestureFloatDirectionTypeDown) == YCGestureFloatDirectionTypeDown) {
+            UISwipeGestureRecognizer *swipe = [UISwipeGestureRecognizer new];
+            swipe.direction = UISwipeGestureRecognizerDirectionDown;
+            [swipe addTarget:self action:@selector(onSwip:)];
+            [self addGestureRecognizer:swipe];
+            [self.swipeGesutreList addObject:swipe];
+        }
+        // TODO: 测试依赖关系
+        if (self.panGesture) {
+            for (UISwipeGestureRecognizer *swipGesture in self.swipeGesutreList) {
+                [swipGesture requireGestureRecognizerToFail:self.panGesture];
+            }
         }
     }
 }
@@ -83,9 +112,16 @@
     [self.viewModel onLongPress];
 }
 
-- (void)onSwip {
-    // TODO: get direction
-    [self.viewModel onSwipWithDirection:YCGestureFloatDirectionTypeNone];
+- (void)onSwip:(UISwipeGestureRecognizer *)recognizer {
+    if(recognizer.direction == UISwipeGestureRecognizerDirectionLeft) {
+        [self.viewModel onSwipWithDirection:YCGestureFloatDirectionTypeLeft];
+    } else if(recognizer.direction == UISwipeGestureRecognizerDirectionRight) {
+        [self.viewModel onSwipWithDirection:YCGestureFloatDirectionTypeRight];
+    } else if(recognizer.direction == UISwipeGestureRecognizerDirectionUp) {
+        [self.viewModel onSwipWithDirection:YCGestureFloatDirectionTypeUp];
+    } else if(recognizer.direction == UISwipeGestureRecognizerDirectionDown) {
+        [self.viewModel onSwipWithDirection:YCGestureFloatDirectionTypeDown];
+    }
 }
 
 - (void)onPan {
