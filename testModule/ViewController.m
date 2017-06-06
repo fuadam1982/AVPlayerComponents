@@ -45,7 +45,7 @@
     [self.portraitPlayerComponent.view mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.and.right.equalTo(self.view);
         make.top.equalTo(@0);
-        make.height.equalTo(@(180 * [UIScreen mainScreen].bounds.size.height / 568));
+        make.height.equalTo(@(210.5 * [UIScreen mainScreen].bounds.size.height / 667));
 //        make.top.and.bottom.equalTo(self.view);
     }];
     

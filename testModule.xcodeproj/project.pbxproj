@@ -32,6 +32,9 @@
 		4BF55D741EE5159D002A770B /* YCLandscapePlayerComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BF55D731EE5159D002A770B /* YCLandscapePlayerComponent.m */; };
 		4BF55D771EE516C5002A770B /* YCTeacherShowPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BF55D761EE516C5002A770B /* YCTeacherShowPlayerView.m */; };
 		4BF55D7A1EE516DF002A770B /* YCTeacherShowPlayerVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BF55D791EE516DF002A770B /* YCTeacherShowPlayerVM.m */; };
+		4BF55D7D1EE6459A002A770B /* YCSwitchPlayerStateComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BF55D7C1EE6459A002A770B /* YCSwitchPlayerStateComponent.m */; };
+		4BF55D801EE64C30002A770B /* YCSwitchPlayerStateVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BF55D7F1EE64C30002A770B /* YCSwitchPlayerStateVM.m */; };
+		4BF55D831EE64DA1002A770B /* YCSwitchPlayerStateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BF55D821EE64DA1002A770B /* YCSwitchPlayerStateView.m */; };
 		4BF7D2ED1EC9AA9800A9E5F4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BF7D2EC1EC9AA9800A9E5F4 /* main.m */; };
 		4BF7D2F01EC9AA9800A9E5F4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BF7D2EF1EC9AA9800A9E5F4 /* AppDelegate.m */; };
 		4BF7D2F31EC9AA9800A9E5F4 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BF7D2F21EC9AA9800A9E5F4 /* ViewController.m */; };
@@ -94,6 +97,12 @@
 		4BF55D761EE516C5002A770B /* YCTeacherShowPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YCTeacherShowPlayerView.m; path = components/YCTeacherShowPlayerView.m; sourceTree = "<group>"; };
 		4BF55D781EE516DF002A770B /* YCTeacherShowPlayerVM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YCTeacherShowPlayerVM.h; path = components/YCTeacherShowPlayerVM.h; sourceTree = "<group>"; };
 		4BF55D791EE516DF002A770B /* YCTeacherShowPlayerVM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YCTeacherShowPlayerVM.m; path = components/YCTeacherShowPlayerVM.m; sourceTree = "<group>"; };
+		4BF55D7B1EE6459A002A770B /* YCSwitchPlayerStateComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YCSwitchPlayerStateComponent.h; path = components/YCSwitchPlayerStateComponent.h; sourceTree = "<group>"; };
+		4BF55D7C1EE6459A002A770B /* YCSwitchPlayerStateComponent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YCSwitchPlayerStateComponent.m; path = components/YCSwitchPlayerStateComponent.m; sourceTree = "<group>"; };
+		4BF55D7E1EE64C30002A770B /* YCSwitchPlayerStateVM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YCSwitchPlayerStateVM.h; path = components/YCSwitchPlayerStateVM.h; sourceTree = "<group>"; };
+		4BF55D7F1EE64C30002A770B /* YCSwitchPlayerStateVM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YCSwitchPlayerStateVM.m; path = components/YCSwitchPlayerStateVM.m; sourceTree = "<group>"; };
+		4BF55D811EE64DA1002A770B /* YCSwitchPlayerStateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YCSwitchPlayerStateView.h; path = components/YCSwitchPlayerStateView.h; sourceTree = "<group>"; };
+		4BF55D821EE64DA1002A770B /* YCSwitchPlayerStateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YCSwitchPlayerStateView.m; path = components/YCSwitchPlayerStateView.m; sourceTree = "<group>"; };
 		4BF7D2E81EC9AA9800A9E5F4 /* testModule.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = testModule.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BF7D2EC1EC9AA9800A9E5F4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		4BF7D2EE1EC9AA9800A9E5F4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -162,6 +171,8 @@
 				4B2462831ED2B726000D1363 /* YCAVPlayerView.m */,
 				4B52326C1EE11A9C004D1522 /* YCGestureFloatView.h */,
 				4B52326D1EE11A9C004D1522 /* YCGestureFloatView.m */,
+				4BF55D811EE64DA1002A770B /* YCSwitchPlayerStateView.h */,
+				4BF55D821EE64DA1002A770B /* YCSwitchPlayerStateView.m */,
 				4B1AA7881EE0116900D48741 /* YCPortraitPlayerView.h */,
 				4B1AA7891EE0116900D48741 /* YCPortraitPlayerView.m */,
 				4B1AA7851EE0113E00D48741 /* YCLandscapePlayerView.h */,
@@ -177,6 +188,8 @@
 				4B2462861ED2C702000D1363 /* YCAVPlayerVM.m */,
 				4B5232701EE13B11004D1522 /* YCGestureFloatVM.h */,
 				4B5232711EE13B11004D1522 /* YCGestureFloatVM.m */,
+				4BF55D7E1EE64C30002A770B /* YCSwitchPlayerStateVM.h */,
+				4BF55D7F1EE64C30002A770B /* YCSwitchPlayerStateVM.m */,
 				4B1AA77F1EE0103E00D48741 /* YCPortraitPlayerVM.h */,
 				4B1AA7801EE0103E00D48741 /* YCPortraitPlayerVM.m */,
 				4B1AA7821EE0109C00D48741 /* YCLandscapePlayerVM.h */,
@@ -213,6 +226,8 @@
 				4B6FBC5E1EE3F34700325867 /* YCAVPlayerComponent.m */,
 				4BF55D691EE4F5CC002A770B /* YCGestureFloatComponet.h */,
 				4BF55D6A1EE4F5CC002A770B /* YCGestureFloatComponet.m */,
+				4BF55D7B1EE6459A002A770B /* YCSwitchPlayerStateComponent.h */,
+				4BF55D7C1EE6459A002A770B /* YCSwitchPlayerStateComponent.m */,
 				4BF55D6C1EE4F8AE002A770B /* YCPortraitPlayerComponent.h */,
 				4BF55D6D1EE4F8AE002A770B /* YCPortraitPlayerComponent.m */,
 				4BF55D721EE5159D002A770B /* YCLandscapePlayerComponent.h */,
@@ -451,12 +466,14 @@
 				4BBD8DD31ECC674B00AD6234 /* StoreReducer.m in Sources */,
 				4B6FBC5F1EE3F34700325867 /* YCAVPlayerComponent.m in Sources */,
 				4B52326E1EE11A9C004D1522 /* YCGestureFloatView.m in Sources */,
+				4BF55D801EE64C30002A770B /* YCSwitchPlayerStateVM.m in Sources */,
 				4BF55D6E1EE4F8AE002A770B /* YCPortraitPlayerComponent.m in Sources */,
 				4B5FFD481ECC230F00940B9F /* ComponentPropsBuilder.m in Sources */,
 				4B5FFD391ECAF5E400940B9F /* Tools.m in Sources */,
 				4BF7D2F31EC9AA9800A9E5F4 /* ViewController.m in Sources */,
 				4BF7D3091ECAA0E000A9E5F4 /* Componentable.m in Sources */,
 				4BBD8DCA1ECC66D200AD6234 /* StoreStatesWrapper.m in Sources */,
+				4BF55D831EE64DA1002A770B /* YCSwitchPlayerStateView.m in Sources */,
 				4BF7D30C1ECAA13200A9E5F4 /* ViewModel.m in Sources */,
 				4BBD8DC71ECC668100AD6234 /* StateStore.m in Sources */,
 				4BF7D2F01EC9AA9800A9E5F4 /* AppDelegate.m in Sources */,
@@ -475,6 +492,7 @@
 				4B1AA78A1EE0116900D48741 /* YCPortraitPlayerView.m in Sources */,
 				4BF55D6B1EE4F5CC002A770B /* YCGestureFloatComponet.m in Sources */,
 				4BBD8DCD1ECC671D00AD6234 /* StoreAction.m in Sources */,
+				4BF55D7D1EE6459A002A770B /* YCSwitchPlayerStateComponent.m in Sources */,
 				4BBD8DD01ECC673200AD6234 /* StoreDispatcher.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

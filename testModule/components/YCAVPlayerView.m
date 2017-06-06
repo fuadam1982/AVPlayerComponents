@@ -202,6 +202,7 @@ static NSArray *AssetKeys = nil;
                                              if (isnan(currTimePoint)) {
                                                  currTimePoint = 0;
                                              }
+                                             
                                              [self.viewModel setVideoCurrTimePoint:currTimePoint];
                                          }];
     

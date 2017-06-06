@@ -8,6 +8,9 @@
 
 #import "YCPortraitPlayerVM.h"
 
+#pragma mark - utils
+#import "ReactiveCocoa.h"
+
 @interface YCPortraitPlayerVM ()
 
 #pragma mark - YCStates
@@ -26,6 +29,10 @@
 /** 是否显示播放状态栏 */
 @property (nonatomic, assign) BOOL showStatusBar;
 
+#pragma mark - private
+/** 控制浮动层上的播放按钮是否隐藏 */
+@property (nonatomic, assign) BOOL isHiddenForSwitchPlayerButton;
+
 @end
 
 @implementation YCPortraitPlayerVM
@@ -38,8 +45,18 @@
         self.currVideoURL = self.props.currVideoURL;
         self.isPause = self.props.isPause;
         self.seekTimePoint = self.props.seekTimePoint;
+        
+        [self dataBinding];
     }
     return self;
+}
+
+- (void)dataBinding {
+    @weakify(self);
+    [RACObserve(self, isPause) subscribeNext:^(NSNumber *isPause) {
+        @strongify(self);
+        self.isHiddenForSwitchPlayerButton = !isPause.boolValue;
+    }];
 }
 
 - (void)switchPlayerState {

@@ -28,7 +28,10 @@ NSString *toKeyPath(NSString *rootPath, NSString *key);
 /** 设置组件的states对象作为Props数据提供者 */
 - (ComponentPropsBuilder * (^) (id<YCStates>))states;
 
-/** 如果设置了states对象，那么用nameMapping作为映射适配YCProps协议的只读字段名 */
+/** 
+ * 如果设置了states对象，那么用nameMapping作为映射适配YCProps协议的只读字段名
+ * dict参数: key为Props字段，value为States字段
+ */
 - (ComponentPropsBuilder * (^) (NSDictionary *))nameMapping;
 
 /** 手动控制映射逻辑，目前如果设置了nameMappingBlock会忽略nameMapping */

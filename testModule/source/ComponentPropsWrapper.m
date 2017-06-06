@@ -120,6 +120,17 @@
     }
 }
 
+/** 根据类型获取默认值, 用于处理未映射的Props属性 */
+- (id)getDefaultValueForType:(NSString *)type {
+    const char * rawPropertyType = [type cStringUsingEncoding:NSUTF8StringEncoding];
+    if (strcmp(rawPropertyType, @encode(BOOL)) == 0) {
+        return @NO;
+    } else if ([type isEqualToString:@"@"]) {
+        return nil;
+    }
+    return @0;
+}
+
 #pragma mark - ReadonlyObjDataSource
 
 - (id _Nullable)stateForKey:(NSString* _Nonnull)key {
@@ -138,7 +149,13 @@
                 propName = mappedName;
             }
         }
-        state = [obj valueForKeyPath:propName];
+        
+        // 处理未映射的Props的属性默认值
+        if ([propName isEqualToString:key] && !self.stateTypesMapping[propName]) {
+            state = [self getDefaultValueForType:self.propTypesMapping[key]];
+        } else {
+            state = [obj valueForKeyPath:propName];
+        }
     }
     return state;
 }

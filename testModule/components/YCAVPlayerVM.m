@@ -79,16 +79,19 @@ static NSTimeInterval kRefreshInterval = 0.5f;
     @weakify(self);
     // 播放器初始化时不可播放
     [self detectLagging:0 loadedDuration:0 currTimePoint:0 videoDuration:0];
-    // 暂停
-    [[[RACObserve(self.props, isPause) ignore:@NO] filter:^BOOL(id value) {
-        @strongify(self);
-        // 视频播放器被创建后才开始关注该状态
-        return self.player != nil;
-    }]
-     subscribeNext:^(id x) {
-        @strongify(self);
-        [self setVideoCurrTimePoint:self.currTimePoint];
-     }];
+    
+    // TODO: delete
+//    // 暂停
+//    [[[RACObserve(self.props, isPause) ignore:@NO] filter:^BOOL(id value) {
+//        @strongify(self);
+//        // 视频播放器被创建后才开始关注该状态
+//        return self.player != nil;
+//    }]
+//     subscribeNext:^(id x) {
+//        @strongify(self);
+//        [self setVideoCurrTimePoint:self.currTimePoint];
+//     }];
+    
     // 记录停留时间
     [[[RACSignal interval:kRefreshInterval
               onScheduler:[RACScheduler scheduler]]
