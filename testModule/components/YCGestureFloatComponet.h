@@ -20,6 +20,7 @@ typedef NS_OPTIONS(int, YCGestureFloatDirectionType) {
 
 @protocol YCGestureFloatProps <YCProps>
 
+// TODO: use 联动属性
 /** 单击手势 */
 @property (nonatomic, assign, readonly) BOOL useTap;
 /** 双击手势 */

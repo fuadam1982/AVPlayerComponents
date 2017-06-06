@@ -46,7 +46,7 @@
 
 - (instancetype)init {
     if (self = [super init]) {
-//        self.clipsToBounds = YES;
+        self.clipsToBounds = YES;
     }
     return self;
 }
@@ -129,7 +129,7 @@
     [self.statusBarComponent.view mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.and.width.equalTo(self);
         make.height.equalTo(@61);
-//        make.bottom.equalTo(self);
+        make.bottom.equalTo(self);
     }];
     [self.viewModel initStatusBarState];
     self.statusBarComponent.view.backgroundColor = [UIColor colorWithWhite:1 alpha:0.8];
@@ -144,7 +144,16 @@
 #pragma mark - YCGestureFloatCallbacks
 
 - (void)gesturerOnTap:(UIView *)gesturer {
-    [self.viewModel switchStatusBarState];
+//    [self.viewModel switchStatusBarState];
+    
+    [self.statusBarComponent.view mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.left.right.and.width.equalTo(self);
+        make.height.equalTo(@61);
+        make.top.equalTo(self.mas_bottom);
+    }];
+    [UIView animateWithDuration:1 animations:^{
+        [self.statusBarComponent.view layoutIfNeeded];
+    }];
 }
 
 - (void)gesturerOnDoubleTap:(UIView *)gesturer {
