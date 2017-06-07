@@ -8,6 +8,7 @@
 
 #import "YCTeacherShowPlayerView.h"
 
+// TODO: iPad适配，横屏播放器全屏，竖屏播放器根据设备居中显示
 @implementation YCTeacherShowPlayerView
 
 @end

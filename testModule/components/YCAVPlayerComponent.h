@@ -101,7 +101,7 @@
  @param player player
  @param videoDuration 时长
  */
-- (void)player:(UIView *)player onReadVideoDuration:(float)videoDuration;
+- (void)player:(UIView *)player onReadVideoDuration:(NSTimeInterval)videoDuration;
 
 /**
  视频播放

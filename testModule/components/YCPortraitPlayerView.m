@@ -39,6 +39,13 @@
 /** 状态控制栏上的播放按钮组件 */
 @property (nonatomic, strong) YCSwitchPlayerStateComponent *statusPlayComponent;
 
+/** 视频时长label */
+@property (nonatomic, strong) UILabel *videoDurationLabel;
+/** 播放时长label */
+@property (nonatomic, strong) UILabel *playDurationLabel;
+/** 全屏播放按钮 */
+@property (nonatomic, strong) UIButton *fullScreenButton;
+
 @end
 
 @implementation YCPortraitPlayerView
@@ -123,6 +130,23 @@
                                                                          callbacks:self];
     [self.statusBarComponent.view addSubview:self.statusPlayComponent.view];
     
+    // 视频播放时长
+    self.videoDurationLabel = [[UILabel alloc] init];
+    self.videoDurationLabel.textColor = [UIColor whiteColor];
+    self.videoDurationLabel.font = [UIFont systemFontOfSize:14];
+    self.videoDurationLabel.text = @"00:00";
+    [self.statusBarComponent.view addSubview:self.videoDurationLabel];
+    self.playDurationLabel = [[UILabel alloc] init];
+    self.playDurationLabel.textColor = [UIColor whiteColor];
+    self.playDurationLabel.font = [UIFont systemFontOfSize:14];
+    self.playDurationLabel.text = @"00:00";
+    [self.statusBarComponent.view addSubview:self.playDurationLabel];
+    
+    // 全屏按钮
+    self.fullScreenButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.fullScreenButton.backgroundColor = [UIColor blueColor];
+    [self.statusBarComponent.view addSubview:self.fullScreenButton];
+    
     [self layout];
 }
 
@@ -131,10 +155,12 @@
     [self.playerComponent.view mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.left.and.right.equalTo(self);
     }];
+    
     // 手势浮动层
     [self.gestureFloatComponent.view mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.left.and.right.equalTo(self);
     }];
+    
     // 手势浮动层上的播放按钮
     [self.gesturePlayComponent.view mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self).offset(102.5);
@@ -142,13 +168,14 @@
         make.width.and.height.equalTo(@50);
     }];
     self.gesturePlayComponent.view.backgroundColor = [UIColor blueColor];
+    
     // 状态控制栏
     [self.statusBarComponent.view mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.and.width.equalTo(self);
         make.height.equalTo(@61);
     }];
     [self.viewModel initStatusBarState];
-    self.statusBarComponent.view.backgroundColor = [UIColor colorWithWhite:1 alpha:0.8];
+    
     // 状态栏上的播放按钮
     [self.statusPlayComponent.view mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(@22);
@@ -156,12 +183,33 @@
         make.centerY.equalTo(self.statusBarComponent.view);
     }];
     self.statusPlayComponent.view.backgroundColor = [UIColor blueColor];
+    
+    // 状态栏上的全屏按钮
+    [self.fullScreenButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.statusBarComponent.view).offset(-16);
+        make.width.and.height.equalTo(@22);
+        make.centerY.equalTo(self.statusBarComponent.view);
+    }];
+    
+    // 状态栏上的视频播放时间
+    [self.videoDurationLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.fullScreenButton.mas_left).offset(-12);
+        make.centerY.equalTo(self.statusBarComponent.view);
+    }];    
+    [self.playDurationLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.statusPlayComponent.view.mas_right).offset(16);
+        make.centerY.equalTo(self.statusBarComponent.view);
+    }];
 }
 
 #pragma mark - YCAVPlayerCallbacks
 
-- (void)player:(UIView *)player onPlayingCurrTime:(NSTimeInterval)currTime isPause:(BOOL)isPause {
+- (void)player:(UIView *)player onReadVideoDuration:(NSTimeInterval)videoDuration {
+    self.videoDurationLabel.text = [self formatTimeBySeconds:videoDuration];
+}
 
+- (void)player:(UIView *)player onPlayingCurrTime:(NSTimeInterval)currTime isPause:(BOOL)isPause {
+    self.playDurationLabel.text = [self formatTimeBySeconds:currTime];
 }
 
 #pragma mark - YCGestureFloatCallbacks
@@ -187,6 +235,15 @@
         // 状态栏收起后恢复手势层响应
         [self.viewModel resetRespondGesture];
     }
+}
+
+#pragma mark - private methods
+
+- (NSString *)formatTimeBySeconds:(NSTimeInterval)duration {
+    int intDuration = round(duration);
+    int min = intDuration / 60;
+    int sec = (intDuration - min * 60);
+    return [NSString stringWithFormat:@"%02d:%02d", min, sec];
 }
 
 @end
