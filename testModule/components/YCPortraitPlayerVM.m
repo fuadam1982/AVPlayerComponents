@@ -26,15 +26,18 @@
 @property (nonatomic, assign) BOOL isPause;
 /** 从指定时间点开始播放 */
 @property (nonatomic, assign) NSTimeInterval seekTimePoint;
-/** 是否显示播放状态栏 */
-@property (nonatomic, assign) BOOL showStatusBar;
 
 #pragma mark - private
 /** 控制浮动层上的播放按钮是否隐藏 */
 @property (nonatomic, assign) BOOL isHiddenForSwitchPlayerButton;
+/** 控制状态栏初始状态 */
 @property (nonatomic, assign) BOOL statusBarInitState;
-/** 控制播放状态栏弹出/隐藏 */
+/** 控制状态栏弹出/隐藏 */
 @property (nonatomic, assign) BOOL statusBarChangeState;
+/** 内部存储状态用来判断是否已经隐藏状态栏 */
+@property (nonatomic, assign) BOOL innerStatusBarChangeState;
+/** 是否暂停手势浮动层响应 */
+@property (nonatomic, assign) BOOL isPauseRespondGesture;
 
 @end
 
@@ -50,6 +53,10 @@
         self.seekTimePoint = self.props.seekTimePoint;
         
         [self dataBinding];
+        
+        // 初始化时弹出状态栏，所以暂停手势层响应
+        self.innerStatusBarChangeState = YES;
+        self.isPauseRespondGesture = YES;
     }
     return self;
 }
@@ -59,6 +66,13 @@
     [RACObserve(self, isPause) subscribeNext:^(NSNumber *isPause) {
         @strongify(self);
         self.isHiddenForSwitchPlayerButton = !isPause.boolValue;
+        if (self.isHiddenForSwitchPlayerButton) {
+            // 双击播放时恢复手势响应
+            self.isPauseRespondGesture = NO;
+        } else {
+            // 双击暂停时停止手势层响应
+            self.isPauseRespondGesture = YES;
+        }
     }];
 }
 
@@ -72,6 +86,16 @@
 
 - (void)switchStatusBarState {
     self.statusBarChangeState = !self.statusBarChangeState;
+    self.innerStatusBarChangeState = !self.innerStatusBarChangeState;
+    if (self.innerStatusBarChangeState) {
+        // 显示状态栏则停止手势层响应
+        self.isPauseRespondGesture = YES;
+    }
+}
+
+- (void)resetRespondGesture {
+    self.innerStatusBarChangeState = NO;
+    self.isPauseRespondGesture = NO;
 }
 
 @end

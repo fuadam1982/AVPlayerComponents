@@ -22,8 +22,6 @@
 @property (nonatomic, assign, readonly) BOOL isPause;
 /** 从指定时间点开始播放 */
 @property (nonatomic, assign, readonly) NSTimeInterval seekTimePoint;
-/** 是否显示播放状态栏 */
-@property (nonatomic, assign, readonly) BOOL showStatusBar;
 
 @end
 

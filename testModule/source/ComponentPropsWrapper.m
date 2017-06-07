@@ -139,7 +139,7 @@
     if (self.constVars) {
         state = self.constVars[key];
     }
-  
+    
     if (!state && self.states) {
         NSObject *obj = self.states;
         NSString *propName = key;

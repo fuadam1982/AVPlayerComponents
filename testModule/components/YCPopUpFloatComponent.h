@@ -40,6 +40,19 @@ typedef NS_OPTIONS(int, YCPopUpFloatDirectionType) {
 
 @end
 
+@protocol YCPopUpFloatCallbacks <YCCallbacks>
+
+
+/**
+ 弹出/收起完成后
+
+ @param popUp popUp
+ @param isShow 当前状态是弹出还是收起
+ */
+- (void)popUpFloat:(UIView *)popUp onCompleted:(BOOL)isShow;
+
+@end
+
 //////////////////////////////////////////////////////////////
 
 /*!

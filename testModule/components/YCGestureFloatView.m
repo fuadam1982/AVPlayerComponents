@@ -101,18 +101,39 @@
 }
 
 - (void)onDoubleTap {
+    NSLog(@">>> %d", self.viewModel.props.pauseRespondGesture);
+    if (self.viewModel.props.pauseRespondGesture
+        && self.viewModel.lastRespondType != YCGestureFloatTypeDoubleTap) {
+        return;
+    }
+    
     [self.viewModel onDoubleTap];
 }
 
 - (void)onTap {
+    if (self.viewModel.props.pauseRespondGesture
+        && self.viewModel.lastRespondType != YCGestureFloatTypeTap) {
+        return;
+    }
+    
     [self.viewModel onTap];
 }
 
 - (void)onLongPress {
+    if (self.viewModel.props.pauseRespondGesture
+        && self.viewModel.lastRespondType != YCGestureFloatTypeLongPress) {
+        return;
+    }
+    
     [self.viewModel onLongPress];
 }
 
 - (void)onSwip:(UISwipeGestureRecognizer *)recognizer {
+    if (self.viewModel.props.pauseRespondGesture
+        && self.viewModel.lastRespondType != YCGestureFloatTypeSwip) {
+        return;
+    }
+    
     if(recognizer.direction == UISwipeGestureRecognizerDirectionLeft) {
         [self.viewModel onSwipWithDirection:YCGestureFloatDirectionTypeLeft];
     } else if(recognizer.direction == UISwipeGestureRecognizerDirectionRight) {
@@ -125,6 +146,11 @@
 }
 
 - (void)onPan {
+    if (self.viewModel.props.pauseRespondGesture
+        && self.viewModel.lastRespondType != YCGestureFloatTypePan) {
+        return;
+    }
+    
     // TODO: get direction
     [self.viewModel onPanWithDirection:YCGestureFloatDirectionTypeNone];
 }

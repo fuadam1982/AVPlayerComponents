@@ -20,7 +20,7 @@
 16. 旋转屏幕avplayer需要支持，其它由父控件处理
 17. avplayer有业务无关的埋点子插件，其它由父控件处理业务相关埋点插件
 18.component可以注入store用来dispatch，但缺乏协议限制（YCStates -> Enum）。或者在具体使用的component中使用redux
-19. 待产品确认，各种手势之间应该为互斥，隐藏时间时机，错误提示等
+19. 待产品确认，各种手势之间应该为互斥，隐藏时间时机，错误提示等.进度条滑动停止时才seek？
 
 1. 本地视频，解密在avplayercomponent之前。如果没有网络是否提示，展示header,tailer视频
 2. asset.playable 可用之前需要显示loading，已确认。目前的做法playable后才创建playerItem，然后根据playerItem的status判断是否可以播放。并且清除以前的playerItem的KVO

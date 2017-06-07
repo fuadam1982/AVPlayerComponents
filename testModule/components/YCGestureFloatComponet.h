@@ -9,6 +9,16 @@
 #import <UIKit/UIKit.h>
 #import "Componentable.h"
 
+/** 手势类型枚举 */
+typedef NS_OPTIONS(int, YCGestureFloatType) {
+    YCGestureFloatTypeNone,
+    YCGestureFloatTypeTap,
+    YCGestureFloatTypeDoubleTap,
+    YCGestureFloatTypeLongPress,
+    YCGestureFloatTypeSwip,
+    YCGestureFloatTypePan,
+};
+
 /** 手势方向枚举 */
 typedef NS_OPTIONS(int, YCGestureFloatDirectionType) {
     YCGestureFloatDirectionTypeNone,
@@ -35,6 +45,10 @@ typedef NS_OPTIONS(int, YCGestureFloatDirectionType) {
 @property (nonatomic, assign, readonly) YCGestureFloatDirectionType panDirection;
 /** 长按手势 */
 @property (nonatomic, assign, readonly) BOOL useLongPress;
+/** 初始化手势类型，相当于手动执行了一次手势 */
+@property (nonatomic, assign, readonly) YCGestureFloatType initGestureType;
+/** 暂停手势处理，联动属性 */
+@property (nonatomic, assign, readonly) BOOL pauseRespondGesture;
 
 @end
 

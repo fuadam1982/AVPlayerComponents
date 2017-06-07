@@ -16,6 +16,8 @@
 
 #pragma mark - private
 @property (nonatomic, weak) UIView *gesturer;
+/** 记录最后一次响应的手势类型 */
+@property (nonatomic, assign) YCGestureFloatType lastRespondType;
 
 @end
 
@@ -25,6 +27,7 @@
     if (self = [super init]) {
         self.props = props;
         self.callbacks = callbacks;
+        self.lastRespondType = props.initGestureType;
     }
     return self;
 }
@@ -34,30 +37,35 @@
 }
 
 - (void)onDoubleTap {
+    self.lastRespondType = YCGestureFloatTypeDoubleTap;
     if ([self.callbacks respondsToSelector:@selector(gesturerOnDoubleTap:)]) {
         [self.callbacks gesturerOnDoubleTap:self.gesturer];
     }
 }
 
 - (void)onTap {
+    self.lastRespondType = YCGestureFloatTypeTap;
     if ([self.callbacks respondsToSelector:@selector(gesturerOnTap:)]) {
         [self.callbacks gesturerOnTap:self.gesturer];
     }
 }
 
 - (void)onLongPress {
+    self.lastRespondType = YCGestureFloatTypeLongPress;
     if ([self.callbacks respondsToSelector:@selector(gesturerOnLongPress:)]) {
         [self.callbacks gesturerOnLongPress:self.gesturer];
     }
 }
 
 - (void)onSwipWithDirection:(YCGestureFloatDirectionType)direction {
+    self.lastRespondType = YCGestureFloatTypeSwip;
     if ([self.callbacks respondsToSelector:@selector(gesturer:onSwipeWithDirection:)]) {
         [self.callbacks gesturer:self.gesturer onSwipeWithDirection:direction];
     }
 }
 
 - (void)onPanWithDirection:(YCGestureFloatDirectionType)direction {
+    self.lastRespondType = YCGestureFloatTypePan;
     if ([self.callbacks respondsToSelector:@selector(gesturer:onPanWithDirection:)]) {
         [self.callbacks gesturer:self.gesturer onPanWithDirection:direction];
     }

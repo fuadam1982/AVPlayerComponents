@@ -12,8 +12,10 @@
 
 #pragma mark - YCStates
 @property (nonatomic, strong) id<YCPopUpFloatProps> props;
+@property (nonatomic, weak) id<YCPopUpFloatCallbacks> callbacks;
 
 #pragma mark - private
+@property (nonatomic, weak) UIView *popUpView;
 /** 是否初始化 */
 @property (nonatomic, assign) BOOL isInited;
 /** 弹出还是收起状态 */
@@ -23,9 +25,10 @@
 
 @implementation YCPopUpFloatVM
 
-- (instancetype)initWithProps:(id<YCPopUpFloatProps>)props callbacks:(id<YCCallbacks>)callbacks {
+- (instancetype)initWithProps:(id<YCPopUpFloatProps>)props callbacks:(id<YCPopUpFloatCallbacks>)callbacks {
     if (self = [super init]) {
         self.props = props;
+        self.callbacks = callbacks;
         self.isShow = self.props.initShowState;
     }
     return self;
@@ -37,6 +40,10 @@
 
 - (void)switchState {
     self.isShow = !self.isShow;
+    
+    if ([self.callbacks respondsToSelector:@selector(popUpFloat:onCompleted:)]) {
+        [self.callbacks popUpFloat:self.popUpView onCompleted:self.isShow];
+    }
 }
 
 @end

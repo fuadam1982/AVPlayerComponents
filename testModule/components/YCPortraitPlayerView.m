@@ -23,7 +23,8 @@
 
 @interface YCPortraitPlayerView () <YCAVPlayerCallbacks,
                                     YCGestureFloatCallbacks,
-                                    YCSwitchPlayerStateCallbacks>
+                                    YCSwitchPlayerStateCallbacks,
+                                    YCPopUpFloatCallbacks>
 
 @property (nonatomic, strong) YCPortraitPlayerVM *viewModel;
 // TODO: 共享实例
@@ -71,9 +72,12 @@
     
     // 手势浮动层
     id gestureProps = toProps(@protocol(YCGestureFloatProps))
+                        .states(self.viewModel)
+                        .nameMapping(@{@"pauseRespondGesture": @"isPauseRespondGesture"})
                         .constVars(@{
                                      @"useTap": @YES,
-                                     @"useDoubleTap": @YES
+                                     @"useDoubleTap": @YES,
+                                     @"initGestureType": @(YCGestureFloatTypeTap),
                                      })
                         .build();
     self.gestureFloatComponent = [[YCGestureFloatComponet alloc] initWithProps:gestureProps
@@ -101,31 +105,33 @@
                                      // TODO: check
                                      @"animationDuration": @(0.2),
                                      @"autoHiddenDuration": @5,
-                                     @"initShowState": @YES
+                                     @"initShowState": @(self.viewModel.innerStatusBarChangeState),
                                      })
                         .build();
-    self.statusBarComponent = [[YCPopUpFloatComponent alloc] initWithProps:popUpProps callbacks:nil];
+    self.statusBarComponent = [[YCPopUpFloatComponent alloc] initWithProps:popUpProps
+                                                                 callbacks:self];
     [self addSubview:self.statusBarComponent.view];
     
     [self layout];
 }
 
 - (void)layout {
+    // 视频播放器
     [self.playerComponent.view mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.left.and.right.equalTo(self);
     }];
-    
+    // 手势浮动层
     [self.gestureFloatComponent.view mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.left.and.right.equalTo(self);
     }];
-    
+    // 手势浮动层上的暂停/播放按钮
     [self.switchStateComponent.view mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self).offset(102.5);
         make.right.equalTo(self).offset(-20);
         make.width.and.height.equalTo(@50);
     }];
     self.switchStateComponent.view.backgroundColor = [UIColor blueColor];
-    
+    // 状态控制条
     [self.statusBarComponent.view mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.and.width.equalTo(self);
         make.height.equalTo(@61);
@@ -154,6 +160,15 @@
 
 - (void)switchPlayerStateOnTap {
     [self.viewModel switchPlayerState];
+}
+
+#pragma mark - YCPopUpFloatCallbacks
+
+- (void)popUpFloat:(UIView *)popUp onCompleted:(BOOL)isShow {
+    if (!isShow) {
+        // 状态栏收起后恢复手势层响应
+        [self.viewModel resetRespondGesture];
+    }
 }
 
 @end

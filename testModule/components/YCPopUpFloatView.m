@@ -133,13 +133,15 @@
 // 展开后自动收起
 - (void)autoHide {
     @weakify(self);
-    self.autoHideTimerDispose = [[[[RACSignal interval:self.viewModel.props.autoHiddenDuration
-                                           onScheduler:[RACScheduler scheduler]]
-                                   take:1] deliverOnMainThread]
-                                 subscribeNext:^(id x) {
-                                     @strongify(self);
-                                     [self popUpAnimation:NO];
-                                 }];
+    if (self.viewModel.props.autoHiddenDuration > 0) {
+        self.autoHideTimerDispose = [[[[RACSignal interval:self.viewModel.props.autoHiddenDuration
+                                               onScheduler:[RACScheduler scheduler]]
+                                       take:1] deliverOnMainThread]
+                                     subscribeNext:^(id x) {
+                                         @strongify(self);
+                                         [self popUpAnimation:NO];
+                                     }];
+    }
 }
 
 @end
