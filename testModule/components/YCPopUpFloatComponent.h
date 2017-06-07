@@ -35,6 +35,8 @@ typedef NS_OPTIONS(int, YCPopUpFloatDirectionType) {
 @property (nonatomic, assign, readonly) BOOL startInit;
 /** 改变弹出/收起状态，联动属性 */
 @property (nonatomic, assign, readonly) BOOL changeState;
+/** 重新计算自动隐藏timer, 联动属性 */
+@property (nonatomic, assign, readonly) BOOL resetAutoHiddenTimer;
 
 @end
 

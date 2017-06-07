@@ -18,9 +18,10 @@
 @interface YCPopUpFloatView ()
 
 @property (nonatomic, strong) YCPopUpFloatVM *viewModel;
-
+/** 用于控制弹出/收起布局 */
 @property (nonatomic, strong) MASConstraint *popUpConstraint;
-@property (nonatomic, assign) BOOL isAnimating;
+/** 自动隐藏Timer Dispose */
+@property (nonatomic, strong) RACDisposable *autoHideTimerDispose;
 
 @end
 
@@ -36,15 +37,25 @@
 
 - (void)dataBinding {
     @weakify(self);
+    // 父组件控制弹出/收起
     [[[RACObserve(self.viewModel.props, changeState)
      filter:^BOOL(id value) {
          @strongify(self);
+         // 初始化以后才响应动画操作
          return self.viewModel.isInited;
      }] deliverOnMainThread]
      subscribeNext:^(id x) {
+         @strongify(self);
+         // 父组件触发隐藏，销毁auto timer
+         if (self.viewModel.isShow) {
+             [self.autoHideTimerDispose dispose];
+             self.autoHideTimerDispose = nil;
+         }
+         // 已经弹出则收起，收起则弹出
          [self popUpAnimation:!self.viewModel.isShow];
      }];
     
+    // 父组件告知可以初始化
     [[[RACObserve(self.viewModel.props, startInit)
        ignore:@NO] take:1]
      subscribeNext:^(id x) {
@@ -56,35 +67,79 @@
          }
          [self.viewModel initCompleted];
      }];
+    
+    // 父组件告知重置自动隐藏timer
+    [[[RACObserve(self.viewModel.props, resetAutoHiddenTimer) ignore:@NO]
+     filter:^BOOL(id value) {
+         @strongify(self);
+         return self.viewModel.isShow;
+     }]
+     subscribeNext:^(id x) {
+         @strongify(self);
+         [self.autoHideTimerDispose dispose];
+         self.autoHideTimerDispose = nil;
+         [self autoHide];
+     }];
 }
 
+/** 弹出布局 */
 - (void)show {
     [self mas_makeConstraints:^(MASConstraintMaker *make) {
-        self.popUpConstraint = make.bottom.equalTo(self.superview);
+        if (self.viewModel.props.direction == YCPopUpFloatDirectionTypeUp) {
+            self.popUpConstraint = make.bottom.equalTo(self.superview);
+        } else if (self.viewModel.props.direction == YCPopUpFloatDirectionTypeDown) {
+            self.popUpConstraint = make.top.equalTo(self.superview);
+        } else if (self.viewModel.props.direction == YCPopUpFloatDirectionTypeLeft) {
+            self.popUpConstraint = make.right.equalTo(self.superview);
+        } else if (self.viewModel.props.direction == YCPopUpFloatDirectionTypeRight) {
+            self.popUpConstraint = make.left.equalTo(self.superview);
+        }
     }];
+    [self autoHide];
 }
 
+/** 收起布局 */
 - (void)hide {
     [self mas_makeConstraints:^(MASConstraintMaker *make) {
-        self.popUpConstraint = make.top.equalTo(self.superview.mas_bottom);
+        if (self.viewModel.props.direction == YCPopUpFloatDirectionTypeUp) {
+            self.popUpConstraint = make.top.equalTo(self.superview.mas_bottom);
+        } else if (self.viewModel.props.direction == YCPopUpFloatDirectionTypeDown) {
+            self.popUpConstraint = make.bottom.equalTo(self.superview.mas_top);
+        } else if (self.viewModel.props.direction == YCPopUpFloatDirectionTypeLeft) {
+            self.popUpConstraint = make.left.equalTo(self.superview.mas_right);
+        } else if (self.viewModel.props.direction == YCPopUpFloatDirectionTypeRight) {
+            self.popUpConstraint = make.right.equalTo(self.superview.mas_left);
+        }
     }];
 }
 
+/** 切换动画 */
 - (void)popUpAnimation:(BOOL)isShow {
     [self.popUpConstraint uninstall];
-    if (self.viewModel.isShow) {
-        [self hide];
-    } else {
+    if (isShow) {
         [self show];
+    } else {
+        [self hide];
     }
     
-    [UIView animateWithDuration:1 animations:^{
-//        self.isAnimating = YES;
+    [UIView animateWithDuration:self.viewModel.props.animationDuration animations:^{
+        // 父view整体刷新才起作用
         [self.superview layoutIfNeeded];
     } completion:^(BOOL finished) {
-//        self.isAnimating = NO;
         [self.viewModel switchState];
     }];
+}
+
+// 展开后自动收起
+- (void)autoHide {
+    @weakify(self);
+    self.autoHideTimerDispose = [[[[RACSignal interval:self.viewModel.props.autoHiddenDuration
+                                           onScheduler:[RACScheduler scheduler]]
+                                   take:1] deliverOnMainThread]
+                                 subscribeNext:^(id x) {
+                                     @strongify(self);
+                                     [self popUpAnimation:NO];
+                                 }];
 }
 
 @end

@@ -99,7 +99,7 @@
                         .constVars(@{
                                      @"direction": @(YCPopUpFloatDirectionTypeUp),
                                      // TODO: check
-                                     @"animationDuration": @(0.3),
+                                     @"animationDuration": @(0.2),
                                      @"autoHiddenDuration": @5,
                                      @"initShowState": @YES
                                      })
