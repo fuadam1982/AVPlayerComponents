@@ -32,10 +32,12 @@
 @property (nonatomic, strong) YCAVPlayerComponent *playerComponent;
 /** 手势浮动层组件 */
 @property (nonatomic, strong) YCGestureFloatComponet *gestureFloatComponent;
-/** 切换播放状态按钮组件 */
-@property (nonatomic, strong) YCSwitchPlayerStateComponent *switchStateComponent;
-/** 视频状态控制条 */
+/** 手势浮动层上的播放按钮组件 */
+@property (nonatomic, strong) YCSwitchPlayerStateComponent *gesturePlayComponent;
+/** 视频状态控制栏 */
 @property (nonatomic, strong) YCPopUpFloatComponent *statusBarComponent;
+/** 状态控制栏上的播放按钮组件 */
+@property (nonatomic, strong) YCSwitchPlayerStateComponent *statusPlayComponent;
 
 @end
 
@@ -84,16 +86,17 @@
                                                                      callbacks:self];
     [self addSubview:self.gestureFloatComponent.view];
     
-    // 播放按钮，在手势浮动层上
-    id switchStateProps = toProps(@protocol(YCSwitchPlayerStateProps))
+    // 手势浮动层上的播放按钮
+    id gesturePlayProps = toProps(@protocol(YCSwitchPlayerStateProps))
                             .states(self.viewModel)
                             .nameMapping(@{@"isHidden": @"isHiddenForSwitchPlayerButton"})
                             .build();
-    self.switchStateComponent = [[YCSwitchPlayerStateComponent alloc] initWithProps:switchStateProps
+    self.gesturePlayComponent = [[YCSwitchPlayerStateComponent alloc] initWithProps:gesturePlayProps
                                                                           callbacks:self];
-    [self.gestureFloatComponent.view addSubview:self.switchStateComponent.view];
+    [self.gestureFloatComponent.view addSubview:self.gesturePlayComponent.view];
     
-    // 视频状态控制条
+    // TODO: resetAutoHidden
+    // 视频状态控制栏
     id popUpProps = toProps(@protocol(YCPopUpFloatProps))
                         .states(self.viewModel)
                         .nameMapping(@{
@@ -112,6 +115,14 @@
                                                                  callbacks:self];
     [self addSubview:self.statusBarComponent.view];
     
+    // 状态控制栏上的播放按钮
+    id statusPlayProps = toProps(@protocol(YCSwitchPlayerStateProps))
+                            .states(self.viewModel)
+                            .build();
+    self.statusPlayComponent = [[YCSwitchPlayerStateComponent alloc] initWithProps:statusPlayProps
+                                                                         callbacks:self];
+    [self.statusBarComponent.view addSubview:self.statusPlayComponent.view];
+    
     [self layout];
 }
 
@@ -124,20 +135,27 @@
     [self.gestureFloatComponent.view mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.left.and.right.equalTo(self);
     }];
-    // 手势浮动层上的暂停/播放按钮
-    [self.switchStateComponent.view mas_makeConstraints:^(MASConstraintMaker *make) {
+    // 手势浮动层上的播放按钮
+    [self.gesturePlayComponent.view mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self).offset(102.5);
         make.right.equalTo(self).offset(-20);
         make.width.and.height.equalTo(@50);
     }];
-    self.switchStateComponent.view.backgroundColor = [UIColor blueColor];
-    // 状态控制条
+    self.gesturePlayComponent.view.backgroundColor = [UIColor blueColor];
+    // 状态控制栏
     [self.statusBarComponent.view mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.and.width.equalTo(self);
         make.height.equalTo(@61);
     }];
     [self.viewModel initStatusBarState];
     self.statusBarComponent.view.backgroundColor = [UIColor colorWithWhite:1 alpha:0.8];
+    // 状态栏上的播放按钮
+    [self.statusPlayComponent.view mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(@22);
+        make.size.equalTo([NSValue valueWithCGSize:CGSizeMake(12, 14)]);
+        make.centerY.equalTo(self.statusBarComponent.view);
+    }];
+    self.statusPlayComponent.view.backgroundColor = [UIColor blueColor];
 }
 
 #pragma mark - YCAVPlayerCallbacks
