@@ -38,6 +38,7 @@
 		4BF55D861EE68C9A002A770B /* YCPopUpFloatComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BF55D851EE68C9A002A770B /* YCPopUpFloatComponent.m */; };
 		4BF55D891EE6902C002A770B /* YCPopUpFloatVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BF55D881EE6902C002A770B /* YCPopUpFloatVM.m */; };
 		4BF55D8C1EE6903F002A770B /* YCPopUpFloatView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BF55D8B1EE6903F002A770B /* YCPopUpFloatView.m */; };
+		4BF55D8F1EE8035A002A770B /* Test-1.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BF55D8E1EE8035A002A770B /* Test-1.m */; };
 		4BF7D2ED1EC9AA9800A9E5F4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BF7D2EC1EC9AA9800A9E5F4 /* main.m */; };
 		4BF7D2F01EC9AA9800A9E5F4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BF7D2EF1EC9AA9800A9E5F4 /* AppDelegate.m */; };
 		4BF7D2F31EC9AA9800A9E5F4 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BF7D2F21EC9AA9800A9E5F4 /* ViewController.m */; };
@@ -112,6 +113,8 @@
 		4BF55D881EE6902C002A770B /* YCPopUpFloatVM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YCPopUpFloatVM.m; path = components/YCPopUpFloatVM.m; sourceTree = "<group>"; };
 		4BF55D8A1EE6903F002A770B /* YCPopUpFloatView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YCPopUpFloatView.h; path = components/YCPopUpFloatView.h; sourceTree = "<group>"; };
 		4BF55D8B1EE6903F002A770B /* YCPopUpFloatView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YCPopUpFloatView.m; path = components/YCPopUpFloatView.m; sourceTree = "<group>"; };
+		4BF55D8D1EE8035A002A770B /* Test-1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Test-1.h"; sourceTree = "<group>"; };
+		4BF55D8E1EE8035A002A770B /* Test-1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Test-1.m"; sourceTree = "<group>"; };
 		4BF7D2E81EC9AA9800A9E5F4 /* testModule.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = testModule.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BF7D2EC1EC9AA9800A9E5F4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		4BF7D2EE1EC9AA9800A9E5F4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -288,6 +291,8 @@
 				4BF7D2F91EC9AA9800A9E5F4 /* LaunchScreen.storyboard */,
 				4BF7D2FC1EC9AA9800A9E5F4 /* Info.plist */,
 				4BF7D2EB1EC9AA9800A9E5F4 /* Supporting Files */,
+				4BF55D8D1EE8035A002A770B /* Test-1.h */,
+				4BF55D8E1EE8035A002A770B /* Test-1.m */,
 			);
 			path = testModule;
 			sourceTree = "<group>";
@@ -478,6 +483,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4B2462871ED2C702000D1363 /* YCAVPlayerVM.m in Sources */,
+				4BF55D8F1EE8035A002A770B /* Test-1.m in Sources */,
 				4BBD8DD31ECC674B00AD6234 /* StoreReducer.m in Sources */,
 				4B6FBC5F1EE3F34700325867 /* YCAVPlayerComponent.m in Sources */,
 				4B52326E1EE11A9C004D1522 /* YCGestureFloatView.m in Sources */,

@@ -12,6 +12,7 @@
 #import "ComponentPropsBuilder.h"
 #import "ViewModel.h"
 #import <objc/runtime.h>
+#import "Test-1.h"
 
 @class CooObj, DooObj;
 @interface BooObj : NSObject
@@ -130,6 +131,12 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    // 测试设置属性
+//    Test_1 *t1 = [Test_1 new];
+//    id<Test_1_Delegate> dd = [t1 test];
+//    dd.age = 35;
+//    dd.name = @"fh";
+//    NSLog(@"%d - %@", dd.age, dd.name);
     /*
     // test props
     FooObj *foo = [FooObj new];

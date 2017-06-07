@@ -9,6 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "ReadonlyObjWrapper.h"
 
-@interface StoreStatesWrapper : ReadonlyObjWrapper
+@interface StoreStatesWrapper : AccessObjWrapper
 
 @end

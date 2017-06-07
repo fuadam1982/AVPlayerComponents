@@ -8,7 +8,7 @@
 
 #import "StoreStatesWrapper.h"
 
-@interface ReadonlyObjWrapper () <ReadonlyObjDataSource>
+@interface StoreStatesWrapper () <AccessObjDataSource>
 
 @end
 

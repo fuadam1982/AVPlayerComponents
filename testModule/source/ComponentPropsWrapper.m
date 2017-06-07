@@ -10,7 +10,7 @@
 #import "Tools.h"
 #import "ReactiveCocoa.h"
 
-@interface ComponentPropsWrapper () <ReadonlyObjDataSource>
+@interface ComponentPropsWrapper () <AccessObjDataSource>
 
 /** states对象，一般为viewmodel */
 @property (nonatomic, strong) id<YCStates> states;

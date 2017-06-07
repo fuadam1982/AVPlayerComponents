@@ -11,7 +11,7 @@
 /**
  *  访问真正持有State存储集合的协议
  */
-@protocol ReadonlyObjDataSource <NSObject>
+@protocol AccessObjDataSource <NSObject>
 
 /** 根据key获取state值 */
 - (id _Nullable)stateForKey:(NSString* _Nonnull)key;
@@ -19,15 +19,19 @@
 /** 根据key获取属性encoding类型 */
 - (NSString* _Nonnull)propTypeForKey:(NSString* _Nonnull)key;
 
+@optional
+/** 根据key设置state值 */
+- (void)setValue:(id _Nullable)value key:(NSString *_Nonnull)key;
+
 @end
 
 /**
- *  只读对象包装类
- *  因为OC没有访问控制操作符，所以只能利用Runtime方法对真实的存储对象（Dictionary）做一层包装
+ *  动态访问对象属性包装类
+ *  根据协议动态创建可以访问属性的对象
  */
-@interface ReadonlyObjWrapper : NSObject
+@interface AccessObjWrapper : NSObject
 
 /** 使用属性维护数据源初始化 */
-- (instancetype _Nonnull)initWithDataSource:(id<ReadonlyObjDataSource> _Nonnull)dataSource;
+- (instancetype _Nonnull)initWithDataSource:(id<AccessObjDataSource> _Nonnull)dataSource;
 
 @end

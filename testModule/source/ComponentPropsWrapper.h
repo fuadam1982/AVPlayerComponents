@@ -17,7 +17,7 @@
  2. dictionary被wrapper后cast
  3. viewmodel.model.property(层级很深)被wrapper后cast
  */
-@interface ComponentPropsWrapper : ReadonlyObjWrapper<YCProps>
+@interface ComponentPropsWrapper : AccessObjWrapper<YCProps>
 
 - (instancetype)initWithPropsProtocol:(Protocol *)propsProtocol
                                states:(id<YCStates>)states
