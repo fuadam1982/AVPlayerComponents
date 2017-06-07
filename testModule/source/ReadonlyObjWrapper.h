@@ -21,7 +21,7 @@
 
 @optional
 /** 根据key设置state值 */
-- (void)setValue:(id _Nullable)value key:(NSString *_Nonnull)key;
+- (void)setState:(id _Nullable)state key:(NSString *_Nonnull)key;
 
 @end
 

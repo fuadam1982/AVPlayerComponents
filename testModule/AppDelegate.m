@@ -136,7 +136,8 @@
 //    id<Test_1_Delegate> dd = [t1 test];
 //    dd.age = 35;
 //    dd.name = @"fh";
-//    NSLog(@"%d - %@", dd.age, dd.name);
+//    NSLog(@"%d - %@ - %@", dd.age, dd.name, [t1 toDict]);
+    
     /*
     // test props
     FooObj *foo = [FooObj new];

@@ -30,5 +30,6 @@
 @property (nonatomic, assign) int age;
 
 - (id)test;
+- (NSDictionary *)toDict;
 
 @end

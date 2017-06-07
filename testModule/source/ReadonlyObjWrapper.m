@@ -83,31 +83,31 @@
             if (strcmp(rawPropertyType, @encode(BOOL)) == 0) {
                 BOOL bVal = NO;
                 [invocation getArgument:&bVal atIndex:2];
-                [self.dataSource setValue:@(bVal) key:key];
+                [self.dataSource setState:@(bVal) key:key];
             } else if (strcmp(rawPropertyType, @encode(int)) == 0) {
                 int iVal = 0;
                 [invocation getArgument:&iVal atIndex:2];
-                [self.dataSource setValue:@(iVal) key:key];
+                [self.dataSource setState:@(iVal) key:key];
             } else if (strcmp(rawPropertyType, @encode(long)) == 0) {
                 long lVal = 0;
                 [invocation getArgument:&lVal atIndex:2];
-                [self.dataSource setValue:@(lVal) key:key];
+                [self.dataSource setState:@(lVal) key:key];
             } else if (strcmp(rawPropertyType, @encode(float)) == 0) {
                 float fVal = 0;
                 [invocation getArgument:&fVal atIndex:2];
-                [self.dataSource setValue:@(fVal) key:key];
+                [self.dataSource setState:@(fVal) key:key];
             } else if (strcmp(rawPropertyType, @encode(long long)) == 0) {
                 long long llVal = 0;
                 [invocation getArgument:&llVal atIndex:2];
-                [self.dataSource setValue:@(llVal) key:key];
+                [self.dataSource setState:@(llVal) key:key];
             } else if (strcmp(rawPropertyType, @encode(double)) == 0) {
                 double dVal = 0;
                 [invocation getArgument:&dVal atIndex:2];
-                [self.dataSource setValue:@(dVal) key:key];
+                [self.dataSource setState:@(dVal) key:key];
             } else if ([propEncoding isEqualToString:@"@"]) {
                 __unsafe_unretained id oVal = nil;
                 [invocation getArgument:&oVal atIndex:2];
-                [self.dataSource setValue:oVal key:key];
+                [self.dataSource setState:oVal key:key];
             }
         }
     }

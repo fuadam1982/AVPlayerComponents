@@ -8,7 +8,13 @@
 
 #import "Test-1.h"
 #import <objc/runtime.h>
-#import "ComponentPropsBuilder.h"
+#import "PropsConstVarWrapper.h"
+
+@interface Test_1 ()
+
+@property (nonatomic, strong) PropsConstVarWrapper *wrapper;
+
+@end
 
 @implementation Test_1
 
@@ -21,7 +27,12 @@
     const char * encoding2 = method_getTypeEncoding(thisMethod);
     NSLog(@"%@", [NSString stringWithCString:encoding2 encoding:NSUTF8StringEncoding]);
     
-    return toProps(@protocol(Test_1_Delegate)).build();
+    self.wrapper = [[PropsConstVarWrapper alloc] initWithProtocol:@protocol(Test_1_Delegate)];
+    return self.wrapper;
+}
+
+- (NSDictionary *)toDict {
+    return [self.wrapper toDictionary];
 }
 
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)selector {
