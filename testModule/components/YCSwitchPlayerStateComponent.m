@@ -1,5 +1,5 @@
 //
-//  YCSwitchPlayerStateComponent.m
+//  YCPlayStateComponent.m
 //  testModule
 //
 //  Created by fuhan on 2017/6/6.
@@ -14,11 +14,11 @@
 #pragma mark - view
 #import "YCSwitchPlayerStateView.h"
 
-@implementation YCSwitchPlayerStateComponent
+@implementation YCPlayStateComponent
 
-- (instancetype)initWithProps:(id<YCSwitchPlayerStateProps>)props callbacks:(id<YCSwitchPlayerStateCallbacks>)callbacks {
-    YCSwitchPlayerStateVM *states = [[YCSwitchPlayerStateVM alloc] initWithProps:props callbacks:callbacks];
-    YCSwitchPlayerStateView *template = [[YCSwitchPlayerStateView alloc] init];
+- (instancetype)initWithProps:(id<YCPlayStateProps>)props callbacks:(id<YCPlayStateCallbacks>)callbacks {
+    YCPlayStateVM *states = [[YCPlayStateVM alloc] initWithProps:props callbacks:callbacks];
+    YCPlayStateView *template = [[YCPlayStateView alloc] init];
     return [super initWithStates:states template:template];
 }
 

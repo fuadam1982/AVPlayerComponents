@@ -133,6 +133,9 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // 测试设置属性
 //    Test_1 *t1 = [Test_1 new];
+//    id<MyAccess> my = (id<MyAccess>)t1;
+//    my.address = @"ok";
+//    NSLog(@"%@", my.address);
 //    id<Test_1_Delegate> dd = [t1 test];
 //    dd.age = 35;
 //    dd.name = @"fh";

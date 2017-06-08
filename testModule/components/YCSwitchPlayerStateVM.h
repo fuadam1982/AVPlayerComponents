@@ -1,5 +1,5 @@
 //
-//  YCSwitchPlayerStateVM.h
+//  YCPlayStateVM.h
 //  testModule
 //
 //  Created by fuhan on 2017/6/6.
@@ -10,9 +10,9 @@
 #import "Componentable.h"
 #import "YCSwitchPlayerStateComponent.h"
 
-@interface YCSwitchPlayerStateVM : NSObject<YCStates>
+@interface YCPlayStateVM : NSObject<YCStates>
 
-@property (nonatomic, strong, readonly) id<YCSwitchPlayerStateProps> props;
+@property (nonatomic, strong, readonly) id<YCPlayStateProps> props;
 
 /** 触发回调 */
 - (void)onTap;

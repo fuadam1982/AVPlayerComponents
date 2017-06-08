@@ -31,8 +31,14 @@
     return [self getStates];
 }
 
-- (void)render {
+- (void)renderWithVarProps:(id<YCVarProps>)varProps {
     [self dataBinding];
+    if (self.viewModel.props.initShowState) {
+        [self show];
+    } else {
+        [self hide];
+    }
+    [self.viewModel initCompleted];
 }
 
 - (void)dataBinding {
@@ -56,17 +62,17 @@
      }];
     
     // 父组件告知可以初始化
-    [[[RACObserve(self.viewModel.props, startInit)
-       ignore:@NO] take:1]
-     subscribeNext:^(id x) {
-         @strongify(self);
-         if (self.viewModel.props.initShowState) {
-             [self show];
-         } else {
-             [self hide];
-         }
-         [self.viewModel initCompleted];
-     }];
+//    [[[RACObserve(self.viewModel.props, startInit)
+//       ignore:@NO] take:1]
+//     subscribeNext:^(id x) {
+//         @strongify(self);
+//         if (self.viewModel.props.initShowState) {
+//             [self show];
+//         } else {
+//             [self hide];
+//         }
+//         [self.viewModel initCompleted];
+//     }];
     
     // 父组件告知重置自动隐藏timer
     [[[RACObserve(self.viewModel.props, resetAutoHiddenTimer) ignore:@NO]

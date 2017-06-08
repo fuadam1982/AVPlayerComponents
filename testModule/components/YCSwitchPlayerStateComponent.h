@@ -1,5 +1,5 @@
 //
-//  YCSwitchPlayerStateComponent.h
+//  YCPlayStateComponent.h
 //  testModule
 //
 //  Created by fuhan on 2017/6/6.
@@ -8,8 +8,19 @@
 
 #import <UIKit/UIKit.h>
 #import "Componentable.h"
+// TODO: 修改header
+@protocol YCPlayStateConstVars <YCConstVars>
 
-@protocol YCSwitchPlayerStateProps <YCProps>
+/** 播放按钮图片 */
+@property (nonatomic, strong, readonly) NSString* btnPlayImage;
+@property (nonatomic, strong, readonly) NSString* btnPlayHighlightImage;
+/** 暂停按钮图片 */
+@property (nonatomic, strong, readonly) NSString* btnPauseImage;
+@property (nonatomic, strong, readonly) NSString* btnPauseHighlightImage;
+
+@end
+
+@protocol YCPlayStateProps <YCProps, YCPlayStateConstVars>
 
 /** 是否暂停，默认加载好立即播放 */
 @property (nonatomic, assign, readonly) BOOL isPause;
@@ -17,16 +28,10 @@
 @property (nonatomic, assign, readonly) BOOL isHidden;
 /** 是否可用 */
 @property (nonatomic, assign, readonly) BOOL isDisable;
-/** 播放按钮图片，不需要联动 */
-@property (nonatomic, strong, readonly) NSString* btnPlayImage;
-@property (nonatomic, strong, readonly) NSString* btnPlayHighlightImage;
-/** 暂停按钮图片，不需要联动 */
-@property (nonatomic, strong, readonly) NSString* btnPauseImage;
-@property (nonatomic, strong, readonly) NSString* btnPauseHighlightImage;
 
 @end
 
-@protocol YCSwitchPlayerStateCallbacks <YCCallbacks>
+@protocol YCPlayStateCallbacks <YCCallbacks>
 
 - (void)switchPlayerStateOnTap;
 
@@ -37,6 +42,6 @@
 /*!
  *  控制视频播放器暂停、播放按钮组件
  */
-@interface YCSwitchPlayerStateComponent : YCComponent
+@interface YCPlayStateComponent : YCComponent
 
 @end

@@ -1,5 +1,5 @@
 //
-//  YCSwitchPlayerStateView.m
+//  YCPlayStateView.m
 //  testModule
 //
 //  Created by fuhan on 2017/6/6.
@@ -15,14 +15,14 @@
 #import "Masonry.h"
 #import "ReactiveCocoa.h"
 
-@interface YCSwitchPlayerStateView ()
+@interface YCPlayStateView ()
 
-@property (nonatomic, strong) YCSwitchPlayerStateVM *viewModel;
+@property (nonatomic, strong) YCPlayStateVM *viewModel;
 @property (nonatomic, strong) UIButton *button;
 
 @end
 
-@implementation YCSwitchPlayerStateView
+@implementation YCPlayStateView
 
 - (id<YCStates>)viewModel {
     return [self getStates];
@@ -41,7 +41,7 @@
     return self;
 }
 
-- (void)render {
+- (void)renderWithVarProps:(id<YCVarProps>)varProps {
     [self dataBinding];
 }
 

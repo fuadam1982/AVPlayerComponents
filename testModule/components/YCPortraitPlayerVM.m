@@ -11,11 +11,11 @@
 #pragma mark - utils
 #import "ReactiveCocoa.h"
 
-@interface YCPortraitPlayerVM ()
+@interface YCVideoPlayerVM ()
 
 #pragma mark - YCStates
 @property (nonatomic, strong) id<YCAVPlayerProps> props;
-@property (nonatomic, weak) id<YCPortraitPlayerCallbacks> callbacks;
+@property (nonatomic, weak) id<YCVideoPlayerCallbacks> callbacks;
 
 #pragma mark - YCPortraitPlayerStates
 /** 视频播放地址，如果发生变化即切换清晰度 */
@@ -30,8 +30,6 @@
 #pragma mark - private
 /** 控制浮动层上的播放按钮是否隐藏 */
 @property (nonatomic, assign) BOOL isHiddenForSwitchPlayerButton;
-/** 控制状态栏初始状态 */
-@property (nonatomic, assign) BOOL statusBarInitState;
 /** 控制状态栏弹出/隐藏 */
 @property (nonatomic, assign) BOOL statusBarChangeState;
 /** 内部存储状态用来判断是否已经隐藏状态栏 */
@@ -41,9 +39,9 @@
 
 @end
 
-@implementation YCPortraitPlayerVM
+@implementation YCVideoPlayerVM
 
-- (instancetype)initWithProps:(id<YCAVPlayerProps>)props callbacks:(id<YCPortraitPlayerCallbacks>)callbacks {
+- (instancetype)initWithProps:(id<YCAVPlayerProps>)props callbacks:(id<YCVideoPlayerCallbacks>)callbacks {
     if (self = [super init]) {
         self.props = props;
         self.callbacks = callbacks;
@@ -78,10 +76,6 @@
 
 - (void)switchPlayerState {
     self.isPause = !self.isPause;
-}
-
-- (void)initStatusBarState {
-    self.statusBarInitState = YES;
 }
 
 - (void)switchStatusBarState {

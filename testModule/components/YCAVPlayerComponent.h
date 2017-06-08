@@ -9,24 +9,29 @@
 #import <Foundation/Foundation.h>
 #import "Componentable.h"
 
-@protocol YCAVPlayerProps <YCProps>
+@protocol YCAVPlayerConstVars <YCConstVars>
 
-/** 是否有网络 */
-@property (nonatomic, assign, readonly) BOOL hasNetworking;
-/** 是否在无网络是继续播放, 不需要联动 */
+/** 是否在无网络是继续播放 */
 @property (nonatomic, assign, readonly) BOOL isCanPlayWithoutNetworking;
-/** 是否正在使用WIFI */
-@property (nonatomic, assign, readonly) BOOL isWIFINetworking;
-/** 是否在非WIFI网络下继续预加载, 不需要联动*/
+/** 是否在非WIFI网络下继续预加载 */
 @property (nonatomic, assign, readonly) BOOL isWANNetworkingStopPreload;
-/** 是否播放本地视频，不需要联动 */
+/** 是否播放本地视频 */
 @property (nonatomic, assign, readonly) BOOL isLocalVideo;
 /** 是否缓存视频到本地 */
 @property (nonatomic, assign, readonly) BOOL isCachedRemoteVideo;
-/** 最小可播放时间，如果buffer时间小于该值则属于卡顿。不需要联动 */
+/** 最小可播放时间，如果buffer时间小于该值则属于卡顿 */
 @property (nonatomic, assign, readonly) NSTimeInterval minPlayTime;
-/** 交互时间点数组, 值为float。不需要联动 */
+/** 交互时间点数组, 值为float */
 @property (nonatomic, strong, readonly) NSArray<NSNumber *> *interactionTimes;
+
+@end
+
+@protocol YCAVPlayerProps <YCProps, YCAVPlayerConstVars>
+
+/** 是否有网络 */
+@property (nonatomic, assign, readonly) BOOL hasNetworking;
+/** 是否正在使用WIFI */
+@property (nonatomic, assign, readonly) BOOL isWIFINetworking;
 /** 当前的视频播放地址，如果发生变化即切换清晰度 */
 @property (nonatomic, strong, readonly) NSString *currVideoURL;
 /** 是否手动取消播放 */

@@ -1,5 +1,5 @@
 //
-//  YCSwitchPlayerStateView.h
+//  YCPlayStateView.h
 //  testModule
 //
 //  Created by fuhan on 2017/6/6.
@@ -9,6 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "Componentable.h"
 
-@interface YCSwitchPlayerStateView : YCViewTemplate
+@interface YCPlayStateView : YCViewTemplate
 
 @end

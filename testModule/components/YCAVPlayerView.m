@@ -49,7 +49,7 @@ static NSArray *AssetKeys = nil;
     return [self getStates];
 }
 
-- (void)render {
+- (void)renderWithVarProps:(id<YCVarProps>)varProps {
     // 设置player，用于callbacks
     [self.viewModel setPlayer:self];
     [self buildPlayer];

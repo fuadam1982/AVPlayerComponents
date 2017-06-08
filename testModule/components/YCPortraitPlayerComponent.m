@@ -14,11 +14,11 @@
 #pragma mark - view
 #import "YCPortraitPlayerView.h"
 
-@implementation YCPortraitPlayerComponent
+@implementation YCVideoPlayerComponent
 
-- (instancetype)initWithProps:(id<YCAVPlayerProps>)props callbacks:(id<YCPortraitPlayerCallbacks>)callbacks {
-    YCPortraitPlayerVM *states = [[YCPortraitPlayerVM alloc] initWithProps:props callbacks:callbacks];
-    YCPortraitPlayerView *template = [[YCPortraitPlayerView alloc] init];
+- (instancetype)initWithProps:(id<YCAVPlayerProps>)props callbacks:(id<YCVideoPlayerCallbacks>)callbacks {
+    YCVideoPlayerVM *states = [[YCVideoPlayerVM alloc] initWithProps:props callbacks:callbacks];
+    YCVideoPlayerView *template = [[YCVideoPlayerView alloc] init];
     return [super initWithStates:states template:template];
 }
 

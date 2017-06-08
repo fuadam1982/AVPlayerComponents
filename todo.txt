@@ -1,6 +1,7 @@
-#. 遵循属性下行，事件上行这个约束后必然带来的问题是：同级数据访问（属性与事件）和间隔组件传递数据
-#. 组件隔离的弊端是UI稍有不同就要重新实现一个父组件用来进行自定义组合。YCTemplate可以实现一个接口用来告知父组件都有哪些控件，然后供父控件设置和布局。设置应该局限在对非联动属性的设置上
+#. 【状态控制】遵循props下行，event上行这个约束后必然带来的问题是：同级数据访问（属性与事件）和间隔组件传递数据
+#. 【UI布局】遵循props下行设置组件内UI属性，组件内layout布局上行回调
 
+#. 组件隔离的弊端是UI稍有不同就要重新实现一个父组件用来进行自定义组合。YCTemplate可以实现一个接口用来告知父组件都有哪些控件，然后供父控件设置和布局。设置应该局限在对非联动属性的设置上
 预想的播放器插件是：基础播放器+业务相关组件+业务无关埋点组件。然后在根据场景封装成真人秀竖屏、横屏播放器。
 
 0. 进度条拖动70%即为老用户
@@ -16,7 +17,7 @@
 9. 目前卡顿时会自动暂停，注意8的逻辑，暂停后恢复如何触发lagging提示，如果可以播放自动0.5好秒后就可以提示
 10. 播放完成后回到开始，是否需要这个逻辑？
 11. 拖动进度条后隐藏的逻辑？
-12. 加载进度条需求确认，是精确的，还是覆盖的
+12. 加载进度条需求确认，是精确的，还是覆盖的. 目前用覆盖的，只有实现了边下边播才有意义
 13. 手势左右滑动，快速是快进快退。按住是拖动进度条
 14. 视频横竖屏切换要保持平滑，就要共享avplayer，享元模式
 15. player -> footer -> progress, playbtn, timer。这种中间隔离情况如何传递props, callbacks. view addSubView,但实际组件关系式平级的就可以解决。另外，footer是要监听浮动层的消息。虽然可以使用redux实现。但是怎么才能不侵入？
@@ -53,7 +54,37 @@
 26. 通过AVAssetImageGenerator获取最后一frame图片，切换时可以效果更好
 
 ==============================================
+/** 全屏播放按钮 */
+@property (nonatomic, strong) UIButton *fullScreenButton;
+    // 全屏按钮
+    self.fullScreenButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.fullScreenButton.backgroundColor = [UIColor blueColor];
+    [self.statusBarComponent.view addSubview:self.fullScreenButton];
+        // 状态栏上的全屏按钮
+    [self.fullScreenButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.statusBarComponent.view).offset(-16);
+        make.width.and.height.equalTo(@22);
+        make.centerY.equalTo(self.statusBarComponent.view);
+    }];
 
+==============================
+/**
+ 视频播放器将要进行屏幕旋转
+
+ @param player player
+ @param isPortrait 当前是否为竖屏
+ */
+- (void)player:(UIView *)player onWillScreenRotation:(BOOL)isPortrait;
+
+
+/**
+ 视频播放器完成进行屏幕旋转
+
+ @param player player
+ @param isPortrait 单签是否为竖屏
+ */
+- (void)player:(UIView *)player onDidScreenRotation:(BOOL)isPortrait;
+==============================
     // TODO: how to use
     // 无buffer
     [[RACObserve(self.playerItem, playbackBufferEmpty)

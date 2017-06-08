@@ -28,9 +28,10 @@ typedef NS_OPTIONS(int, YCGestureFloatDirectionType) {
     YCGestureFloatDirectionTypeDown,
 };
 
-@protocol YCGestureFloatProps <YCProps>
+//////////////////////////////////////////////////////////////
 
-// TODO: use 联动属性
+@protocol YCGestureFloatConstVars <YCConstVars>
+
 /** 单击手势 */
 @property (nonatomic, assign, readonly) BOOL useTap;
 /** 双击手势 */
@@ -47,7 +48,25 @@ typedef NS_OPTIONS(int, YCGestureFloatDirectionType) {
 @property (nonatomic, assign, readonly) BOOL useLongPress;
 /** 初始化手势类型，相当于手动执行了一次手势 */
 @property (nonatomic, assign, readonly) YCGestureFloatType initGestureType;
-/** 暂停手势处理，联动属性 */
+
+@end
+
+@protocol YCGestureFloatVars <YCVars, YCGestureFloatConstVars>
+
+- (void)setUseTap:(BOOL)useTap;
+- (void)setUseDoubleTap:(BOOL)useDoubleTap;
+- (void)setUseSwipe:(BOOL)useSwipe;
+- (void)setSwipeDirection:(YCGestureFloatDirectionType)swipeDirection;
+- (void)setUsePan:(BOOL)usePan;
+- (void)setPanDirection:(YCGestureFloatDirectionType)panDirection;
+- (void)setUseLongPress:(BOOL)useLongPress;
+- (void)setInitGestureType:(YCGestureFloatType)initGestureType;
+
+@end
+
+@protocol YCGestureFloatProps <YCProps, YCGestureFloatConstVars>
+
+/** 暂停手势处理 */
 @property (nonatomic, assign, readonly) BOOL pauseRespondGesture;
 
 @end

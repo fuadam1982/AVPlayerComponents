@@ -11,6 +11,7 @@
 #pragma mark - component
 #import "YCAVPlayerComponent.h"
 #import "YCPortraitPlayerComponent.h"
+#import "YCPopUpFloatComponent.h"
 
 #pragma mark - viewmodel
 #import "ViewModel.h"
@@ -21,7 +22,8 @@
 @interface YCMoviePlayerVC2 () <YCAVPlayerCallbacks>
 
 @property (nonatomic, strong) YCMoviePlayerVM2 *viewModel;
-@property (nonatomic, strong) YCPortraitPlayerComponent *portraitPlayerComponent;
+// TODO: remove
+@property (nonatomic, strong) YCVideoPlayerComponent *portraitPlayerComponent;
 
 @end
 
@@ -37,8 +39,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor grayColor];
-    self.portraitPlayerComponent = [[YCPortraitPlayerComponent alloc] initWithProps:[self.viewModel toProps]
+    self.portraitPlayerComponent = [[YCVideoPlayerComponent alloc] initWithProps:[self.viewModel toProps]
                                                                         callbacks:self];
+    [self.portraitPlayerComponent render];
+    
     self.portraitPlayerComponent.view.backgroundColor = [UIColor blackColor];
     [self.view addSubview:self.portraitPlayerComponent.view];
     

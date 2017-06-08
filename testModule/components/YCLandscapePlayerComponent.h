@@ -8,6 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-@interface YCLandscapePlayerComponent : NSObject
+@interface YCShowLandscapePlayerComponent : NSObject
 
 @end

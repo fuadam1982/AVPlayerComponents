@@ -8,6 +8,6 @@
 
 #import "YCLandscapePlayerComponent.h"
 
-@implementation YCLandscapePlayerComponent
+@implementation YCShowLandscapePlayerComponent
 
 @end

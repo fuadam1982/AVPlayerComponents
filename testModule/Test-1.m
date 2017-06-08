@@ -13,6 +13,7 @@
 @interface Test_1 ()
 
 @property (nonatomic, strong) PropsConstVarWrapper *wrapper;
+@property (nonatomic, strong) NSString *address;
 
 @end
 

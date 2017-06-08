@@ -31,7 +31,7 @@
     return [self getStates];
 }
 
-- (void)render {
+- (void)renderWithVarProps:(id<YCVarProps>)varProps {
     [self buildGesture];
 }
 

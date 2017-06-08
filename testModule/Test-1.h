@@ -9,7 +9,19 @@
 #import <Foundation/Foundation.h>
 #import "Componentable.h"
 
-@protocol Test_1_Delegate <NSObject>
+@protocol MyReadOnly <NSObject>
+
+@property (nonatomic, strong, readonly) NSString *address;
+
+@end
+
+@protocol MyAccess <MyReadOnly>
+
+- (void)setAddress:(NSString *)address;
+
+@end
+
+@protocol Test_1_Delegate <MyReadOnly>
 
 @property (nonatomic, assign) int age;
 @property (nonatomic, strong) NSString *name;
@@ -24,7 +36,7 @@
 
 @end
 
-@interface Test_1 : NSObject
+@interface Test_1 : NSObject<MyAccess>
 
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, assign) int age;

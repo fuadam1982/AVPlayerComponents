@@ -23,8 +23,7 @@ NSDictionary * parseObjProtocolPropertiesInfo(id obj, Protocol *parentProtocl, B
 
 
 /**
- 解析协议的属性信息
- TODO: 从父协议继承的属性
+ 解析协议的属性信息（包括父协议属性）
 
  @param protocol 协议
  @param forReadonly 只处理只读属性

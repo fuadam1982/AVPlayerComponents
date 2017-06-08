@@ -163,6 +163,8 @@
 			isa = PBXGroup;
 			children = (
 				4B52326B1EE114E5004D1522 /* common */,
+				4B1AA7851EE0113E00D48741 /* YCLandscapePlayerView.h */,
+				4B1AA7861EE0113E00D48741 /* YCLandscapePlayerView.m */,
 				4BF55D751EE516C5002A770B /* YCTeacherShowPlayerView.h */,
 				4BF55D761EE516C5002A770B /* YCTeacherShowPlayerView.m */,
 			);
@@ -173,6 +175,8 @@
 			isa = PBXGroup;
 			children = (
 				4B52326F1EE13A7D004D1522 /* common */,
+				4B1AA7821EE0109C00D48741 /* YCLandscapePlayerVM.h */,
+				4B1AA7831EE0109C00D48741 /* YCLandscapePlayerVM.m */,
 				4BF55D781EE516DF002A770B /* YCTeacherShowPlayerVM.h */,
 				4BF55D791EE516DF002A770B /* YCTeacherShowPlayerVM.m */,
 			);
@@ -192,8 +196,6 @@
 				4BF55D821EE64DA1002A770B /* YCSwitchPlayerStateView.m */,
 				4B1AA7881EE0116900D48741 /* YCPortraitPlayerView.h */,
 				4B1AA7891EE0116900D48741 /* YCPortraitPlayerView.m */,
-				4B1AA7851EE0113E00D48741 /* YCLandscapePlayerView.h */,
-				4B1AA7861EE0113E00D48741 /* YCLandscapePlayerView.m */,
 			);
 			name = common;
 			sourceTree = "<group>";
@@ -211,8 +213,6 @@
 				4BF55D7F1EE64C30002A770B /* YCSwitchPlayerStateVM.m */,
 				4B1AA77F1EE0103E00D48741 /* YCPortraitPlayerVM.h */,
 				4B1AA7801EE0103E00D48741 /* YCPortraitPlayerVM.m */,
-				4B1AA7821EE0109C00D48741 /* YCLandscapePlayerVM.h */,
-				4B1AA7831EE0109C00D48741 /* YCLandscapePlayerVM.m */,
 			);
 			name = common;
 			sourceTree = "<group>";
@@ -232,6 +232,8 @@
 			isa = PBXGroup;
 			children = (
 				4BF55D681EE4F597002A770B /* common */,
+				4BF55D721EE5159D002A770B /* YCLandscapePlayerComponent.h */,
+				4BF55D731EE5159D002A770B /* YCLandscapePlayerComponent.m */,
 				4BF55D6F1EE51560002A770B /* YCTeacherShowPlayerComponent.h */,
 				4BF55D701EE51560002A770B /* YCTeacherShowPlayerComponent.m */,
 			);
@@ -251,8 +253,6 @@
 				4BF55D7C1EE6459A002A770B /* YCSwitchPlayerStateComponent.m */,
 				4BF55D6C1EE4F8AE002A770B /* YCPortraitPlayerComponent.h */,
 				4BF55D6D1EE4F8AE002A770B /* YCPortraitPlayerComponent.m */,
-				4BF55D721EE5159D002A770B /* YCLandscapePlayerComponent.h */,
-				4BF55D731EE5159D002A770B /* YCLandscapePlayerComponent.m */,
 			);
 			name = common;
 			sourceTree = "<group>";

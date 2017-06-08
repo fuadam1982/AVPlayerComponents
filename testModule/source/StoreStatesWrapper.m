@@ -14,4 +14,12 @@
 
 @implementation StoreStatesWrapper
 
+- (id)stateForKey:(NSString *)key {
+    return nil;
+}
+
+- (NSString *)propTypeForKey:(NSString *)key {
+    return nil;
+}
+
 @end

@@ -11,6 +11,6 @@
 #pragma mark - utils
 #import "Componentable.h"
 
-@interface YCPortraitPlayerView: YCViewTemplate
+@interface YCVideoPlayerView: YCViewTemplate
 
 @end

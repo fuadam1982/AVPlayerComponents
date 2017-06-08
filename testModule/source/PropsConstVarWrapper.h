@@ -8,10 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import "ReadonlyObjWrapper.h"
+#import "Componentable.h"
 
-@interface PropsConstVarWrapper : AccessObjWrapper
+@interface PropsConstVarWrapper : AccessObjWrapper<YCVars>
 
 - (instancetype)initWithProtocol:(Protocol *)propsProtocol;
-- (NSDictionary *)toDictionary;
 
 @end

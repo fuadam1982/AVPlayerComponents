@@ -1,5 +1,5 @@
 //
-//  YCSwitchPlayerStateVM.m
+//  YCPlayStateVM.m
 //  testModule
 //
 //  Created by fuhan on 2017/6/6.
@@ -8,17 +8,17 @@
 
 #import "YCSwitchPlayerStateVM.h"
 
-@interface YCSwitchPlayerStateVM ()
+@interface YCPlayStateVM ()
 
 #pragma mark - YCStates
-@property (nonatomic, strong) id<YCSwitchPlayerStateProps> props;
-@property (nonatomic, weak) id<YCSwitchPlayerStateCallbacks> callbacks;
+@property (nonatomic, strong) id<YCPlayStateProps> props;
+@property (nonatomic, weak) id<YCPlayStateCallbacks> callbacks;
 
 @end
 
-@implementation YCSwitchPlayerStateVM
+@implementation YCPlayStateVM
 
-- (instancetype)initWithProps:(id<YCSwitchPlayerStateProps>)props callbacks:(id<YCSwitchPlayerStateCallbacks>)callbacks {
+- (instancetype)initWithProps:(id<YCPlayStateProps>)props callbacks:(id<YCPlayStateCallbacks>)callbacks {
     if (self = [super init]) {
         self.props = props;
         self.callbacks = callbacks;

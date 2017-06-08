@@ -95,12 +95,34 @@ NSDictionary * parseObjProtocolPropertiesInfo(id obj, Protocol *parentProtocol, 
     return propertiesInfo;
 }
 
-NSDictionary * parseProtocolPropertiesInfo(Protocol *protocol, BOOL forReadonly) {
+NSDictionary * _parseProtocolPropertiesInfo(Protocol *protocol, BOOL forReadonly) {
     unsigned int count;
     objc_property_t* props = protocol_copyPropertyList(protocol, &count);
-    NSDictionary *info = getPropertiesInfo(props, count, forReadonly);
-    free(props);
-    return info;
+    if (count > 0) {
+        NSDictionary *info = getPropertiesInfo(props, count, forReadonly);
+        free(props);
+        return info;
+    }
+    return @{};
+}
+
+NSDictionary * parseProtocolPropertiesInfo(Protocol *protocol, BOOL forReadonly) {
+    NSMutableDictionary *result = [[NSMutableDictionary alloc] initWithCapacity:64];
+    // 处理当前协议
+    [result addEntriesFromDictionary:_parseProtocolPropertiesInfo(protocol, forReadonly)];
+    
+    // 处理父协议
+    unsigned int count;
+    Protocol* __unsafe_unretained* protocolList = protocol_copyProtocolList(protocol, &count);
+    for (int i = 0; i < count; i++) {
+        if ([NSStringFromProtocol(protocolList[i]) isEqualToString:NSStringFromProtocol(@protocol(NSObject))]) {
+            continue;
+        }
+        [result addEntriesFromDictionary:_parseProtocolPropertiesInfo(protocolList[i], forReadonly)];
+    }
+    free(protocolList);
+    
+    return result;
 }
 
 NSDictionary * parseClassPropertiesInfo(Class class) {
