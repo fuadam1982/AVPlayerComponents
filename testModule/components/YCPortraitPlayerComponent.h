@@ -8,6 +8,11 @@
 // TODO: 修改文件名
 #import <Foundation/Foundation.h>
 
+#pragma mark - component
+#import "YCGestureFloatComponet.h"
+#import "YCPopUpFloatComponent.h"
+#import "YCSwitchPlayerStateComponent.h"
+
 #pragma mark - utils
 #import "Componentable.h"
 
@@ -44,6 +49,19 @@
  @param stayDuration 观看视频停留时长
  */
 - (void)player:(UIView *)player onFinishedByInterrupt:(BOOL)isInterrupt watchedDuration:(NSTimeInterval)watchedDuration stayDuration:(NSTimeInterval)stayDuration;
+
+@end
+
+//////////////////////////////////////////////////////////////
+
+@protocol YCVideoPlayerVarProps <YCVarProps>
+
+@property (nonatomic, strong, readonly) id<YCGestureFloatVars> gesture;
+@property (nonatomic, strong, readonly) id<YCPlayStateVars> gesturePlay;
+@property (nonatomic, strong, readonly) id<YCPopUpFloatVars> status;
+@property (nonatomic, strong, readonly) id<YCPlayStateVars> statusPlay;
+
+// TODO: more
 
 @end
 

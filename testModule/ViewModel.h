@@ -11,7 +11,7 @@
 
 @protocol YCAVPlayerProps;
 @class ComponentPropsWrapper;
-@interface YCMoviePlayerVM2 : NSObject
+@interface YCMoviePlayerVM2 : NSObject<YCStates>
 
 @property (nonatomic, strong, readonly, getter=toProps) id<YCAVPlayerProps> subComponentProps;
 

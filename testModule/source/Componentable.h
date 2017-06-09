@@ -38,7 +38,7 @@
 @end
 
 /** 用于组合的Componet, 可以让父组件对一组YCComponent设定初始属性 */
-@protocol YCVarProps <NSObject>
+@protocol YCVarProps <YCProps>
 
 @end
 
@@ -76,38 +76,71 @@
 /** 将持有的states供外转换为props */
 - (id<YCProps>)toProps:(id<YCProps> (^) (id<YCStates> states))block;
 
+@optional
+
+/** 获取设置全部子组件的constVars包装对象 */
++ (id<YCVarProps>)getChildrenVarProps;
+
 @end
 
 //////////////////////////////////////////////////////////////
 
+/** Template基础类 - UIView */
 @interface YCViewTemplate : UIView<YCTemplate>
 
 @end
 
+/** Template基础类 - UIViewController */
 @interface YCViewControllerTemplate : UIViewController<YCTemplate>
 
 @end
 
 //////////////////////////////////////////////////////////////
 
+/** 组件基础类 */
 @interface YCComponent : NSObject<YCComponent>
 
 - (instancetype)initWithStates:(id<YCStates>)states template:(id<YCTemplate>)template;
+
+/** 设置处理VarProps回调 */
+- (void)setVarPropsBlock:(void (^)(id<YCVarProps>))varPropsBlock;
+/** 一切就绪可以构造组件了 */
 - (void)render;
 
 @end
 
 //////////////////////////////////////////////////////////////
 
+/** 辅助构造组件 */
 @interface YCComponentBuilder : NSObject
 
 - (instancetype)initWithComponentClass:(Class)componentClass;
+
+/** 设置constVars包装协议 */
 - (YCComponentBuilder * (^)(Protocol *varsProtocol))varsProtocol;
+
+/** 设置constVars处理block，搭配varsProtocol使用 */
 - (YCComponentBuilder * (^)(NSDictionary * (^)(id<YCVars>)))constVars;
+
+/** 设置vars, 其会覆盖掉constVars设置的字段，且要写在constVars之后 */
+- (YCComponentBuilder * (^)(id<YCVars>))varsObj;
+
+/** 设置VarProps处理block */
+- (YCComponentBuilder * (^)(void (^)(id<YCVarProps>)))childrenVarProps;
+
+/** 设置props处理block */
 - (YCComponentBuilder * (^)(id<YCProps> (^)(NSDictionary *)))props;
+
+/** 直接将states作为props */
+- (YCComponentBuilder * (^)(id<YCStates>))states;
+
+/** 设置callback */
 - (YCComponentBuilder * (^)(id<YCCallbacks>))callbacks;
+
+/** 设置template的父View */
 - (YCComponentBuilder * (^)(UIView *))superView;
-// TODO:
+
+/** 构造 */
 - (YCComponent * (^)())build;
 
 @end

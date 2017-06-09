@@ -11,7 +11,7 @@
 #import "ComponentPropsBuilder.h"
 #import "YCAVPlayerComponent.h"
 
-@interface YCMoviePlayerVM2 () <YCStates>
+@interface YCMoviePlayerVM2 ()
 
 /** 视频播放地址，如果发生变化即切换清晰度 */
 @property (nonatomic, strong) NSString *currVideoURL;

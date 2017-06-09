@@ -12,6 +12,6 @@
 
 @interface PropsConstVarWrapper : AccessObjWrapper<YCVars>
 
-- (instancetype)initWithProtocol:(Protocol *)propsProtocol;
+- (instancetype)initWithProtocol:(Protocol *)varsProtocol;
 
 @end

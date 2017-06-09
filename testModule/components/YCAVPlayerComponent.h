@@ -26,6 +26,17 @@
 
 @end
 
+@protocol YCAVPlayerVars <YCVars, YCAVPlayerConstVars>
+
+- (void)setIsCanPlayWithoutNetworking:(BOOL)isCanPlayWithoutNetworking;
+- (void)setIsWANNetworkingStopPreload:(BOOL)isWANNetworkingStopPreload;
+- (void)setIsLocalVideo:(BOOL)isLocalVideo;
+- (void)setIsCachedRemoteVideo:(BOOL)isCachedRemoteVideo;
+- (void)setMinPlayTime:(NSTimeInterval)minPlayTime;
+- (void)setInteractionTimes:(NSArray<NSNumber *> *)interactionTimes;
+
+@end
+
 @protocol YCAVPlayerProps <YCProps, YCAVPlayerConstVars>
 
 /** 是否有网络 */

@@ -11,12 +11,24 @@
 // TODO: 修改header
 @protocol YCPlayStateConstVars <YCConstVars>
 
+/** 是否不启用，如果是则不响应Props联动且不显示 */
+@property (nonatomic, assign, readonly) BOOL isNotUsed;
 /** 播放按钮图片 */
 @property (nonatomic, strong, readonly) NSString* btnPlayImage;
 @property (nonatomic, strong, readonly) NSString* btnPlayHighlightImage;
 /** 暂停按钮图片 */
 @property (nonatomic, strong, readonly) NSString* btnPauseImage;
 @property (nonatomic, strong, readonly) NSString* btnPauseHighlightImage;
+
+@end
+
+@protocol YCPlayStateVars <YCVars, YCPlayStateConstVars>
+
+- (void)setIsNotUsed:(BOOL)isNotUsed;
+- (void)setBtnPlayImage:(NSString *)btnPlayImage;
+- (void)setBtnPlayHighlightImage:(NSString *)btnPlayHighlightImage;
+- (void)setBtnPauseImage:(NSString *)btnPauseImage;
+- (void)setBtnPauseHighlightImage:(NSString *)btnPauseHighlightImage;
 
 @end
 

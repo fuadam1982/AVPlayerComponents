@@ -39,12 +39,24 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor grayColor];
-    self.portraitPlayerComponent = [[YCVideoPlayerComponent alloc] initWithProps:[self.viewModel toProps]
-                                                                        callbacks:self];
-    [self.portraitPlayerComponent render];
     
+    // TODO: ShowPortraitPlayer wrapper
+    id playerComponent = toComponent([YCVideoPlayerComponent class])
+                            .childrenVarProps(^(id<YCVideoPlayerVarProps> varProps) {
+                                varProps.gesture.useTap = YES;
+                                varProps.gesture.useDoubleTap = YES;
+                                varProps.gesture.initGestureType = YCGestureFloatTypeTap;
+                                
+                                varProps.status.direction = YCPopUpFloatDirectionTypeUp;
+                                varProps.status.animationDuration = 0.2;
+                                varProps.status.autoHiddenDuration = 5;
+                            })
+                            .states([self.viewModel toProps])
+                            .callbacks(self)
+                            .superView(self.view)
+                            .build();
+    self.portraitPlayerComponent = playerComponent;
     self.portraitPlayerComponent.view.backgroundColor = [UIColor blackColor];
-    [self.view addSubview:self.portraitPlayerComponent.view];
     
     [self.portraitPlayerComponent.view mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.and.right.equalTo(self.view);
@@ -53,6 +65,8 @@
 //        make.top.and.bottom.equalTo(self.view);
     }];
     
+    
+    // test 横屏
 //    CGAffineTransform transform = CGAffineTransformIdentity;
 //    transform                   = CGAffineTransformRotate(transform, M_PI/2);// 弧度， 逆时针旋转
 //    self.view.transform         = transform;

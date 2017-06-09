@@ -79,6 +79,7 @@
 
 @property (nonatomic, strong) id<YCStates> states;
 @property (nonatomic, strong) id<YCTemplate> template;
+@property (nonatomic, strong) void (^varPropsBlock)(id<YCVarProps>);
 
 @end
 
@@ -106,8 +107,20 @@
     return block(self.states);
 }
 
+- (void)setVarPropsBlock:(void (^)(id<YCVarProps>))varPropsBlock {
+    _varPropsBlock = varPropsBlock;
+}
+
 - (void)render {
-    [self.template renderWithVarProps:nil];
+    id<YCVarProps> varProps = nil;
+    
+    if ([[self class] respondsToSelector:@selector(getChildrenVarProps)]) {
+        varProps = [[self class] getChildrenVarProps];
+        if (self.varPropsBlock) {
+            self.varPropsBlock(varProps);
+        }
+    }
+    [self.template renderWithVarProps:varProps];
 }
 
 @end
@@ -121,6 +134,7 @@
 @property (nonatomic, strong) id<YCCallbacks> pCallbacks;
 @property (nonatomic, strong) UIView *pSuperView;
 @property (nonatomic, strong) NSDictionary * (^toConstVarsBlock)(id<YCVars>);
+@property (nonatomic, strong) void (^setVarProps)(id<YCVarProps>);
 @property (nonatomic, strong) id<YCProps> (^toPropsBlock)(NSDictionary *);
 
 @end
@@ -148,9 +162,43 @@
     };
 }
 
+- (YCComponentBuilder * (^)(id<YCVars>))varsObj {
+    return ^YCComponentBuilder * (id<YCVars> varsObj) {
+        if (self.toConstVarsBlock) {
+            NSDictionary * (^preBlock)(id<YCVars>) = self.toConstVarsBlock;
+            self.toConstVarsBlock = ^NSDictionary *(id<YCVars> varsObj) {
+                NSMutableDictionary *tmpConstVars = [preBlock(varsObj) mutableCopy];
+                [tmpConstVars addEntriesFromDictionary:[varsObj toDictionary]];
+                return tmpConstVars;
+            };
+        } else {
+            self.toConstVarsBlock = ^NSDictionary * (id _) {
+                return [varsObj toDictionary];
+            };
+        }
+        return self;
+    };
+}
+
+- (YCComponentBuilder * (^)(void (^)(id<YCVarProps>)))childrenVarProps {
+    return ^YCComponentBuilder * (id setVarProps) {
+        self.setVarProps = setVarProps;
+        return self;
+    };
+}
+
 - (YCComponentBuilder * (^)(id<YCProps> (^)(NSDictionary *)))props {
     return ^YCComponentBuilder * (id toPropsBlock) {
         self.toPropsBlock = toPropsBlock;
+        return self;
+    };
+}
+
+- (YCComponentBuilder * (^)(id<YCStates>))states {
+    return ^YCComponentBuilder * (id<YCStates> states) {
+        self.toPropsBlock = ^id<YCProps> (NSDictionary *_) {
+            return (id<YCProps>)states;
+        };
         return self;
     };
 }
@@ -171,15 +219,23 @@
 
 - (YCComponent *(^)())build {
     return ^YCComponent * {
+        // 处理constVars
         NSDictionary *constVars = nil;
         if (self.pVarsProtocol) {
             PropsConstVarWrapper *wrapper = [[PropsConstVarWrapper alloc] initWithProtocol:self.pVarsProtocol];
             constVars = self.toConstVarsBlock((id<YCVars>)wrapper);
+        } else if (self.toConstVarsBlock) {
+            constVars = self.toConstVarsBlock(nil);
         }
+        // 获得Props
         id<YCProps> props = self.toPropsBlock(constVars);
-        
+        // 创建Component实例
         YCComponent *component = [[self.componentClass alloc] initWithProps:props callbacks:self.pCallbacks];
-        
+        // 设置VarProps回调
+        if (self.setVarProps) {
+            [component setVarPropsBlock:self.setVarProps];
+        }
+        // 设置superView的目的是解决子组件在初始化时layout，但是还未被addSubView的情况
         if (self.pSuperView) {
             [self.pSuperView addSubview:component.view];
         }

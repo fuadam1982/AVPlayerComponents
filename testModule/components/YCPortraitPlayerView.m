@@ -78,34 +78,32 @@
     return self;
 }
 
-- (void)renderWithVarProps:(id<YCVarProps>)varProps {
+- (void)renderWithVarProps:(id<YCVideoPlayerVarProps>)varProps {
     // 视频播放器
-    id playerProps = toProps(@protocol(YCAVPlayerProps))
-                        .states(self.viewModel)
-                        .nameMappingBlock(^NSString * (NSString *key) {
-                            if (!([key isEqualToString:@"currVideoURL"]
-                                || [key isEqualToString:@"isCancelPlay"]
-                                || [key isEqualToString:@"isPause"]
-                                || [key isEqualToString:@"seekTimePoint"])) {
-                                return toKeyPath(@"props", key);
-                            }
-                            return key;
-                        })
-                        .build();
-    self.playerComponent = [[YCAVPlayerComponent alloc] initWithProps:playerProps
-                                                            callbacks:self];
-    [self.playerComponent render];
-    [self addSubview:self.playerComponent.view];
+    id playerComponent = toComponent([YCAVPlayerComponent class])
+                            .props(^id<YCProps> (NSDictionary *constVars) {
+                                return toProps(@protocol(YCAVPlayerProps))
+                                        .states(self.viewModel)
+                                        .nameMappingBlock(^NSString * (NSString *key) {
+                                            if (!([key isEqualToString:@"currVideoURL"]
+                                                  || [key isEqualToString:@"isCancelPlay"]
+                                                  || [key isEqualToString:@"isPause"]
+                                                  || [key isEqualToString:@"seekTimePoint"])) {
+                                                return toKeyPath(@"props", key);
+                                            }
+                                            return key;
+                                        })
+                                        .build();
+                            })
+                            .callbacks(self)
+                            .superView(self)
+                            .build();
+    self.playerComponent = playerComponent;
     
     // 手势浮动层
     id gestureComponent = toComponent([YCGestureFloatComponet class])
-                            .varsProtocol(@protocol(YCGestureFloatVars))
-                            .constVars(^NSDictionary * (id<YCGestureFloatVars> vars) {
-                                vars.useTap = YES;
-                                vars.useDoubleTap = YES;
-                                vars.initGestureType = YCGestureFloatTypeTap;
-                                return [vars toDictionary];
-                            }).props(^id<YCProps> (NSDictionary *constVars) {
+                            .varsObj(varProps.gesture)
+                            .props(^id<YCProps> (NSDictionary *constVars) {
                                 return toProps(@protocol(YCGestureFloatProps))
                                         .states(self.viewModel)
                                         .nameMapping(@{@"pauseRespondGesture": @"isPauseRespondGesture"})
@@ -117,28 +115,30 @@
                             .build();
     self.gestureFloatComponent = gestureComponent;
     
-    // TODO: set constVars
     // 手势浮动层上的播放按钮
-    id gesturePlayProps = toProps(@protocol(YCPlayStateProps))
-                            .states(self.viewModel)
-                            .nameMapping(@{@"isHidden": @"isHiddenForSwitchPlayerButton"})
-                            .build();
-    self.gesturePlayComponent = [[YCPlayStateComponent alloc] initWithProps:gesturePlayProps
-                                                                          callbacks:self];
-    [self.gesturePlayComponent render];
-    [self.gestureFloatComponent.view addSubview:self.gesturePlayComponent.view];
+    id gesturePlayComponent = toComponent([YCPlayStateComponent class])
+                                .varsObj(varProps.gesturePlay)
+                                .props(^id<YCProps> (NSDictionary *constVars) {
+                                    return toProps(@protocol(YCPlayStateProps))
+                                            .states(self.viewModel)
+                                            .nameMapping(@{@"isHidden": @"isHiddenForSwitchPlayerButton"})
+                                            .constVars(constVars)
+                                            .build();
+                                })
+                                .callbacks(self)
+                                .superView(self.gestureFloatComponent.view)
+                                .build();
+    self.gesturePlayComponent = gesturePlayComponent;
     
     // TODO: resetAutoHidden
     // 视频状态控制栏
     id statusBarComponent = toComponent([YCPopUpFloatComponent class])
                             .varsProtocol(@protocol(YCPopUpFloatVars))
                             .constVars(^NSDictionary *(id<YCPopUpFloatVars> vars) {
-                                vars.direction = YCPopUpFloatDirectionTypeUp;
-                                vars.animationDuration = 0.2;
-                                vars.autoHiddenDuration = 5;
                                 vars.initShowState = self.viewModel.innerStatusBarChangeState;
                                 return [vars toDictionary];
                             })
+                            .varsObj(varProps.status)
                             .props(^id<YCProps> (NSDictionary *constVars) {
                                 return toProps(@protocol(YCPopUpFloatProps))
                                         .states(self.viewModel)
@@ -155,26 +155,33 @@
     self.statusBarComponent = statusBarComponent;
     
     // 状态控制栏上的播放按钮
-    id statusPlayProps = toProps(@protocol(YCPlayStateProps))
-                            .states(self.viewModel)
-                            .build();
-    self.statusPlayComponent = [[YCPlayStateComponent alloc] initWithProps:statusPlayProps
-                                                                         callbacks:self];
-    [self.statusPlayComponent render];
-    [self.statusBarComponent.view addSubview:self.statusPlayComponent.view];
+    id statusPlayComponent = toComponent([YCPlayStateComponent class])
+                                .varsObj(varProps.statusPlay)
+                                .props(^id<YCProps> (NSDictionary *constVars) {
+                                    return toProps(@protocol(YCPlayStateProps))
+                                    .states(self.viewModel)
+                                    .constVars(constVars)
+                                    .build();
+                                })
+                                .callbacks(self)
+                                .superView(self.statusBarComponent.view)
+                                .build();
+    self.statusPlayComponent = statusPlayComponent;
     
     // 视频播放时长
     self.videoDurationLabel = [[UILabel alloc] init];
+    self.videoDurationLabel.text = @"00:00";
     [self.statusBarComponent.view addSubview:self.videoDurationLabel];
+    // TODO: layout UI
     self.videoDurationLabel.textColor = [UIColor whiteColor];
     self.videoDurationLabel.font = [UIFont systemFontOfSize:14];
-    self.videoDurationLabel.text = @"00:00";
     
     self.playDurationLabel = [[UILabel alloc] init];
+    self.playDurationLabel.text = @"00:00";
     [self.statusBarComponent.view addSubview:self.playDurationLabel];
+    
     self.playDurationLabel.textColor = [UIColor whiteColor];
     self.playDurationLabel.font = [UIFont systemFontOfSize:14];
-    self.playDurationLabel.text = @"00:00";
     
     [self layout];
 }
@@ -212,7 +219,7 @@
         make.centerY.equalTo(self.statusBarComponent.view);
     }];
     self.statusPlayComponent.view.backgroundColor = [UIColor blueColor];
-    
+
     // 状态栏上的视频播放时间
     [self.videoDurationLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.statusBarComponent.view).offset(-50);

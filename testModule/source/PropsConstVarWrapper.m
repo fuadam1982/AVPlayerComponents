@@ -11,6 +11,8 @@
 
 @interface PropsConstVarWrapper () <AccessObjDataSource>
 
+/** constVars包装协议 */
+@property (nonatomic, strong) Protocol *varsProtocol;
 /** 用于存储state数据 */
 @property (nonatomic, strong) NSMutableDictionary *data;
 /** props属性名-类型映射，用于ReadonlyObjWrapper */
@@ -20,9 +22,10 @@
 
 @implementation PropsConstVarWrapper
 
-- (instancetype)initWithProtocol:(Protocol *)propsProtocol {
+- (instancetype)initWithProtocol:(Protocol *)varsProtocol {
     if (self = [super initWithDataSource:self]) {
         self.data = [[NSMutableDictionary alloc] initWithCapacity:16];
+        self.varsProtocol = varsProtocol;
         
         // 缓存prop协议的属性类型信息
         static NSMutableDictionary<NSString *, NSDictionary *> *propTypesMappingCache = nil;
@@ -32,11 +35,11 @@
         });
         
         // 获取prop协议的属性类信息
-        NSString *cacheKey = NSStringFromProtocol(propsProtocol);
+        NSString *cacheKey = NSStringFromProtocol(varsProtocol);
         NSDictionary *propTypesMapping = propTypesMappingCache[cacheKey];
         if (!propTypesMapping) {
             @synchronized (propTypesMappingCache) {
-                propTypesMapping = parseProtocolPropertiesInfo(propsProtocol, NO);
+                propTypesMapping = parseProtocolPropertiesInfo(varsProtocol, NO);
                 propTypesMappingCache[cacheKey] = propTypesMapping;
             }
         }

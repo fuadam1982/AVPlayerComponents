@@ -42,7 +42,11 @@
 }
 
 - (void)renderWithVarProps:(id<YCVarProps>)varProps {
-    [self dataBinding];
+    if (self.viewModel.props.isNotUsed) {
+        self.hidden = YES;
+    } else {
+        [self dataBinding];
+    }
 }
 
 - (void)dataBinding {
