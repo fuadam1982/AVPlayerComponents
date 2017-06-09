@@ -114,6 +114,7 @@
 - (void)render {
     id<YCVarProps> varProps = nil;
     
+    // 处理子控件的varsProps
     if ([[self class] respondsToSelector:@selector(getChildrenVarProps)]) {
         varProps = [[self class] getChildrenVarProps];
         if (self.varPropsBlock) {
@@ -121,6 +122,10 @@
         }
     }
     [self.template renderWithVarProps:varProps];
+}
+
+- (void)layoutChildrenUI:(void (^)(id<YCLayout>, UIView *))layoutChildrenUIBlock {
+    layoutChildrenUIBlock([self.template getLayout], self.view);
 }
 
 @end
@@ -166,8 +171,8 @@
     return ^YCComponentBuilder * (id<YCVars> varsObj) {
         if (self.toConstVarsBlock) {
             NSDictionary * (^preBlock)(id<YCVars>) = self.toConstVarsBlock;
-            self.toConstVarsBlock = ^NSDictionary *(id<YCVars> varsObj) {
-                NSMutableDictionary *tmpConstVars = [preBlock(varsObj) mutableCopy];
+            self.toConstVarsBlock = ^NSDictionary *(id<YCVars> vars) {
+                NSMutableDictionary *tmpConstVars = [preBlock(vars) mutableCopy];
                 [tmpConstVars addEntriesFromDictionary:[varsObj toDictionary]];
                 return tmpConstVars;
             };

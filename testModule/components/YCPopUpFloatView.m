@@ -32,6 +32,11 @@
 }
 
 - (void)renderWithVarProps:(id<YCVarProps>)varProps {
+    if (self.viewModel.props.isNotUsed) {
+        self.hidden = YES;
+        return;
+    }
+    
     [self dataBinding];
     if (self.viewModel.props.initShowState) {
         [self show];
@@ -59,21 +64,8 @@
          }
          // 已经弹出则收起，收起则弹出
          [self popUpAnimation:!self.viewModel.isShow];
-     }];
-    
-    // 父组件告知可以初始化
-//    [[[RACObserve(self.viewModel.props, startInit)
-//       ignore:@NO] take:1]
-//     subscribeNext:^(id x) {
-//         @strongify(self);
-//         if (self.viewModel.props.initShowState) {
-//             [self show];
-//         } else {
-//             [self hide];
-//         }
-//         [self.viewModel initCompleted];
-//     }];
-    
+     }];    
+   
     // 父组件告知重置自动隐藏timer
     [[[RACObserve(self.viewModel.props, resetAutoHiddenTimer) ignore:@NO]
      filter:^BOOL(id value) {

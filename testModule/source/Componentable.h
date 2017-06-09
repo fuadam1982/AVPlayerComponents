@@ -73,7 +73,7 @@
 - (instancetype)initWithProps:(id<YCProps>)props callbacks:(id<YCCallbacks>)callbacks;
 /** 持有的视图 */
 - (UIView *)view;
-/** 将持有的states供外转换为props */
+/** TODO: 如果以后用不到则删除，将持有的states供外转换为props */
 - (id<YCProps>)toProps:(id<YCProps> (^) (id<YCStates> states))block;
 
 @optional
@@ -104,8 +104,12 @@
 
 /** 设置处理VarProps回调 */
 - (void)setVarPropsBlock:(void (^)(id<YCVarProps>))varPropsBlock;
+
 /** 一切就绪可以构造组件了 */
 - (void)render;
+
+/** 处理子控件的布局，一般在处理组合控件时使用 */
+- (void)layoutChildrenUI:(void (^)(id<YCLayout>, UIView *))layoutChildrenUIBlock;
 
 @end
 

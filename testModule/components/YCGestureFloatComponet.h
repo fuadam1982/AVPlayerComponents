@@ -32,6 +32,8 @@ typedef NS_OPTIONS(int, YCGestureFloatDirectionType) {
 
 @protocol YCGestureFloatConstVars <YCConstVars>
 
+/** 是否不启用，如果是则不响应Props联动且不显示 */
+@property (nonatomic, assign, readonly) BOOL isNotUsed;
 /** 单击手势 */
 @property (nonatomic, assign, readonly) BOOL useTap;
 /** 双击手势 */

@@ -32,7 +32,11 @@
 }
 
 - (void)renderWithVarProps:(id<YCVarProps>)varProps {
-    [self buildGesture];
+    if (self.viewModel.props.isNotUsed) {
+        self.hidden = YES;
+    } else {
+        [self buildGesture];
+    }
 }
 
 - (void)buildGesture {

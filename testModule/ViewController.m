@@ -58,6 +58,50 @@
     self.portraitPlayerComponent = playerComponent;
     self.portraitPlayerComponent.view.backgroundColor = [UIColor blackColor];
     
+    [self.portraitPlayerComponent layoutChildrenUI:^(id<YCVideoPlayerLayout> layout, UIView *parent) {
+        // 视频播放器
+        [layout.playerComponent.view mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.bottom.left.and.right.equalTo(parent);
+        }];
+        
+        // 手势浮动层
+        [layout.gestureFloatComponent.view mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.bottom.left.and.right.equalTo(parent);
+        }];
+        
+        // 手势浮动层上的播放按钮
+        [layout.gesturePlayComponent.view mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(parent).offset(102.5);
+            make.right.equalTo(parent).offset(-20);
+            make.width.and.height.equalTo(@50);
+        }];
+        layout.gesturePlayComponent.view.backgroundColor = [UIColor blueColor];
+        
+        // 状态控制栏
+        [layout.statusBarComponent.view mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.equalTo(parent);
+            make.height.equalTo(@61);
+        }];
+        
+        // 状态栏上的播放按钮
+        [layout.statusPlayComponent.view mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(@22);
+            make.size.equalTo([NSValue valueWithCGSize:CGSizeMake(12, 14)]);
+            make.centerY.equalTo(layout.statusBarComponent.view);
+        }];
+        layout.statusPlayComponent.view.backgroundColor = [UIColor blueColor];
+        
+        // 状态栏上的视频播放时间
+        [layout.videoDurationLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(layout.statusBarComponent.view).offset(-50);
+            make.centerY.equalTo(layout.statusBarComponent.view);
+        }];
+        [layout.playDurationLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(layout.statusPlayComponent.view.mas_right).offset(16);
+            make.centerY.equalTo(layout.statusBarComponent.view);
+        }];
+    }];
+    
     [self.portraitPlayerComponent.view mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.and.right.equalTo(self.view);
         make.top.equalTo(@0);

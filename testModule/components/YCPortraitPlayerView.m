@@ -85,6 +85,9 @@
                                 return toProps(@protocol(YCAVPlayerProps))
                                         .states(self.viewModel)
                                         .nameMappingBlock(^NSString * (NSString *key) {
+                                            // 基础播放器的Props是由父组件提供的，但以下4个关联属性要由VideoPlayer控制
+                                            // 因此父组件提供的这4个属性，仅当做当前states的初始值使用
+                                            // TODO: currVideoURL的切换，不能影响其他实例
                                             if (!([key isEqualToString:@"currVideoURL"]
                                                   || [key isEqualToString:@"isCancelPlay"]
                                                   || [key isEqualToString:@"isPause"]
@@ -172,63 +175,10 @@
     self.videoDurationLabel = [[UILabel alloc] init];
     self.videoDurationLabel.text = @"00:00";
     [self.statusBarComponent.view addSubview:self.videoDurationLabel];
-    // TODO: layout UI
-    self.videoDurationLabel.textColor = [UIColor whiteColor];
-    self.videoDurationLabel.font = [UIFont systemFontOfSize:14];
     
     self.playDurationLabel = [[UILabel alloc] init];
     self.playDurationLabel.text = @"00:00";
     [self.statusBarComponent.view addSubview:self.playDurationLabel];
-    
-    self.playDurationLabel.textColor = [UIColor whiteColor];
-    self.playDurationLabel.font = [UIFont systemFontOfSize:14];
-    
-    [self layout];
-}
-
-// TODO: move
-- (void)layout {
-    // 视频播放器
-    [self.playerComponent.view mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.bottom.left.and.right.equalTo(self);
-    }];
-    
-    // 手势浮动层
-    [self.gestureFloatComponent.view mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.bottom.left.and.right.equalTo(self);
-    }];
-    
-    // 手势浮动层上的播放按钮
-    [self.gesturePlayComponent.view mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self).offset(102.5);
-        make.right.equalTo(self).offset(-20);
-        make.width.and.height.equalTo(@50);
-    }];
-    self.gesturePlayComponent.view.backgroundColor = [UIColor blueColor];
-    
-    // 状态控制栏
-    [self.statusBarComponent.view mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.and.width.equalTo(self);
-        make.height.equalTo(@61);
-    }];
-    
-    // 状态栏上的播放按钮
-    [self.statusPlayComponent.view mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(@22);
-        make.size.equalTo([NSValue valueWithCGSize:CGSizeMake(12, 14)]);
-        make.centerY.equalTo(self.statusBarComponent.view);
-    }];
-    self.statusPlayComponent.view.backgroundColor = [UIColor blueColor];
-
-    // 状态栏上的视频播放时间
-    [self.videoDurationLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self.statusBarComponent.view).offset(-50);
-        make.centerY.equalTo(self.statusBarComponent.view);
-    }];    
-    [self.playDurationLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.statusPlayComponent.view.mas_right).offset(16);
-        make.centerY.equalTo(self.statusBarComponent.view);
-    }];
 }
 
 #pragma mark - YCAVPlayerCallbacks

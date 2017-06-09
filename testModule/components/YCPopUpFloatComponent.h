@@ -21,6 +21,8 @@ typedef NS_OPTIONS(int, YCPopUpFloatDirectionType) {
 
 @protocol YCPopUpFloatConstVars <YCConstVars>
 
+/** 是否不启用，如果是则不响应Props联动且不显示 */
+@property (nonatomic, assign, readonly) BOOL isNotUsed;
 /** 弹出方向 */
 @property (nonatomic, assign, readonly) YCPopUpFloatDirectionType direction;
 /** 动画时长 */
