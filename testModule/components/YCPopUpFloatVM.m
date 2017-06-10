@@ -34,6 +34,10 @@
     return self;
 }
 
+- (void)setPopUpView:(UIView *)popUpView {
+    _popUpView = popUpView;
+}
+
 - (void)initCompleted {
     self.isInited = YES;
 }

@@ -31,6 +31,13 @@
     return [self getStates];
 }
 
+- (instancetype)init {
+    if (self = [super init]) {
+        [self.viewModel setPopUpView:self];
+    }
+    return self;
+}
+
 - (void)renderWithVarProps:(id<YCVarProps>)varProps {
     if (self.viewModel.props.isNotUsed) {
         self.hidden = YES;

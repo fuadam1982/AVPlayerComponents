@@ -23,6 +23,9 @@
 /** 弹出还是收起状态 */
 @property (nonatomic, assign, readonly) BOOL isShow;
 
+/** 用于callbacks回调 */
+- (void)setPopUpView:(UIView *)popUpView;
+
 /** 初始化完成 */
 - (void)initCompleted;
 

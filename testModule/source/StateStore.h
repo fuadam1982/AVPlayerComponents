@@ -8,6 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
+#import "StoreAction.h"
+#import "ReactiveCocoa.h"
+
+/** 快捷方法 */
+@class StateStore;
+StateStore *store();
+
 @interface StateStore : NSObject
+
++ (instancetype)shared;
+- (RACSignal * (^)(StoreAction *))dispatch;
 
 @end

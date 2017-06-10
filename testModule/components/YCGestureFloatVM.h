@@ -16,7 +16,7 @@
 /** 记录最后一次响应的手势类型 */
 @property (nonatomic, assign, readonly) YCGestureFloatType lastRespondType;
 
-- (instancetype)initWithProps:(id<YCGestureFloatProps>)props callbacks:(id<YCGestureFloatCallbacks>)callbacks;
+//- (instancetype)initWithProps:(id<YCGestureFloatProps>)props callbacks:(id<YCGestureFloatCallbacks>)callbacks;
 - (void)setGesturer:(UIView *)gesturer;
 - (void)onDoubleTap;
 - (void)onTap;
