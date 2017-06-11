@@ -6,7 +6,14 @@
 //  Copyright © 2017年 fuhan. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+
+@protocol YCShowProtraitPlayerCallbacks <NSObject>
+
+- (void)playerOnWillPortraitScreen:(UIView *)player;
+- (void)playerOnDidPortraitScreen:(UIView *)player;
+
+@end
 
 @interface YCShowLandscapePlayerComponent : NSObject
 

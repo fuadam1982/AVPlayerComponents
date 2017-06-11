@@ -13,7 +13,7 @@
 
 @interface YCVideoPlayerVM : NSObject<YCVideoPlayerStates>
 
-@property (nonatomic, strong, readonly) id<YCAVPlayerProps> props;
+@property (nonatomic, strong, readonly) id<YCVideoPlayerProps> props;
 @property (nonatomic, weak, readonly) id<YCVideoPlayerCallbacks> callbacks;
 /** 内部存储状态用来判断是否已经隐藏状态栏 */
 @property (nonatomic, assign, readonly) BOOL innerStatusBarChangeState;

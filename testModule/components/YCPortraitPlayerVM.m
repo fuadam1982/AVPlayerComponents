@@ -14,7 +14,7 @@
 @interface YCVideoPlayerVM ()
 
 #pragma mark - YCStates
-@property (nonatomic, strong) id<YCAVPlayerProps> props;
+@property (nonatomic, strong) id<YCVideoPlayerProps> props;
 @property (nonatomic, weak) id<YCVideoPlayerCallbacks> callbacks;
 
 #pragma mark - YCPortraitPlayerStates
@@ -41,12 +41,12 @@
 
 @implementation YCVideoPlayerVM
 
-- (instancetype)initWithProps:(id<YCAVPlayerProps>)props callbacks:(id<YCVideoPlayerCallbacks>)callbacks {
+- (instancetype)initWithProps:(id<YCVideoPlayerProps>)props callbacks:(id<YCVideoPlayerCallbacks>)callbacks {
     if (self = [super init]) {
         self.props = props;
         self.callbacks = callbacks;
         // 设置初始值
-        self.currVideoURL = self.props.currVideoURL;
+        self.currVideoURL = self.props.videoURLs[0];
         self.isPause = self.props.isPause;
         self.seekTimePoint = self.props.seekTimePoint;
         

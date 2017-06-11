@@ -191,6 +191,8 @@
     self.playDurationLabel.text = [self formatTimeBySeconds:currTime];
 }
 
+// TODO: 转发onError，onCompleted回调
+
 #pragma mark - YCGestureFloatCallbacks
 
 - (void)gesturerOnTap:(UIView *)gesturer {

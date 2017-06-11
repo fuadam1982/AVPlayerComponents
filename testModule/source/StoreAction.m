@@ -9,17 +9,11 @@
 #import "StoreAction.h"
 #import "PropsConstVarWrapper.h"
 
-StoreAction * toAction(NSString *category, NSString *type, Protocol *payloadProtocol) {
-    return [[StoreAction alloc] initWithCategory:category
-                                            type:type
-                                         payload:payloadProtocol];
-}
-
 @interface StoreAction ()
 
 @property (nonatomic, strong) NSString *category;
 @property (nonatomic, strong) NSString *type;
-@property (nonatomic, strong) id<YCVars> pPayload;
+@property (nonatomic, strong) NSMutableDictionary *payload;
 
 @end
 
@@ -27,19 +21,13 @@ StoreAction * toAction(NSString *category, NSString *type, Protocol *payloadProt
 
 - (instancetype)initWithCategory:(NSString *)category
                             type:(NSString *)type
-                         payload:(Protocol *)payloadProtocol {
+                         payload:(NSDictionary *)payload {
     if (self = [super init]) {
         self.category = category;
         self.type = type;
-        self.pPayload = [[PropsConstVarWrapper alloc] initWithProtocol:payloadProtocol];
+        self.payload = [payload mutableCopy];
     }
     return self;
-}
-
-- (void (^)(AccessPayloadFn))payload {
-    return ^void (AccessPayloadFn block) {
-        block(self.pPayload);
-    };
 }
 
 @end

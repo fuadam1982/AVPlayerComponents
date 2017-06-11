@@ -131,6 +131,7 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
     // 测试设置属性
 //    Test_1 *t1 = [Test_1 new];
 //    id<MyAccess> my = (id<MyAccess>)t1;

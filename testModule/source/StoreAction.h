@@ -9,22 +9,14 @@
 #import <Foundation/Foundation.h>
 #import "Componentable.h"
 
-/** 快速访问 */
-@class StoreAction;
-StoreAction * toAction(NSString *category, NSString *type, Protocol *payloadProtocol);
-
-//////////////////////////////////////////////////////////////
-
-typedef void (^AccessPayloadFn)(id<YCVars>);
-
 @interface StoreAction : NSObject
 
 @property (nonatomic, strong, readonly) NSString *category;
 @property (nonatomic, strong, readonly) NSString *type;
+@property (nonatomic, strong, readonly) NSMutableDictionary *payload;
 
 - (instancetype)initWithCategory:(NSString *)category
                             type:(NSString *)type
-                         payload:(Protocol *)payloadProtocol;
-- (void (^)(AccessPayloadFn))payload;
+                         payload:(NSDictionary *)payload;
 
 @end

@@ -18,9 +18,59 @@
 #import "ComponentPropsBuilder.h"
 #import "PropsConstVarWrapper.h"
 
+// TODO: remove to module define
+static NSString *kCategory = @"[C]::VideoPlayer";
+static NSString *kTypeSharePlayer = @"[T]::SharePlayer";
+static NSString *kPayloadPlayerId = @"[P]::PlayerId";
+static NSString *kPayloadSharedPlayer = @"[P]::SharedPlayer";
+static NSString *kTypeRemoveSharedPlayer = @"[T]::RemoveSharedPlayer";
+
+StoreAction *sharePlayerAction(NSString *videoId, YCComponent *player) {
+    return [[StoreAction alloc] initWithCategory:kCategory
+                                            type:kTypeSharePlayer
+                                         payload:@{
+                                                   kPayloadPlayerId: videoId,
+                                                   kPayloadSharedPlayer: player
+                                                   }];
+}
+
+StoreAction *removeSharedPlayerAction(NSString *videoId) {
+    return [[StoreAction alloc] initWithCategory:kCategory
+                                            type:kTypeRemoveSharedPlayer
+                                         payload:@{
+                                                   kPayloadPlayerId: videoId
+                                                   }];
+}
+
 @implementation YCVideoPlayerComponent
 
-- (instancetype)initWithProps:(id<YCAVPlayerProps>)props callbacks:(id<YCVideoPlayerCallbacks>)callbacks {
++ (void)load {
+    [[StateStore shared] registStoreProtocol:@protocol(YCVideoPlayerStore)
+                        mutableStoreProtocol:@protocol(YCVideoPlayerMutableStore)
+                                    category:kCategory];
+    [[StateStore shared] registReducerByCategory:kCategory
+                                            type:kTypeSharePlayer
+                                           block:^NSDictionary *(id<YCVideoPlayerMutableStore> store, StoreAction * action) {
+                                               store.sharedPlayerInstance = @[
+                                                                              action.payload[kPayloadPlayerId],
+                                                                              action.payload[kPayloadSharedPlayer]
+                                                                              ];
+                                               return [store toDictionary];
+                                           }];
+    [[StateStore shared] registReducerByCategory:kCategory
+                                            type:kTypeRemoveSharedPlayer
+                                           block:^NSDictionary *(id<YCVideoPlayerMutableStore> store, StoreAction * action) {
+                                               if ([action.payload[kPayloadPlayerId] isEqualToString:
+                                                    store.sharedPlayerInstance[0]]) {
+                                                   store.sharedPlayerInstance = nil;
+                                                   return [store toDictionary];
+                                               } else {
+                                                   return nil;
+                                               }
+                                           }];
+}
+
+- (instancetype)initWithProps:(id<YCVideoPlayerProps>)props callbacks:(id<YCVideoPlayerCallbacks>)callbacks {
     YCVideoPlayerVM *states = [[YCVideoPlayerVM alloc] initWithProps:props callbacks:callbacks];
     YCVideoPlayerView *template = [[YCVideoPlayerView alloc] init];
     return [super initWithStates:states template:template];

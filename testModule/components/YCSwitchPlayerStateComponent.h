@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Componentable.h"
-// TODO: 修改header
+
 @protocol YCPlayStateConstVars <YCConstVars>
 
 /** 是否不启用，如果是则不响应Props联动且不显示 */

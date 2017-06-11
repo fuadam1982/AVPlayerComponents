@@ -15,3 +15,17 @@
 - (instancetype)initWithProtocol:(Protocol *)varsProtocol;
 
 @end
+
+//////////////////////////////////////////////////////////////
+
+// 因为无protect关键字，只能卸载一起
+@interface StorePropsWrapper : PropsConstVarWrapper
+
+- (instancetype)initWithProtocol:(Protocol *)varsProtocol data:(NSDictionary *)data;
+- (void)syncData:(NSDictionary *)data;
+
+@end
+
+@interface MutableStorePropsWrapper : StorePropsWrapper
+
+@end

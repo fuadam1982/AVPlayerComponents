@@ -47,11 +47,8 @@
     return toProps(@protocol(YCAVPlayerProps))
     .states(self)
     .constVars(@{
-                 @"hasNetworking": @YES,
-                 @"isLocalVideo": @NO,
                  @"isWANNetworkingStopPreload": @YES,
                  @"minPlayTime": @5,
-                 @"interactionTimes": @[],
                  })
     .build();
 }

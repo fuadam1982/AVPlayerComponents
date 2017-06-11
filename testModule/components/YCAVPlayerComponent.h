@@ -39,10 +39,11 @@
 
 @protocol YCAVPlayerProps <YCProps, YCAVPlayerConstVars>
 
+// TODO: sync
 /** 是否有网络 */
-@property (nonatomic, assign, readonly) BOOL hasNetworking;
+@property (nonatomic, assign, readonly) BOOL isLostNetworking;
 /** 是否正在使用WIFI */
-@property (nonatomic, assign, readonly) BOOL isWIFINetworking;
+@property (nonatomic, assign, readonly) BOOL isNotWIFI;
 /** 当前的视频播放地址，如果发生变化即切换清晰度 */
 @property (nonatomic, strong, readonly) NSString *currVideoURL;
 /** 是否手动取消播放 */

@@ -250,7 +250,7 @@ static NSTimeInterval kRefreshInterval = 0.5f;
                     [self _detectLagging:YES];
                 }
                 // 无网状态下是否需要检查buffer
-                BOOL notCheck = !self.props.hasNetworking && self.props.isCanPlayWithoutNetworking;
+                BOOL notCheck = self.props.isLostNetworking && self.props.isCanPlayWithoutNetworking;
                 if (!notCheck && buffer < self.props.minPlayTime) {
                     [self _detectLagging:YES];
                 }

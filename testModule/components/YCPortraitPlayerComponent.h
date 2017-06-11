@@ -5,16 +5,34 @@
 //  Created by fuhan on 2017/6/5.
 //  Copyright © 2017年 fuhan. All rights reserved.
 //
-// TODO: 修改文件名
+
 #import <Foundation/Foundation.h>
 
 #pragma mark - component
+#import "YCAVPlayerComponent.h"
 #import "YCGestureFloatComponet.h"
 #import "YCPopUpFloatComponent.h"
 #import "YCSwitchPlayerStateComponent.h"
 
 #pragma mark - utils
 #import "Componentable.h"
+#import "StateStore.h"
+#import "StoreAction.h"
+
+@protocol YCVideoPlayerConstVars <YCConstVars>
+
+/** 视频Id */
+@property (nonatomic, strong, readonly) NSString *videoId;
+/** 视频地址: 0-高清地址、1-低清地址 */
+@property (nonatomic, strong, readonly) NSArray<NSString *> *videoURLs;
+/** 视频标题 */
+@property (nonatomic, strong, readonly) NSString *videoTitle;
+
+@end
+
+@protocol YCVideoPlayerProps <YCProps, YCVideoPlayerConstVars, YCAVPlayerProps>
+
+@end
 
 @protocol YCVideoPlayerStates <YCStates>
 
@@ -48,11 +66,12 @@
  @param watchedDuration 视频实际观看时长
  @param stayDuration 观看视频停留时长
  */
-- (void)player:(UIView *)player onFinishedByInterrupt:(BOOL)isInterrupt watchedDuration:(NSTimeInterval)watchedDuration stayDuration:(NSTimeInterval)stayDuration;
+- (void)player:(UIView *)player
+onFinishedByInterrupt:(BOOL)isInterrupt
+watchedDuration:(NSTimeInterval)watchedDuration
+  stayDuration:(NSTimeInterval)stayDuration;
 
 @end
-
-//////////////////////////////////////////////////////////////
 
 @protocol YCVideoPlayerVarProps <YCVarProps>
 
@@ -106,6 +125,25 @@ YCPlayStateComponent, YCPopUpFloatComponent, YCPlayStateComponent;
 @property (nonatomic, strong, readonly) UIButton *downloadButton;
 
 @end
+
+//////////////////////////////////////////////////////////////
+
+@protocol YCVideoPlayerStore <YCStore>
+
+/** 共享的基础播放器实例，idx-0: videoId、idx-1: playerInstance */
+@property (nonatomic, strong, readonly) NSArray *sharedPlayerInstance;
+
+@end
+
+@protocol YCVideoPlayerMutableStore <YCMutableStore, YCVideoPlayerStore>
+
+- (void)setSharedPlayerInstance:(NSArray *)sharedPlayerInstance;
+
+@end
+
+StoreAction *sharePlayerAction(NSString *videoId, YCComponent *player);
+StoreAction *removeSharedPlayerAction(NSString *videoId);
+// TODO: change currVideoURL
 
 //////////////////////////////////////////////////////////////
 

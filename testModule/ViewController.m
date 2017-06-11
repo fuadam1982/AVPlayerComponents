@@ -9,9 +9,8 @@
 #import "ViewController.h"
 
 #pragma mark - component
-#import "YCAVPlayerComponent.h"
+#import "YCShowProtraitPlayerComponent.h"
 #import "YCPortraitPlayerComponent.h"
-#import "YCPopUpFloatComponent.h"
 
 #pragma mark - viewmodel
 #import "ViewModel.h"

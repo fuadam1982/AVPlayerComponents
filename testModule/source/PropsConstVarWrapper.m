@@ -48,8 +48,9 @@
     return self;
 }
 
+// TODO: sync
 - (NSDictionary *)toDictionary {
-    return self.data;
+    return [self.data copy];
 }
 
 #pragma mark - ReadonlyObjDataSource
@@ -58,12 +59,68 @@
     return self.data[key];
 }
 
+// TODO: forKey:
 - (void)setState:(id)state key:(NSString *)key {
     self.data[key] = state;
 }
 
 - (NSString* _Nonnull)propTypeForKey:(NSString* _Nonnull)key {
     return self.propTypesMapping[key];
+}
+
+@end
+
+//////////////////////////////////////////////////////////////
+
+@implementation StorePropsWrapper
+
+- (instancetype)initWithProtocol:(Protocol *)varsProtocol data:(NSDictionary *)data {
+    if (self = [super initWithProtocol:varsProtocol]) {
+        self.data = [data mutableCopy];
+    }
+    return self;
+}
+
+- (void)syncData:(NSDictionary *)data {
+    if (!data) return;
+    
+    // TODO: check instance values
+    for (NSString *key in data) {
+        id val = data[key];
+        if ([val isMemberOfClass:[NSNull class]]) {
+            [self.data removeObjectForKey:key];
+            [self setValue:nil forKey:key];
+        } else {
+            self.data[key] = val;
+            [self setValue:val forKey:key];
+        }
+    }
+}
+
+@end
+
+@interface MutableStorePropsWrapper ()
+
+@property (nonatomic, strong) NSMutableSet *modifiedKeys;
+
+@end
+
+@implementation MutableStorePropsWrapper
+
+- (instancetype)initWithProtocol:(Protocol *)varsProtocol data:(NSDictionary *)data {
+    if (self = [super initWithProtocol:varsProtocol data:data]) {
+         self.modifiedKeys = [[NSMutableSet alloc] initWithCapacity:16];
+    }
+    return self;
+}
+
+- (NSDictionary *)toDictionary {
+    return [self.data dictionaryWithValuesForKeys:[self.modifiedKeys allObjects]];
+}
+
+- (void)setState:(id)state key:(NSString *)key {
+    [super setState:state key:key];
+    [self.modifiedKeys addObject:key];
 }
 
 @end
